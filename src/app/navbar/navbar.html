@@ -1,0 +1,23 @@
+<header class="header">
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <h2><a href="#home">Jhonny</a></h2>
+      </div>
+
+      <ul class="nav-menu" [class.active]="menuOpen()" (click)="closeMenu()">
+        <li><a class="nav-link" href="#home">home</a></li>
+        <li><a class="nav-link" href="#about">Chi Sono</a></li>
+        <li><a class="nav-link" href="#Competenze">Competenze</a></li>
+        <li><a class="nav-link" href="#Progetti">Proggetti</a></li>
+        <li><a class="nav-link" href="#Contatti">Contatti</a></li>
+        <li><a routerLink="/admin" class="nav-link admin-btn">Area Admin</a></li>
+      </ul>
+      <div class="hamburger" [class.active]="menuOpen()" (click)="toggleMenu()">
+        <span class="bar"> </span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,37 @@
+<section class="portfolio" id="Progetti">
+  <div class="container">
+    <h2 class="section-title">I miei progetti</h2>
+    <div class="portfolio-grid">
+      @for (p of Progetti; track p.descrizione) {
+        <div class="project-card">
+          <div class="project-image">
+            <img [src]="p.immagine" alt="{{ p.titolo }}" />
+            <div class="project-overlay">
+              <div class="project-links">
+                <a class="project-link" href="{{ p.link }}">{{ p.testoLink }}</a>
+                @if (p.link2) {
+                  <a class="project-link" href="{{ p.link2 }}">{{ p.testoLink2 }}</a>
+                }
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3>{{ p.titolo }}</h3>
+            <p>{{ p.descrizione }}</p>
+            <div class="project-tech">
+              @for (t of p.tech; track t) {
+                <span class="tech-tag">{{ t }}</span>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="portfolio-cta">
+      <p>Vuoi vedere più progetti o collaborare insieme?</p>
+      <div class="cta-buttons">
+        <a href="#contattami" class="btn btn-primary">Contattami per Collaborare</a>
+      </div>
+    </div>
+  </div>
+</section>

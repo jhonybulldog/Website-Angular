@@ -1,0 +1,27 @@
+<section id="Competenze" class="skills">
+  <div class="container">
+    <h2 class="section-title">Le Mie Competenze</h2>
+    <div class="skills-grid">
+      <div class="skill-category">
+        <h3>Sviluppo Frontend</h3>
+        <div class="skill-list">
+          <div class="skill-item">
+            @for (skill of skills; track skill.name) {
+              <span>{{ skill.name }}</span>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3>Design</h3>
+        <div class="skill-list">
+          <div class="skill-item">
+            @for (skillcat of skillcat; track skillcat.name) {
+              <span>{{ skillcat.name }}</span>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
