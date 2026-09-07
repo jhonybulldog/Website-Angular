@@ -1,0 +1,78 @@
+<section id="Contatti" class="contact">
+  <div class="container">
+    <h2 class="section-title">Contattami</h2>
+    <div class="contact-content">
+      <div class="contact-info">
+        <h3>Mettiamoci in Contatto</h3>
+        <p>
+          Sei interessato a collaborare o vuoi maggiori informazioni sui miei
+          servizi? Non esitare a contattarmi!
+        </p>
+        <div class="contact-details">
+          <div class="contact-item">
+            <strong>Email:</strong>
+            <a href="mailto:infojhonny90@gmail.com">infojhonny90@gmail.com</a>
+          </div>
+          <div class="contact-item">
+            <strong>GitHub:</strong>
+            <a href="https://github.com/jhonybulldog"
+              >github.com/jhonnybulldog</a
+            >
+          </div>
+          <div class="contact-item">
+            <strong>Disponibilità:</strong>
+            <span>Disponibile per nuovi progetti</span>
+          </div>
+        </div>
+      </div>
+      <form
+        class="contact-form"
+        [formGroup]="contattoForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <div class="form-group">
+          <input
+            type="text"
+            formControlName="name"
+            placeholder="il tuo nome:"
+          />
+          @if(contattoForm.controls.name.invalid &&
+          contattoForm.controls.name.touched){
+          <div class="field-error">Questo campo e OBBLIGATORIO</div>
+          }
+        </div>
+        <div class="form-group">
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="inserisci la tua email:"
+          />
+          @if(contattoForm.controls.email.touched && contattoForm.controls.email.errors?.['required']){
+          <div class="field-error">email non valida</div>
+          } @if(contattoForm.controls.email.touched && contattoForm.controls.email.errors?.['email']){
+          <div class="field-error">email errata</div>
+          }
+        </div>
+        <div class="form-group">
+          <input type="text" formControlName="subject" placeholder="oggetto" />
+          @if(contattoForm.controls.subject.invalid &&
+          contattoForm.controls.subject.touched){
+          <div class="field-error">Questo campo e OBBLIGATORIO</div>
+          }
+        </div>
+        <div class="form-group">
+          <textarea
+            formControlName="message"
+            placeholder="inserisci qui il tuo messaggio"
+            rows="10"
+          ></textarea>
+          @if(contattoForm.controls.message.invalid &&
+          contattoForm.controls.message.touched){
+          <div class="field-error">Questo campo e OBBLIGATORIO</div>
+          }
+        </div>
+        <button type="submit" class="btn btn-primary">Invia messaggio</button>
+      </form>
+    </div>
+  </div>
+</section>
