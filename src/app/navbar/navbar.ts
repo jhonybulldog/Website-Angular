@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, signal, inject } from '@angular/core';
+import { RouterLink, Router } from '@angular/router';
+import { LoginService } from '../login/login.service';
 @Component({
   imports: [RouterLink],
   selector: 'app-navbar',
@@ -8,7 +9,8 @@ import { RouterLink } from '@angular/router';
 })
 export class Navbar {
   menuOpen = signal(false);
-
+  private Login = inject(LoginService)
+  private router = inject(Router)
   toggleMenu() {
     if (this.menuOpen()) {
       this.menuOpen.set(false);
@@ -19,5 +21,15 @@ export class Navbar {
 
   closeMenu() {
    this.menuOpen.set(false)
+  }
+
+
+  isLoggedIn(): boolean{
+    return this.Login.isLoggedIn();
+  }
+
+  logout(): void{
+    this.Login.logout();
+    this.router.navigate(['/']);
   }
 }
