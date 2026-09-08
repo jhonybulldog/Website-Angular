@@ -47,9 +47,11 @@
             formControlName="email"
             placeholder="inserisci la tua email:"
           />
-          @if(contattoForm.controls.email.touched && contattoForm.controls.email.errors?.['required']){
+          @if(contattoForm.controls.email.touched &&
+          contattoForm.controls.email.errors?.['required']){
           <div class="field-error">email non valida</div>
-          } @if(contattoForm.controls.email.touched && contattoForm.controls.email.errors?.['email']){
+          } @if(contattoForm.controls.email.touched &&
+          contattoForm.controls.email.errors?.['email']){
           <div class="field-error">email errata</div>
           }
         </div>

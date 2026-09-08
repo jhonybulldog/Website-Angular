@@ -1,12 +1,45 @@
-<div class="admin-container">
+<div class="container">
+  <h2>Crea Account amministratore</h2>
 
-  <h1>Area Admin</h1>
+  <form [formGroup]="creaform" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <input type="text" formControlName="username" placeholder="Username" />
+      @if (creaform.get('username')?.invalid &&
+      creaform.get('username')?.touched) {
+      <p class="error">Username obbligatorio.</p>
+      }
+    </div>
 
-  <p>Benvenuto nell'area amministratore.</p>
+    <div class="form-group">
+      <input type="password" formControlName="password" placeholder="Password"/>
 
-  <h2>Gestione utenti</h2>
+      @if(creaform.get('password')?.invalid &&
+      creaform.get('password')?.touched){
+      <p class="error">Password Obbligatoria</p>
+      }
+    </div>
 
-  <p>Qui potremo aggiungere nuovi utenti.</p>
+    <button type="submit" [disabled]="creaform.invalid">Crea</button>
 
+    @if (this.crea) {
+      <p>{{crea}}</p>
+    }
+  </form>
+
+  <h2>Cancella account amministratore</h2>
+  <form [formGroup]="delform" (ngSubmit)="Submit()">
+      <div class="form-group">
+        <input type="text" formControlName="username" placeholder="username">
+
+        @if(delform.get('username')?.invalid && creaform.get('username')?.touched){
+          <p class="error">username obbligatorio</p>
+        }
+      </div>
+
+      <button type="submit" [disabled]="delform.invalid">Cancella</button>
+
+    @if (this.canc) {
+      <p>{{canc}}</p>
+    }
+  </form>
 </div>
-

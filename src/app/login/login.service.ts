@@ -17,6 +17,18 @@ export class LoginService {
     });
   }
 
+  creaAccount(username: string , password: string){
+    return this.http.post(`${this.apiUrl}/users`,{
+      
+      username: username,
+      password: password,
+      
+      });
+  }
+
+  cancellaAccount(username: string){
+    return this.http.delete(`${this.apiUrl}/users/${username}`)
+  }
   isLoggedIn(): boolean {
     return this.loggedIn();
   }
