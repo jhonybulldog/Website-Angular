@@ -17,6 +17,7 @@ export class Admin {
 
   crea = "";
   canc = "";
+  change = "";
   creaform = new FormGroup({
     username: new FormControl("", [Validators.required]),
     password: new FormControl("", [Validators.required]),
@@ -24,6 +25,12 @@ export class Admin {
 
   delform = new FormGroup({
     username: new FormControl("", [Validators.required]),
+  });
+
+  changeform = new FormGroup({
+    username: new FormControl("", [Validators.required]),
+    password: new FormControl("", [Validators.required]),
+    passwordn: new FormControl("", [Validators.required]),
   });
 
   onSubmit() {
@@ -46,7 +53,7 @@ export class Admin {
     }
   }
 
-  Submit() {
+  OnDelete() {
     if (this.delform.valid) {
       const username = this.delform.value.username;
 
@@ -62,6 +69,25 @@ export class Admin {
           console.log("account non riuscito a cancellare errore");
         },
       );
+    }
+  }
+
+  OnChange() {
+    if (this.changeform.valid) {
+      const username = this.changeform.value.username;
+      const password = this.changeform.value.password;
+      const passwordn = this.changeform.value.passwordn;
+
+      this.loginService.cambiaPassword(username!, password!, passwordn!).subscribe({
+          next: (risposta) => {
+            this.change = "password cambiata";
+            console.log("password cambiata con successo");
+          },
+          error: (error) => {
+            this.change = "password non cambiata errore";
+            console.log("password non cambiata errore");
+          },
+        });
     }
   }
 }

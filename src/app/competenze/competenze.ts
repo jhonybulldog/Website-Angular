@@ -16,6 +16,7 @@ export class Competenze {
   skills: Skill[] = [
     {name: 'HTML/CSS'},
     {name: 'javascript'},
+    {name: 'typescript'},
     {name: 'angular'},
   ];
 

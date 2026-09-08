@@ -11,7 +11,11 @@
     </div>
 
     <div class="form-group">
-      <input type="password" formControlName="password" placeholder="Password"/>
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+      />
 
       @if(creaform.get('password')?.invalid &&
       creaform.get('password')?.touched){
@@ -22,24 +26,65 @@
     <button type="submit" [disabled]="creaform.invalid">Crea</button>
 
     @if (this.crea) {
-      <p>{{crea}}</p>
+    <p>{{crea}}</p>
     }
   </form>
 
   <h2>Cancella account amministratore</h2>
-  <form [formGroup]="delform" (ngSubmit)="Submit()">
-      <div class="form-group">
-        <input type="text" formControlName="username" placeholder="username">
+  <form [formGroup]="delform" (ngSubmit)="OnDelete()">
+    <div class="form-group">
+      <input type="text" formControlName="username" placeholder="username" />
 
-        @if(delform.get('username')?.invalid && creaform.get('username')?.touched){
-          <p class="error">username obbligatorio</p>
-        }
-      </div>
+      @if(delform.get('username')?.invalid &&
+      delform.get('username')?.touched){
+      <p class="error">username obbligatorio</p>
+      }
+    </div>
 
-      <button type="submit" [disabled]="delform.invalid">Cancella</button>
+    <button type="submit" [disabled]="delform.invalid">Cancella</button>
 
     @if (this.canc) {
-      <p>{{canc}}</p>
+    <p>{{canc}}</p>
+    }
+  </form>
+
+
+  <h2>Cambia password</h2>
+  <form [formGroup]="changeform" (ngSubmit)="OnChange()">
+    <div class="form-group">
+      <input type="text" formControlName="username" placeholder="username" />
+      @if(changeform.get('username')?.invalid &&
+      changeform.get('username')?.touched){
+      <p class="error">username obbligatorio</p>
+      }
+    </div>
+    <div class="form-group">
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="password"
+      />
+      @if(changeform.get('password')?.invalid &&
+      changeform.get('password')?.touched){
+      <p class="error">password obbligatorio</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <input
+        type="password"
+        formControlName="passwordn"
+        placeholder="nuova password"
+      />
+
+      @if(changeform.get('passwordn')?.invalid &&
+      changeform.get('passwordn')?.touched){
+      <p class="error">password nuova obbligatoria obbligatorio</p>
+      }
+    </div>
+    <button type="submit" [disabled]="changeform.invalid">Cambia</button>
+    @if(change){
+      <p>{{change}}</p>
     }
   </form>
 </div>

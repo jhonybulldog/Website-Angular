@@ -36,9 +36,9 @@ export class Proggetti {
     },
     {
       immagine: '/DexDebolezze.png',
-      titolo: 'Dex Debolexxe / guida pokemon',
+      titolo: 'Dex Debolezze / guida pokemon',
       descrizione: "Dex Debolezze è il tuo strumento definitivo per le battaglie Pokémon. Consulta la tabella delle debolezze interattiva, calcola i matchup in tempo reale e analizza la copertura del tuo team. In più, trova una guida Nuzlocke pratica con consigli, strategie e checklist per ogni area, per trasformare ogni giocata in un'epica sopravvivenza.",
-      tech: ['HTML5','CSS3','Javascript','Algoritmi'],
+      tech: ['HTML5','CSS3','Typescript'],
       link: '/Dex',
       link2: '/Guida',
       testoLink: 'Dex Debolezze',

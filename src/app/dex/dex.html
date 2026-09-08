@@ -1,0 +1,114 @@
+<div class="container">
+  <div class="section-header">
+    <h1>Dex Debolezze Pokémon</h1>
+    <p>Consulta la tabella completa delle interazioni tra i tipi Pokémon.</p>
+  </div>
+
+  <section class="table-container">
+    <section class="search-section">
+      <label class="search-label" for="type-search">
+        Cerca un Tipo specifico
+      </label>
+      <div class="search-container">
+        <div class="type-selector">
+          <input
+            type="text"
+            id="type-search"
+            class="search-input"
+            placeholder="Digita il nome di un tipo (es. Fuoco, Acqua)..."
+            autocomplete="off"
+            [value]="searchTerm()"
+            (input)="onSearchInput($event)"
+          />
+        </div>
+        <button class="clear-search" (click)="clearSearch()">Pulisci</button>
+      </div>
+    </section>
+    <div class="table-header">
+      <h2>Tabella delle Interazioni</h2>
+    </div>
+
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Debole a</th>
+          <th>Super efficace su</th>
+          <th>Poco efficace su</th>
+          <th>Nessun effetto</th>
+          <th>Resiste a</th>
+          <th>Immune a</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (type of filtredTypes(); track type) {
+        <tr>
+          <td>
+            <span
+              class="type-badge"
+              [style.background-color]="dexService.typeColors[type]"
+            >
+              {{ type }}
+            </span>
+          </td>
+          <td>
+            @for (t of dexService.typeData[type].weakTo; track t) {
+            <span
+              class="type-badge"
+              [style.background-color]="dexService.typeColors[t]"
+              >{{ t }}</span
+            >
+            }
+          </td>
+          <td>
+            @for (t of dexService.typeData[type].strongAgainst; track t) {
+            <span
+              class="type-badge"
+              [style.background-color]="dexService.typeColors[t]"
+              >{{ t }}</span
+            >
+            }
+          </td>
+          <td>
+            @for (t of dexService.typeData[type].notVeryEffectiveAgainst; track
+            t) {
+            <span
+              class="type-badge"
+              [style.background-color]="dexService.typeColors[t]"
+              >{{ t }}</span
+            >
+            }
+          </td>
+          <td>
+            @for (t of dexService.typeData[type].noEffectAgainst; track t) {
+            <span
+              class="type-badge"
+              [style.background-color]="dexService.typeColors[t]"
+              >{{ t }}</span
+            >
+            }
+          </td>
+          <td>
+            @for (t of dexService.typeData[type].resists; track t) {
+            <span
+              class="type-badge"
+              [style.background-color]="dexService.typeColors[t]"
+              >{{ t }}</span
+            >
+            }
+          </td>
+          <td>
+            @for (t of dexService.typeData[type].immuneTo; track t) {
+            <span
+              class="type-badge"
+              [style.background-color]="dexService.typeColors[t]"
+              >{{ t }}</span
+            >
+            }
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</div>

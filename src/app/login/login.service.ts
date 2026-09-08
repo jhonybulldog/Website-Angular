@@ -29,6 +29,15 @@ export class LoginService {
   cancellaAccount(username: string){
     return this.http.delete(`${this.apiUrl}/users/${username}`)
   }
+
+
+  //curl -X PATCH http://localhost:3000/users/mario/password -H "Content-Type: application/json" -d "{\"currentPassword\": \"password123\", \"newPassword\": \"nuovapassword456\"}"
+  cambiaPassword(username: string,password: string,passwordn: string){
+    return this.http.patch(`${this.apiUrl}/users/${username}/password`,{
+      currentPassword: password,
+      newPassword: passwordn,
+    })
+  }
   isLoggedIn(): boolean {
     return this.loggedIn();
   }
