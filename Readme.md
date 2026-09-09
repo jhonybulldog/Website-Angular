@@ -1,4 +1,4 @@
-# 🟢 Jhonnyfoliio
+# 🟢 Jhonnyfolio
 
 ### Personal Portfolio • Angular • TypeScript
 
