@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 const db = require('./database');
 
-const username = '';
-const plainPassword = ''; // cambiala pure con quella che vuoi tu
+const username = 'Admin1';
+const plainPassword = 'Prova123'; // cambiala pure con quella che vuoi tu
 
 const SALT_ROUNDS = 10;
 

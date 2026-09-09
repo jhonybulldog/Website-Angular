@@ -35,8 +35,7 @@
     <div class="form-group">
       <input type="text" formControlName="username" placeholder="username" />
 
-      @if(delform.get('username')?.invalid &&
-      delform.get('username')?.touched){
+      @if(delform.get('username')?.invalid && delform.get('username')?.touched){
       <p class="error">username obbligatorio</p>
       }
     </div>
@@ -47,7 +46,6 @@
     <p>{{canc}}</p>
     }
   </form>
-
 
   <h2>Cambia password</h2>
   <form [formGroup]="changeform" (ngSubmit)="OnChange()">
@@ -84,7 +82,29 @@
     </div>
     <button type="submit" [disabled]="changeform.invalid">Cambia</button>
     @if(change){
-      <p>{{change}}</p>
+    <p>{{change}}</p>
     }
   </form>
+
+  <h2>Account Registrati:</h2>
+  <table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>creato il</th>
+      <th>azioni</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (u of utenti(); track u.id) {
+    <tr>
+      <td>{{u.id}}</td>
+      <td>{{u.username}}</td>
+      <td>{{u.created_at}}</td>
+      <td><button class="btn-delete" (click)="elimina(u.username)"></button></td>
+    </tr>
+    }
+  </tbody>
+  </table>
 </div>

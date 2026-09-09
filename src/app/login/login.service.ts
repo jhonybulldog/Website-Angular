@@ -1,7 +1,12 @@
 import { Injectable, inject, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+export interface User {
+  id: number;
+  username: string;
+  created_at: string;
+}
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root'
 })
 export class LoginService {
   private apiUrl = "http://localhost:3000";
@@ -50,5 +55,9 @@ export class LoginService {
   logout(): void {
     localStorage.removeItem("loggedIn");
     this.loggedIn.set(false);
+  }
+
+  getutenti(){
+    return this.http.get<User[]>(`${this.apiUrl}/users`);
   }
 }

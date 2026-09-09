@@ -24,6 +24,7 @@ export class Dex {
 
    onSearchInput(event: Event) {
     const input = event.target as HTMLInputElement;
+    console.log(event)
     this.searchTerm.set(input.value);
   }
 

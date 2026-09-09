@@ -1,7 +1,9 @@
+const path = require('path');
 const Database = require('better-sqlite3');
 
-// Apre (o crea, se non esiste) il file data.db nella cartella corrente
-const db = new Database('data.db');
+// Apre (o crea, se non esiste) il file data.db nella cartella backend
+const dbPath = path.join(__dirname, 'data.db');
+const db = new Database(dbPath);
 
 // Crea la tabella "users" solo se non esiste già
 db.exec(`

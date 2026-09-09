@@ -6,6 +6,7 @@ import { ContattiService } from "./contatti.service";
   selector: "app-contatti",
   styleUrl: "./contatti.css",
   templateUrl: "./contatti.html",
+  providers: [ContattiService]
 })
 export class Contatti {
   private contattiService = inject(ContattiService)
@@ -22,6 +23,8 @@ export class Contatti {
     console.log(this.contattoForm.value);
 
     this.contattiService.inviaMessaggio(this.contattoForm.value).subscribe();
+    this.contattoForm.reset();
+    
   }
 }
 }

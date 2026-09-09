@@ -13,6 +13,13 @@ app.get('/ping', (req, res) => {
   res.json({ message: 'pong' });
 });
 
+app.get('/users', (req, res) => {
+  const users = db
+    .prepare('SELECT id, username, created_at FROM users')
+    .all();
+  res.json(users);
+});
+
 app.delete('/users/:username', (req, res) => {
   const { username } = req.params;
 
@@ -35,7 +42,49 @@ app.delete('/users/:username', (req, res) => {
     message: 'Utente eliminato con successo.'
   });
 });
+app.patch('/users/:username/password', async (req, res) => {
+  const { username } = req.params;
+  const { currentPassword, newPassword } = req.body;
 
+  // 1. Validazione base
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({
+      error: 'Password attuale e nuova password sono obbligatorie.'
+    });
+  }
+
+  // 2. Cerchiamo l'utente
+  const user = db
+    .prepare('SELECT * FROM users WHERE username = ?')
+    .get(username);
+
+  if (!user) {
+    return res.status(404).json({
+      error: 'Utente non trovato.'
+    });
+  }
+
+  // 3. Verifichiamo che la password attuale sia corretta
+  const passwordCorretta = await bcrypt.compare(currentPassword, user.password_hash);
+
+  if (!passwordCorretta) {
+    return res.status(401).json({
+      error: 'Password attuale errata.'
+    });
+  }
+
+  // 4. Creiamo l'hash della nuova password e aggiorniamo
+  const nuovoHash = await bcrypt.hash(newPassword, 10);
+
+  db
+    .prepare('UPDATE users SET password_hash = ? WHERE username = ?')
+    .run(nuovoHash, username);
+
+  res.json({
+    success: true,
+    message: 'Password aggiornata con successo.'
+  });
+});
 // ← NUOVA ROUTE
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
