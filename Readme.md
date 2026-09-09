@@ -1,6 +1,12 @@
-# 🟢 Jhonnyfoliio — Portfolio
+# 🟢 Jhonnyfoliio
 
-> Portfolio personale sviluppato con **Angular** e **TypeScript**, con una sezione amministrativa autenticata e un backend **Node.js + Express** per la gestione degli account.
+### Personal Portfolio • Angular • TypeScript
+
+Portfolio personale sviluppato con **Angular**, progettato per raccogliere informazioni personali, competenze, progetti e strumenti sviluppati durante il percorso di apprendimento e sviluppo web.
+
+Il progetto include anche un'**area amministrativa protetta**, un backend REST con **Node.js + Express** e un database **SQLite** per la gestione degli account.
+
+---
 
 <div align="center">
 
@@ -16,21 +22,11 @@
 
 ## 📖 Descrizione
 
-**Jhonnyfoliio** è un portfolio personale realizzato con Angular.
+**Jhonnyfoliio** è la versione Angular del mio portfolio personale.
 
-Il progetto presenta il profilo dello sviluppatore, le competenze, una raccolta di progetti e un modulo di contatto. Oltre alla parte pubblica, è presente un'**area amministrativa protetta** collegata a un backend Node.js.
+L'applicazione è stata sviluppata con l'obiettivo di approfondire Angular e trasformare un sito web esistente in un'applicazione strutturata attraverso **componenti, servizi, routing, Reactive Forms, Signals e comunicazione HTTP**.
 
-L'applicazione è stata strutturata utilizzando componenti Angular separati per le diverse sezioni del sito e utilizza il routing per gestire le pagine dell'applicazione.
-
-### Obiettivi principali
-
-* Realizzare un portfolio personale moderno e responsive.
-* Organizzare l'applicazione Angular in componenti riutilizzabili.
-* Utilizzare Reactive Forms per la gestione dei moduli.
-* Collegare il frontend a un backend REST.
-* Implementare un sistema di autenticazione per l'area amministrativa.
-* Gestire gli account tramite un database SQLite.
-* Sperimentare funzionalità Angular come **Signals**, **Computed Signals**, routing e lazy loading.
+Il progetto non si limita alla semplice presentazione del portfolio: comprende anche funzionalità interattive e una piccola infrastruttura backend per la gestione dell'area amministrativa.
 
 ---
 
@@ -38,105 +34,138 @@ L'applicazione è stata strutturata utilizzando componenti Angular separati per 
 
 ### 🌐 Portfolio
 
-La pagina principale contiene:
+La parte pubblica del sito comprende:
 
 * Hero section
 * Presentazione personale
-* Sezione competenze
+* Competenze
 * Portfolio dei progetti
-* Sezione contatti
+* Form di contatto
 * Footer
-* Navbar responsive
+* Navigazione responsive
 
-La navigazione permette di raggiungere rapidamente le varie sezioni della pagina.
+### 🔐 Area Admin
 
-### 🔐 Area amministrativa
+L'area amministrativa è disponibile tramite:
 
-L'applicazione dispone di una sezione `/admin` protetta da `authGuard`.
+```text
+/admin
+```
 
-Dall'area amministrativa è possibile:
+ed è protetta da un `authGuard`.
 
-| Funzionalità            | Stato |
-| ----------------------- | :---: |
-| Login                   |   ✅   |
-| Creazione account       |   ✅   |
-| Visualizzazione account |   ✅   |
-| Eliminazione account    |   ✅   |
-| Modifica password       |   ✅   |
-| Modifica username       |   ❌   |
+Sono disponibili:
 
-Gli account vengono recuperati dal backend e visualizzati in una tabella con ID, username e data di creazione.
+* Login
+* Visualizzazione degli account
+* Creazione di nuovi account
+* Eliminazione degli account
+* Modifica della password
+* Logout
 
-### 🔑 Autenticazione
+La gestione degli account comunica direttamente con il backend REST.
 
-Il login viene effettuato tramite il backend.
+### 🎮 Dex Debolezze Pokémon
 
-Le password non vengono salvate in chiaro: il backend utilizza **bcrypt** per generare e verificare gli hash delle password.
+Il progetto include una Dex dedicata alle interazioni tra i tipi Pokémon.
 
-La rotta amministrativa viene protetta tramite un Angular `CanActivateFn`.
-
-### 🧩 Dex Debolezze Pokémon
-
-È presente una pagina dedicata alle interazioni tra i tipi Pokémon.
-
-La Dex contiene i **18 tipi Pokémon** e mostra:
+Sono presenti tutti i **18 tipi Pokémon** con informazioni relative a:
 
 * debolezze;
-* efficacia offensiva;
-* scarsa efficacia;
-* assenza di effetto;
-* resistenze;
-* immunità.
+* attacchi efficaci;
+* attacchi poco efficaci;
+* immunità;
+* resistenze.
 
-È inoltre disponibile una ricerca dinamica per filtrare i tipi.
+È inoltre presente una ricerca dinamica che permette di filtrare i tipi disponibili.
 
 ### 📬 Form di contatto
 
-Il modulo contatti utilizza Angular Reactive Forms e valida:
+Il modulo di contatto utilizza **Angular Reactive Forms** e gestisce:
 
 * nome;
 * email;
 * oggetto;
 * messaggio.
 
-L'invio viene effettuato tramite **Formspree**.
+L'invio dei dati viene effettuato tramite **Formspree**.
 
 ---
 
-## 🛠️ Tecnologie
+## 🛠️ Stack tecnologico
 
 ### Frontend
 
-| Tecnologia               | Utilizzo                        |
-| ------------------------ | ------------------------------- |
-| Angular 22               | Framework frontend              |
-| TypeScript               | Linguaggio principale           |
-| HTML5                    | Struttura delle pagine          |
-| CSS3                     | Styling e responsive design     |
-| RxJS                     | Gestione delle richieste HTTP   |
-| Angular Router           | Navigazione e routing           |
-| Reactive Forms           | Gestione e validazione dei form |
-| Angular Signals          | Stato reattivo                  |
-| Angular Computed Signals | Filtraggio dinamico della Dex   |
+| Tecnologia       | Utilizzo                    |
+| ---------------- | --------------------------- |
+| Angular 22       | Framework frontend          |
+| TypeScript 6     | Linguaggio principale       |
+| HTML5            | Struttura                   |
+| CSS3             | Styling e responsive design |
+| RxJS             | Programmazione reattiva     |
+| Angular Router   | Routing                     |
+| Reactive Forms   | Form e validazione          |
+| Signals          | Stato reattivo              |
+| Computed Signals | Filtraggio dinamico         |
 
 ### Backend
 
 | Tecnologia     | Utilizzo                       |
 | -------------- | ------------------------------ |
-| Node.js        | Runtime                        |
-| Express 5      | Server/API REST                |
-| better-sqlite3 | Connessione al database        |
+| Node.js        | Runtime backend                |
+| Express 5      | REST API                       |
 | SQLite         | Database                       |
-| bcrypt         | Hash e verifica delle password |
+| better-sqlite3 | Accesso al database            |
+| bcrypt         | Hash delle password            |
 | CORS           | Comunicazione frontend/backend |
 
 ### Servizi esterni
 
-* **Formspree** — gestione dell'invio del modulo contatti.
+* **Formspree** — gestione del modulo di contatto.
 
 ---
 
-## 📂 Struttura del progetto
+## 🧩 Architettura
+
+Il progetto è organizzato separando le principali funzionalità in componenti Angular dedicati.
+
+```text
+src/
+└── app/
+    ├── about/
+    ├── admin/
+    ├── competenze/
+    ├── contatti/
+    ├── dex/
+    ├── footer/
+    ├── guards/
+    ├── hero/
+    ├── home-c/
+    ├── login/
+    ├── navbar/
+    └── proggetti/
+```
+
+### Componenti principali
+
+| Cartella      | Responsabilità                |
+| ------------- | ----------------------------- |
+| `about/`      | Presentazione personale       |
+| `admin/`      | Gestione area amministrativa  |
+| `competenze/` | Competenze tecniche           |
+| `contatti/`   | Form di contatto              |
+| `dex/`        | Dex delle interazioni Pokémon |
+| `footer/`     | Footer                        |
+| `guards/`     | Protezione delle rotte        |
+| `hero/`       | Hero section                  |
+| `home-c/`     | Composizione della homepage   |
+| `login/`      | Autenticazione                |
+| `navbar/`     | Navigazione                   |
+| `proggetti/`  | Sezione portfolio             |
+
+---
+
+## 📂 Struttura del repository
 
 ```text
 Website-Angular-main/
@@ -158,19 +187,6 @@ Website-Angular-main/
 │
 ├── src/
 │   ├── app/
-│   │   ├── about/
-│   │   ├── admin/
-│   │   ├── competenze/
-│   │   ├── contatti/
-│   │   ├── dex/
-│   │   ├── footer/
-│   │   ├── guards/
-│   │   ├── hero/
-│   │   ├── home-c/
-│   │   ├── login/
-│   │   ├── navbar/
-│   │   └── proggetti/
-│   │
 │   ├── index.html
 │   ├── main.ts
 │   └── styles.css
@@ -179,25 +195,8 @@ Website-Angular-main/
 ├── package-lock.json
 ├── tsconfig.json
 ├── tsconfig.app.json
-├── tsconfig.spec.json
-└── .gitignore
+└── tsconfig.spec.json
 ```
-
-### Organizzazione delle feature
-
-Le funzionalità principali sono separate in cartelle dedicate:
-
-* `about/` — sezione personale.
-* `admin/` — gestione amministrativa degli account.
-* `competenze/` — competenze tecniche e di design.
-* `contatti/` — form di contatto e relativo service.
-* `dex/` — Dex delle debolezze Pokémon.
-* `guards/` — protezione delle rotte.
-* `hero/` — sezione iniziale del portfolio.
-* `home-c/` — composizione della homepage.
-* `login/` — login e comunicazione con il backend.
-* `navbar/` — navigazione principale.
-* `proggetti/` — visualizzazione dei progetti.
 
 ---
 
@@ -205,130 +204,78 @@ Le funzionalità principali sono separate in cartelle dedicate:
 
 ### Prerequisiti
 
-Per eseguire il progetto sono necessari:
+Prima di iniziare assicurati di avere installato:
 
-* Node.js
-* npm
-* Angular CLI
+* **Node.js**
+* **npm**
+* **Angular CLI**
 
-Il backend utilizza Node.js e npm per installare le proprie dipendenze.
+### Frontend
 
----
-
-### ⚠️ Stato attuale della configurazione Angular
-
-Nel repository analizzato è presente il file:
-
-```text
-package-lock.json
-```
-
-ma **non è presente il `package.json` nella root del progetto Angular**.
-
-Di conseguenza, l'installazione standard:
+Dalla directory principale:
 
 ```bash
 npm install
 ```
 
-non può essere considerata garantita nello stato attuale del repository.
+Avvia l'applicazione in modalità sviluppo:
 
-Prima di eseguire il frontend è quindi necessario ripristinare o aggiungere il `package.json` della root Angular.
+```bash
+ng serve
+```
 
-Il `package-lock.json` presente indica comunque le dipendenze Angular utilizzate dal progetto.
+Dopodiché apri:
+
+```text
+http://localhost:4200
+```
+
+> Il progetto utilizza npm come package manager, come configurato in `angular.json`.
 
 ---
 
 ## ⚙️ Backend
 
-Il backend si trova nella directory:
+Il backend si trova nella cartella:
 
 ```text
 backend/
 ```
 
-Per installare le sue dipendenze:
+Installa le dipendenze:
 
 ```bash
 cd backend
 npm install
 ```
 
-Per avviare il server:
+Avvia il server:
 
 ```bash
 node server.js
 ```
 
-Il server viene avviato sulla porta:
+Il backend viene eseguito sulla porta:
 
 ```text
 3000
 ```
 
-quindi l'API è disponibile su:
+ed è quindi raggiungibile tramite:
 
 ```text
 http://localhost:3000
 ```
 
----
+### Verifica del server
 
-## 🗄️ Database
-
-Il backend utilizza **SQLite** tramite `better-sqlite3`.
-
-Il database viene creato automaticamente dal file:
-
-```text
-backend/database.js
-```
-
-Il database utilizzato è:
-
-```text
-backend/data.db
-```
-
-La tabella principale è:
-
-```text
-users
-```
-
-con i seguenti campi:
-
-| Campo           | Tipo    | Descrizione            |
-| --------------- | ------- | ---------------------- |
-| `id`            | INTEGER | Identificativo univoco |
-| `username`      | TEXT    | Username dell'utente   |
-| `password_hash` | TEXT    | Hash della password    |
-| `created_at`    | TEXT    | Data di creazione      |
-
-Il file `data.db` è escluso dal repository tramite `.gitignore`.
-
----
-
-## 🔌 API Backend
-
-Il backend espone attualmente le seguenti route:
-
-| Metodo   | Endpoint                    | Funzione                                 |
-| -------- | --------------------------- | ---------------------------------------- |
-| `GET`    | `/ping`                     | Verifica che il server sia raggiungibile |
-| `GET`    | `/users`                    | Recupera gli utenti                      |
-| `POST`   | `/users`                    | Crea un nuovo account                    |
-| `DELETE` | `/users/:username`          | Elimina un account                       |
-| `PATCH`  | `/users/:username/password` | Cambia la password                       |
-| `POST`   | `/login`                    | Effettua il login                        |
-
-### Esempio di controllo del server
+È disponibile un endpoint di test:
 
 ```bash
 curl http://localhost:3000/ping
 ```
 
-La risposta prevista dal backend è:
+Risposta:
 
 ```json
 {
@@ -338,60 +285,105 @@ La risposta prevista dal backend è:
 
 ---
 
-## 🔐 Sicurezza
+## 🗄️ Database
 
-Le password degli utenti vengono elaborate utilizzando **bcrypt**.
+Il backend utilizza **SQLite** tramite `better-sqlite3`.
 
-Durante la creazione di un account:
+Il database contiene la tabella:
 
 ```text
-password
-   ↓
-bcrypt
-   ↓
-password_hash
-   ↓
-SQLite
+users
 ```
 
-Durante il login, la password fornita viene confrontata con l'hash memorizzato nel database.
+con informazioni relative agli account.
 
-Il frontend utilizza inoltre un `authGuard` per impedire l'accesso alla rotta `/admin` quando l'utente non risulta autenticato.
+La password non viene memorizzata direttamente: viene generato un hash tramite `bcrypt`.
 
-> **Nota:** il sistema di autenticazione attuale utilizza lo stato di login memorizzato nel `localStorage`. Non è presente nel progetto un sistema JWT o una gestione di sessione server-side.
+Il database locale è escluso dal repository tramite `.gitignore`:
+
+```gitignore
+**/data.db
+```
 
 ---
 
-## 🖥️ Routing
+## 🔌 API
 
-Le rotte Angular attualmente definite sono:
+Il backend espone le seguenti API:
 
-| Percorso | Pagina              | Protezione  |
+| Metodo   | Endpoint                    | Descrizione          |
+| -------- | --------------------------- | -------------------- |
+| `GET`    | `/ping`                     | Verifica del server  |
+| `GET`    | `/users`                    | Recupera gli utenti  |
+| `POST`   | `/users`                    | Crea un account      |
+| `DELETE` | `/users/:username`          | Elimina un account   |
+| `PATCH`  | `/users/:username/password` | Modifica la password |
+| `POST`   | `/login`                    | Effettua il login    |
+
+---
+
+## 🧭 Routing Angular
+
+Le principali rotte dell'applicazione sono:
+
+| Route    | Descrizione         | Accesso     |
 | -------- | ------------------- | ----------- |
-| `/`      | Homepage            | Pubblica    |
-| `/admin` | Area amministrativa | `authGuard` |
-| `/login` | Login               | Pubblica    |
-| `/Dex`   | Dex Debolezze       | Pubblica    |
+| `/`      | Homepage            | Pubblico    |
+| `/login` | Login               | Pubblico    |
+| `/Dex`   | Dex Debolezze       | Pubblico    |
+| `/admin` | Area amministrativa | 🔒 Protetto |
 
-Alcune pagine vengono caricate tramite **lazy loading** utilizzando `loadComponent`.
+La rotta `/admin` utilizza `authGuard` per verificare lo stato di autenticazione prima di consentire l'accesso.
+
+---
+
+## 🔐 Autenticazione
+
+Il sistema di autenticazione utilizza:
+
+```text
+Angular
+   │
+   │ HTTP
+   ▼
+Express API
+   │
+   ▼
+SQLite
+```
+
+Le password vengono protette attraverso:
+
+```text
+Password
+   │
+   ▼
+bcrypt
+   │
+   ▼
+Password Hash
+   │
+   ▼
+SQLite
+```
+
+Lo stato di autenticazione del frontend viene mantenuto tramite `localStorage`.
+
+> Il progetto attuale non utilizza JWT o sessioni server-side.
 
 ---
 
 ## 📸 Screenshot
 
-Il progetto contiene già alcune immagini utilizzate nella sezione portfolio:
-
-### Portfolio
-
-![Portfolio project](public/shopify.png)
-
-### Calcolatore di Subnetting
-
-![Subnet calculator](public/calcsubb.png)
+Il repository contiene alcuni screenshot relativi ai progetti presenti nel portfolio.
 
 ### Dex Debolezze
 
 ![Dex Debolezze](public/DexDebolezze.png)
+
+### Calcolatore di Subnetting
+
+![Calcolatore di Subnetting](public/calcsubb.png)
 
 ### Task Manager
 
@@ -403,69 +395,78 @@ Il progetto contiene già alcune immagini utilizzate nella sezione portfolio:
 
 ### Completato
 
-* [x] Creazione del progetto Angular
-* [x] Strutturazione del portfolio
-* [x] Navbar responsive
-* [x] Sezione Hero
-* [x] Sezione About
-* [x] Sezione Competenze
-* [x] Sezione Progetti
-* [x] Form Contatti
-* [x] Angular Reactive Forms
-* [x] Routing Angular
+* [x] Migrazione del portfolio ad Angular
+* [x] Organizzazione in componenti
+* [x] Angular Router
+* [x] Lazy loading dei componenti
+* [x] Reactive Forms
+* [x] Angular Signals
+* [x] Computed Signals
+* [x] Form di contatto
+* [x] Dex Debolezze
+* [x] Ricerca nella Dex
 * [x] Login
 * [x] `authGuard`
 * [x] Backend Express
+* [x] API REST
 * [x] Database SQLite
 * [x] Hash delle password con bcrypt
 * [x] Creazione account
 * [x] Eliminazione account
 * [x] Modifica password
 * [x] Visualizzazione degli account
-* [x] Dex delle debolezze Pokémon
-* [x] Ricerca nella Dex
 
-### Da implementare
+### 🔜 Possibili sviluppi
 
 * [ ] Modifica dello username degli account
-* [ ] Miglioramento della gestione degli errori nell'interfaccia
-* [ ] Miglioramento della gestione dell'autenticazione
-
-> La roadmap contiene esclusivamente funzionalità direttamente riconducibili allo stato attuale del progetto o a funzionalità chiaramente mancanti rispetto a quelle già presenti.
+* [ ] Miglioramento della gestione degli errori
+* [ ] Evoluzione del sistema di autenticazione
+* [ ] Ulteriori funzionalità per l'area amministrativa
 
 ---
 
 ## ⚠️ Known Issues
 
-### `package.json` Angular mancante
+### Autenticazione locale
 
-Il progetto contiene il `package-lock.json` Angular ma non il relativo `package.json` nella root.
+Lo stato di autenticazione viene mantenuto tramite `localStorage`.
 
-Questo deve essere sistemato prima di considerare completa la procedura di installazione del frontend.
+Questo sistema è adatto al progetto attuale, ma può essere ulteriormente evoluto per utilizzare un sistema di autenticazione più robusto.
 
-### Autenticazione
+### Gestione degli errori
 
-L'autenticazione attuale è basata sullo stato salvato nel `localStorage`.
-
-Non sono presenti JWT o sessioni server-side.
-
-### Gestione errori
-
-Alcune operazioni del frontend mostrano gli errori principalmente tramite messaggi e `console.log`, quindi la gestione degli errori può essere ulteriormente migliorata.
+Alcune operazioni utilizzano ancora messaggi semplici e `console.log` per comunicare gli errori. La gestione degli errori può quindi essere ulteriormente migliorata.
 
 ---
 
 ## 🤝 Contributi
 
-Il progetto è principalmente un portfolio personale.
+Il progetto nasce principalmente come portfolio personale e progetto di apprendimento.
 
-Per contribuire:
+Eventuali contributi possono essere proposti tramite Pull Request.
 
-1. Effettua un fork del repository.
-2. Crea un branch dedicato alle modifiche.
-3. Implementa le modifiche.
-4. Verifica il funzionamento del progetto.
-5. Apri una Pull Request descrivendo chiaramente le modifiche effettuate.
+### Workflow consigliato
+
+```bash
+git clone <repository-url>
+cd Website-Angular-main
+
+git checkout -b feature/nome-feature
+
+# modifica il progetto
+
+git add .
+git commit -m "feat: descrizione della modifica"
+git push origin feature/nome-feature
+```
+
+Successivamente è possibile aprire una Pull Request.
+
+---
+
+## 📄 Licenza
+
+Non è presente una licenza esplicita nel repository attuale.
 
 ---
 
@@ -473,14 +474,14 @@ Per contribuire:
 
 **Jhonny**
 
-Portfolio personale e progetto di apprendimento dedicato allo sviluppo frontend con Angular e TypeScript.
+Portfolio personale e progetto di apprendimento dedicato allo sviluppo web con Angular e TypeScript.
 
 ---
 
 <div align="center">
 
-**Jhonnyfoliio**
+### 🟢 Jhonnyfoliio
 
-*Made with Angular & TypeScript*
+**Built with Angular & TypeScript**
 
 </div>
