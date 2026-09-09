@@ -15,6 +15,9 @@ import { LoginService, User } from "../login/login.service";
 export class Admin implements OnInit {
   private loginService = inject(LoginService);
 
+
+  isLoading = signal(false)
+  errorMassage = signal('')
   utenti = signal<User[]>([]);
   crea = "";
   canc = "";
@@ -97,13 +100,18 @@ export class Admin implements OnInit {
   }
 
   caricaUtenti() {
+    this.isLoading.set(true)
+    this.errorMassage.set('')
     this.loginService.getutenti().subscribe({
       next: (dati) => {
         console.log("Utenti ricevuti dal backend:", dati);
         this.utenti.set(dati);
+        this.isLoading.set(false)
       },
       error: (err) => {
         console.error("Errore durante il recupero degli utenti:", err);
+        this.errorMassage.set('errore di connessione al server backend')
+        this.isLoading.set(false)
       },
     });
   }

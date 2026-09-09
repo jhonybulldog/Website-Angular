@@ -87,6 +87,13 @@
   </form>
 
   <h2>Account Registrati:</h2>
+  @if (isLoading()) {
+    <p class="loading">caricamento utenti in corso</p>
+  }
+
+  @if (errorMassage()) {
+    {{errorMassage()}}
+  }
   <table>
   <thead>
     <tr>
@@ -102,7 +109,7 @@
       <td>{{u.id}}</td>
       <td>{{u.username}}</td>
       <td>{{u.created_at}}</td>
-      <td><button class="btn-delete" (click)="elimina(u.username)"></button></td>
+      <td><button class="btn-delete" (click)="elimina(u.username)">Elimina</button></td>
     </tr>
     }
   </tbody>
