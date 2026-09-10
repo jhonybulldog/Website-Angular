@@ -5,7 +5,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { LoginService, User } from "../login/login.service";
+import { LoginService, User } from "./login/login.service";
+import { delay } from "rxjs";
 @Component({
   imports: [ReactiveFormsModule],
   selector: "app-admin",
@@ -102,7 +103,7 @@ export class Admin implements OnInit {
   caricaUtenti() {
     this.isLoading.set(true)
     this.errorMassage.set('')
-    this.loginService.getutenti().subscribe({
+    this.loginService.getutenti().pipe(delay(3000)).subscribe({
       next: (dati) => {
         console.log("Utenti ricevuti dal backend:", dati);
         this.utenti.set(dati);

@@ -2,7 +2,7 @@
   <div class="container">
     <h2 class="section-title">I miei progetti</h2>
     <div class="portfolio-grid">
-      @for (p of Progetti; track p.descrizione) {
+      @for (p of Progetti; track p.link) {
         <div class="project-card">
           <div class="project-image">
             <img [src]="p.immagine" alt="{{ p.titolo }}" />

@@ -9,9 +9,7 @@ export interface TypeInfo {
   immuneTo: string[];
 }
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable()
 export class DexService {
   typeData: Record<string, TypeInfo> = {
     Normale: {

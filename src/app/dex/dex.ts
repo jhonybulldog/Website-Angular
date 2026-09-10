@@ -5,6 +5,7 @@ import { DexService } from "./dex.service";
   selector: "app-dex",
   styleUrl: "./dex.css",
   templateUrl: "./dex.html",
+  providers: [DexService]
 })
 export class Dex {
 
