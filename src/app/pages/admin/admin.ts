@@ -103,7 +103,7 @@ export class Admin implements OnInit {
   caricaUtenti() {
     this.isLoading.set(true)
     this.errorMassage.set('')
-    this.loginService.getutenti().pipe(delay(3000)).subscribe({
+    this.loginService.getutenti().pipe(delay(500)).subscribe({
       next: (dati) => {
         console.log("Utenti ricevuti dal backend:", dati);
         this.utenti.set(dati);

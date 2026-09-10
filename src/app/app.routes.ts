@@ -7,5 +7,7 @@ export const routes: Routes = [
   { path: 'login', loadComponent: () => import('./pages/admin/login/login').then(m => m.Login)},
   { path: 'Dex' , loadComponent: () => import('./dex/dex').then(m => m.Dex)},
   //{ path: 'calc', loadComponent: () => import('./subnetcalc/subnetcalc').then(m => m.Subnetcalc) }
+  { path: 'shop' , loadComponent: () => import('./pages/shop/shop').then(m => m.Shop)},
+  {path: 'shop/:id', loadComponent: () => import('./pages/shop/productdetail/productdetail').then(m => m.Productdetail)},
   {path: '**', redirectTo: ''},
 ];

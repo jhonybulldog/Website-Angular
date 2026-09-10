@@ -1,1 +1,9 @@
-<p>productdetail works!</p>
+<div class="container">
+  <div class="product-overlay">
+    <h2 class="product-title">{{prodotto?.nome}}</h2>
+    <p class="product-subtitles">{{prodotto?.desc }}</p>
+    <p class="product-proce">{{prodotto?.prezzo}} €</p>
+  </div>
+  <img class="product-image" [src]="prodotto?.immagine" />
+  <button>aggiungi al carrello</button>
+</div>

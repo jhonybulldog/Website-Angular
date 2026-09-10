@@ -1,4 +1,13 @@
-{{proddi().nome}}
-{{proddi().prezzo}}
-{{proddi().immagine}}
-<br>
+<div class="container">
+        <div class="prodotti-card">
+            <div class="prodotti-image">
+                <img [src]="proddi().immagine" alt="{{proddi().nome}}">
+            </div>
+            <div class="prodotti-info">
+                <h3>{{proddi().nome}}</h3>
+                <p>{{proddi().prezzo}} €</p>
+            </div>
+
+            <button [routerLink]="['/shop', proddi().id]">visualizza</button>
+        </div>
+</div>
