@@ -42,3 +42,8 @@ button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

@@ -7,11 +7,10 @@ import { RouterLink } from "@angular/router";
   selector: 'app-shop',
   styleUrl: './shop.css',
   templateUrl: './shop.html',
-  providers: [Prodotti]
 })
 export class Shop {
 
   private prodottiser = inject(Prodotti)
-  prodotti = signal<ListaProdotti[]>(this.prodottiser.prod)
+  prodotti = this.prodottiser.prod;
 
 }

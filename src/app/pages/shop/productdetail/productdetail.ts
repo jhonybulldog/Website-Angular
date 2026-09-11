@@ -8,7 +8,6 @@ import { CartService } from "../carrello/cart.service";
   selector: "app-productdetail",
   styleUrl: "./productdetail.css",
   templateUrl: "./productdetail.html",
-  providers: [Prodotti]
 })
 export class Productdetail implements OnInit {
   private route = inject(ActivatedRoute)
@@ -17,11 +16,12 @@ export class Productdetail implements OnInit {
 
   idprodotto: string | null = null;
   prodotto: ListaProdotti | undefined;
+  
   ngOnInit(): void {
     this.idprodotto = this.route.snapshot.paramMap.get("id");
 
     const id = Number(this.idprodotto);
-    this.prodotto = this.prodottiser.prod.find(prodotto => prodotto.id === id);
+    this.prodotto = this.prodottiser.prod().find(prodotto => prodotto.id === id);
   }
   
   

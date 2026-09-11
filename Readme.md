@@ -26,7 +26,7 @@ Il progetto include anche un'**area amministrativa protetta**, un backend REST c
 
 L'applicazione è stata sviluppata con l'obiettivo di approfondire Angular e trasformare un sito web esistente in un'applicazione strutturata attraverso **componenti, servizi, routing, Reactive Forms, Signals e comunicazione HTTP**.
 
-Il progetto non si limita alla semplice presentazione del portfolio: comprende anche funzionalità interattive e una piccola infrastruttura backend per la gestione dell'area amministrativa.
+Il progetto non si limita alla semplice presentazione del portfolio: comprende anche funzionalità interattive, una piccola infrastruttura backend per la gestione dell'area amministrativa e una sezione e-commerce con carrello.
 
 ---
 
@@ -64,6 +64,25 @@ Sono disponibili:
 * Logout
 
 La gestione degli account comunica direttamente con il backend REST.
+
+### 🛒 Shop e carrello
+
+La sezione e-commerce è disponibile tramite:
+
+```text
+/shop
+```
+
+Include:
+
+* visualizzazione dei prodotti;
+* pagina di dettaglio del prodotto;
+* aggiunta e rimozione di articoli dal carrello;
+* calcolo automatico del totale;
+* collegamenti rapidi al carrello dalla pagina shop e dal dettaglio prodotto;
+* inserimento di prodotti dall'area admin.
+
+Prodotti e carrello usano Angular Signals per lo stato reattivo. Al momento i dati sono mantenuti in memoria: un refresh della pagina azzera il contenuto del carrello e i prodotti aggiunti.
 
 ### 🎮 Dex Debolezze Pokémon
 
@@ -133,16 +152,21 @@ Il progetto è organizzato separando le principali funzionalità in componenti A
 src/
 └── app/
     ├── about/
-    ├── admin/
     ├── competenze/
     ├── contatti/
     ├── dex/
     ├── footer/
-    ├── guards/
     ├── hero/
     ├── home-c/
-    ├── login/
     ├── navbar/
+    ├── pages/
+    │   ├── admin/
+    │   │   ├── guards/
+    │   │   └── login/
+    │   └── shop/
+    │       ├── carrello/
+    │       ├── productcard/
+    │       └── productdetail/
     └── proggetti/
 ```
 
@@ -151,16 +175,16 @@ src/
 | Cartella      | Responsabilità                |
 | ------------- | ----------------------------- |
 | `about/`      | Presentazione personale       |
-| `admin/`      | Gestione area amministrativa  |
+| `pages/admin/` | Gestione area amministrativa |
 | `competenze/` | Competenze tecniche           |
 | `contatti/`   | Form di contatto              |
 | `dex/`        | Dex delle interazioni Pokémon |
 | `footer/`     | Footer                        |
-| `guards/`     | Protezione delle rotte        |
 | `hero/`       | Hero section                  |
 | `home-c/`     | Composizione della homepage   |
-| `login/`      | Autenticazione                |
+| `pages/admin/login/` | Autenticazione          |
 | `navbar/`     | Navigazione                   |
+| `pages/shop/` | Shop, dettaglio e carrello    |
 | `proggetti/`  | Sezione portfolio             |
 
 ---
@@ -183,7 +207,11 @@ Website-Angular-main/
 │   ├── github.png
 │   ├── logo.png
 │   ├── shopify.png
-│   └── taskmanager.png
+│   ├── taskmanager.png
+│   └── prodotti/
+│       ├── mouse.jpeg
+│       ├── tastiera.jpeg
+│       └── tappetino.jpeg
 │
 ├── src/
 │   ├── app/
@@ -221,7 +249,7 @@ npm install
 Avvia l'applicazione in modalità sviluppo:
 
 ```bash
-ng serve
+npm start
 ```
 
 Dopodiché apri:
@@ -331,6 +359,9 @@ Le principali rotte dell'applicazione sono:
 | `/`      | Homepage            | Pubblico    |
 | `/login` | Login               | Pubblico    |
 | `/Dex`   | Dex Debolezze       | Pubblico    |
+| `/shop`  | Catalogo prodotti   | Pubblico    |
+| `/shop/:id` | Dettaglio prodotto | Pubblico  |
+| `/shop/cart` | Carrello          | Pubblico    |
 | `/admin` | Area amministrativa | 🔒 Protetto |
 
 La rotta `/admin` utilizza `authGuard` per verificare lo stato di autenticazione prima di consentire l'accesso.
@@ -415,6 +446,9 @@ Il repository contiene alcuni screenshot relativi ai progetti presenti nel portf
 * [x] Eliminazione account
 * [x] Modifica password
 * [x] Visualizzazione degli account
+* [x] Shop e dettaglio prodotto
+* [x] Carrello con totale e rimozione articoli
+* [x] Inserimento prodotti dall'area admin
 
 ### 🔜 Possibili sviluppi
 
@@ -422,6 +456,7 @@ Il repository contiene alcuni screenshot relativi ai progetti presenti nel portf
 * [ ] Miglioramento della gestione degli errori
 * [ ] Evoluzione del sistema di autenticazione
 * [ ] Ulteriori funzionalità per l'area amministrativa
+* [ ] Persistenza di prodotti e carrello nel backend/database
 
 ---
 

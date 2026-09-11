@@ -7,22 +7,27 @@ import {
 } from "@angular/forms";
 import { LoginService, User } from "./login/login.service";
 import { delay } from "rxjs";
+import { Prodotti , ListaProdotti} from "../shop/prodotti.service";
+import { RouterLink } from "@angular/router";
+
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   selector: "app-admin",
   styleUrl: "./admin.css",
   templateUrl: "./admin.html",
 })
 export class Admin implements OnInit {
   private loginService = inject(LoginService);
+  private prodottiService = inject(Prodotti);
 
-
-  isLoading = signal(false)
-  errorMassage = signal('')
+  isLoading = signal(false);
+  errorMassage = signal("");
   utenti = signal<User[]>([]);
   crea = "";
   canc = "";
   change = "";
+  prodotti = this.prodottiService.prod;
+  prodottoDaModificare: ListaProdotti | null = null;
   creaform = new FormGroup({
     username: new FormControl("", [Validators.required]),
     password: new FormControl("", [Validators.required]),
@@ -36,6 +41,13 @@ export class Admin implements OnInit {
     username: new FormControl("", [Validators.required]),
     password: new FormControl("", [Validators.required]),
     passwordn: new FormControl("", [Validators.required]),
+  });
+
+  productform = new FormGroup({
+    nome: new FormControl("", [Validators.required]),
+    desc: new FormControl("", [Validators.required]),
+    prezzo: new FormControl(0, [Validators.required]),
+    immagine: new FormControl("", [Validators.required]),
   });
 
   onSubmit() {
@@ -79,7 +91,7 @@ export class Admin implements OnInit {
     }
   }
 
-  OnChange() {
+  cambia() {
     if (this.changeform.valid) {
       const username = this.changeform.value.username;
       const password = this.changeform.value.password;
@@ -101,20 +113,23 @@ export class Admin implements OnInit {
   }
 
   caricaUtenti() {
-    this.isLoading.set(true)
-    this.errorMassage.set('')
-    this.loginService.getutenti().pipe(delay(500)).subscribe({
-      next: (dati) => {
-        console.log("Utenti ricevuti dal backend:", dati);
-        this.utenti.set(dati);
-        this.isLoading.set(false)
-      },
-      error: (err) => {
-        console.error("Errore durante il recupero degli utenti:", err);
-        this.errorMassage.set('errore di connessione al server backend')
-        this.isLoading.set(false)
-      },
-    });
+    this.isLoading.set(true);
+    this.errorMassage.set("");
+    this.loginService
+      .getutenti()
+      .pipe(delay(500))
+      .subscribe({
+        next: (dati) => {
+          console.log("Utenti ricevuti dal backend:", dati);
+          this.utenti.set(dati);
+          this.isLoading.set(false);
+        },
+        error: (err) => {
+          console.error("Errore durante il recupero degli utenti:", err);
+          this.errorMassage.set("errore di connessione al server backend");
+          this.isLoading.set(false);
+        },
+      });
   }
 
   ngOnInit() {
@@ -127,8 +142,57 @@ export class Admin implements OnInit {
         this.caricaUtenti();
       },
       error: () => {
-        console.log('errore eliminazione server ');
-      }
+        console.log("errore eliminazione server ");
+      },
     });
   }
+
+  aggiungiProdotto() {
+    if (this.productform.valid) {
+      console.log(this.productform.value);
+      const nuovoProdotto: ListaProdotti = {
+        id: 0,
+        nome: this.productform.value.nome!,
+        desc: this.productform.value.desc!,
+        prezzo: this.productform.value.prezzo!,
+        immagine: this.productform.value.immagine!,
+      };
+      this.prodottiService.aggiungiProdotto(nuovoProdotto);
+      console.log(this.prodottiService.prod());
+      this.productform.reset()
+    }
+  }
+
+  eliminaprodott(id: number){
+    this.prodottiService.eliminaProdotto(id)
+  }
+
+  modificaProdotti(prodotto: ListaProdotti){
+    this.prodottoDaModificare = prodotto;
+
+    this.productform.patchValue({
+      nome: prodotto.nome,
+      desc: prodotto.desc,
+      prezzo: prodotto.prezzo,
+      immagine: prodotto.immagine,
+    })
+  }
+
+  salvaModifica() {
+  if (this.productform.valid && this.prodottoDaModificare !== null) {
+
+    const prodottoModificato: ListaProdotti = {
+      id: this.prodottoDaModificare.id,
+      nome: this.productform.value.nome!,
+      desc: this.productform.value.desc!,
+      prezzo: this.productform.value.prezzo!,
+      immagine: this.productform.value.immagine!
+    };
+
+    this.prodottiService.modificaProdotto(prodottoModificato);
+
+    this.prodottoDaModificare = null;
+    this.productform.reset();
+  }
+}
 }

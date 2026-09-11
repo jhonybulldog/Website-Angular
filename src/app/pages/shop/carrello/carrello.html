@@ -13,7 +13,7 @@
         @for (prodotto of prodotti(); track prodotto.id) {
         <tr>
           <td>{{prodotto.nome}}</td>
-          <td>{{prodotto.prezzo}}</td>
+          <td>{{prodotto.prezzo}} €</td>
           <td>
             <button class="btn-delete" (click)="rimuoviCarello( $index)">
               Rimuovi
@@ -26,7 +26,7 @@
     @if(totale() == 0 ){
       <p class="totale">il carrello e vuoto</p>
     }@else{
-      <p class="totale">il totale del prezzo e : {{totale()}}</p>
+      <p class="totale">il totale del prezzo e : {{totale()}} €</p>
   }
     </div>
 </div>

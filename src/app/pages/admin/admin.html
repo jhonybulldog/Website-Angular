@@ -48,7 +48,7 @@
   </form>
 
   <h2>Cambia password</h2>
-  <form [formGroup]="changeform" (ngSubmit)="OnChange()">
+  <form [formGroup]="changeform" (ngSubmit)="cambia()">
     <div class="form-group">
       <input type="text" formControlName="username" placeholder="username" />
       @if(changeform.get('username')?.invalid &&
@@ -86,32 +86,121 @@
     }
   </form>
 
+  <h2>Aggiunta Prodotti e-commerce</h2>
+  <form [formGroup]="productform" (ngSubmit)="aggiungiProdotto()">
+    <div class="form-group">
+      <input
+        type="text"
+        formControlName="nome"
+        placeholder="inseriesci nome prodotto"
+      />
+      @if(productform.get('nome')?.invalid && productform.get('nome')?.touched){
+      <p class="error">nome obbgliatorio</p>
+      }
+    </div>
+    <div class="form-group">
+      <input
+        type="text"
+        formControlName="desc"
+        placeholder="inseriisci la descrizione del prodotto"
+      />
+      @if(productform.get('desc')?.invalid && productform.get('desc')?.touched){
+      <p class="error">la descrizione è obbgliatoria</p>
+      }
+    </div>
+    <div class="form-group">
+      <input
+        type="number"
+        formControlName="prezzo"
+        placeholder="inseriesci il prezzo del prodotto"
+      />
+      @if(productform.get('prezzo')?.invalid &&
+      productform.get('prezzo')?.touched){
+      <p class="error">il prezzo è obbgliatorio</p>
+      }
+    </div>
+    <div class="form-group">
+      <input
+        type="text"
+        formControlName="immagine"
+        placeholder="inserisci path immagine"
+      />
+      @if(productform.get('immagine')?.invalid &&
+      productform.get('immagine')?.touched){
+      <p class="error">immagine obbgliatoria</p>
+      }
+    </div>
+    <button type="submit">aggiungi</button>
+    <a class="shop-link" routerLink="/shop">Vai allo shop</a>
+  </form>
+
   <h2>Account Registrati:</h2>
   @if (isLoading()) {
-    <p class="loading">caricamento utenti in corso</p>
-  }
-
-  @if (errorMassage()) {
-    {{errorMassage()}}
-  }
+  <p class="loading">caricamento utenti in corso</p>
+  } @if (errorMassage()) { {{errorMassage()}} }
   <table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Username</th>
-      <th>creato il</th>
-      <th>azioni</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (u of utenti(); track u.id) {
-    <tr>
-      <td>{{u.id}}</td>
-      <td>{{u.username}}</td>
-      <td>{{u.created_at}}</td>
-      <td><button class="btn-delete" (click)="elimina(u.username)">Elimina</button></td>
-    </tr>
-    }
-  </tbody>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>creato il</th>
+        <th>azioni</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (u of utenti(); track u.id) {
+      <tr>
+        <td>{{u.id}}</td>
+        <td>{{u.username}}</td>
+        <td>{{u.created_at}}</td>
+        <td>
+          <button class="btn-delete" (click)="elimina(u.username)">
+            Elimina
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
   </table>
+  <h2>Gestione prodotti</h2>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Descrizione</th>
+          <th>Prezzo</th>
+          <th>Immagine</th>
+          <th>Azioni</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (prodotto of prodotti(); track prodotto.id) {
+        <tr>
+          <td>#{{ prodotto.id }}</td>
+          <td>{{ prodotto.nome }}</td>
+          <td>{{ prodotto.desc }}</td>
+          <td>{{ prodotto.prezzo }} €</td>
+          <td>{{ prodotto.immagine }}</td>
+          <td>
+            <button type="button" (click)="modificaProdotti(prodotto)">
+              Modifica
+            </button>
+            <button class="btn-delete" (click)="eliminaprodott(prodotto.id)">
+              Elimina
+            </button>
+            @if(prodottoDaModificare !== null) {
+            <button type="button" (click)="salvaModifica()">
+              Salva modifica
+            </button>
+            }
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -4,6 +4,7 @@
   margin: 0 auto;
   padding: 40px 0;
   margin-top: 50px;
+  flex: 1;
 }
 
 .prodotti-grid {
@@ -30,7 +31,10 @@
   font-weight: 700;
   letter-spacing: 0.01em;
   text-decoration: none;
-  transition: transform 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+  transition:
+    transform 200ms ease,
+    background-color 200ms ease,
+    box-shadow 200ms ease;
 }
 
 .cart-fab::before {
@@ -70,4 +74,10 @@
   .cart-fab {
     transition: none;
   }
+}
+
+.shop-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

@@ -32,4 +32,5 @@ export class Navbar {
     this.Login.logout();
     this.router.navigate(['/']);
   }
+
 }
