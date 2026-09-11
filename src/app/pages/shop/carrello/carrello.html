@@ -1,0 +1,32 @@
+<div class="container">
+  <h2 class="section-title">Carrello</h2>
+  <div class="carello-grid">
+    <table>
+      <thead>
+        <tr>
+          <th>nome</th>
+          <th>prezzo</th>
+          <th>azioni</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (prodotto of prodotti(); track prodotto.id) {
+        <tr>
+          <td>{{prodotto.nome}}</td>
+          <td>{{prodotto.prezzo}}</td>
+          <td>
+            <button class="btn-delete" (click)="rimuoviCarello( $index)">
+              Rimuovi
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    @if(totale() == 0 ){
+      <p class="totale">il carrello e vuoto</p>
+    }@else{
+      <p class="totale">il totale del prezzo e : {{totale()}}</p>
+  }
+    </div>
+</div>

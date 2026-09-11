@@ -5,5 +5,6 @@
     <p class="product-proce">{{prodotto?.prezzo}} €</p>
   </div>
   <img class="product-image" [src]="prodotto?.immagine" />
-  <button>aggiungi al carrello</button>
+  <button class="add-to-cart btn btn-primary" (click)="aggiungicarrello()">Aggiungi al carrello</button>
+  <a class="cart-fab" routerLink="/shop/cart">Carrello</a>
 </div>

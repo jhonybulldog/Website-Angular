@@ -8,6 +8,7 @@ export const routes: Routes = [
   { path: 'Dex' , loadComponent: () => import('./dex/dex').then(m => m.Dex)},
   //{ path: 'calc', loadComponent: () => import('./subnetcalc/subnetcalc').then(m => m.Subnetcalc) }
   { path: 'shop' , loadComponent: () => import('./pages/shop/shop').then(m => m.Shop)},
+  {path: 'shop/cart', loadComponent: () => import('./pages/shop/carrello/carrello').then(m => m.Carrello)},
   {path: 'shop/:id', loadComponent: () => import('./pages/shop/productdetail/productdetail').then(m => m.Productdetail)},
   {path: '**', redirectTo: ''},
 ];

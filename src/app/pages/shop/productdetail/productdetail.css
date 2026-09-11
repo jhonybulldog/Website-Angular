@@ -85,7 +85,7 @@
   box-shadow: 0 24px 40px rgba(4, 120, 87, 0.2);
 }
 
-.container > button {
+.add-to-cart {
   grid-area: action;
   justify-self: start;
   width: min(100%, 32rem);
@@ -103,18 +103,56 @@
   transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
 }
 
-.container > button:hover {
+.add-to-cart:hover {
   filter: brightness(1.04);
   transform: translateY(-2px);
   box-shadow: 0 14px 26px rgba(5, 150, 105, 0.3);
 }
 
-.container > button:focus-visible {
+.add-to-cart:focus-visible,
+.cart-fab:focus-visible {
   outline: 3px solid rgba(16, 185, 129, 0.35);
   outline-offset: 4px;
 }
 
-.container > button:active {
+.add-to-cart:active {
+  transform: translateY(0);
+}
+
+.cart-fab {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding: 0.9rem 1.25rem;
+  border: 1px solid rgba(16, 185, 129, 0.22);
+  border-radius: 999px;
+  background: #102a23;
+  box-shadow: 0 12px 25px rgba(4, 120, 87, 0.25);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: transform 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+}
+
+.cart-fab::before {
+  margin-right: 0.55rem;
+  content: "🛒";
+  font-size: 1.05rem;
+}
+
+.cart-fab:hover {
+  background: #047857;
+  box-shadow: 0 16px 30px rgba(4, 120, 87, 0.32);
+  transform: translateY(-3px);
+}
+
+.cart-fab:active {
   transform: translateY(0);
 }
 
@@ -148,14 +186,15 @@
     font-size: clamp(2rem, 10vw, 2.8rem);
   }
 
-  .container > button {
+  .add-to-cart {
     width: 100%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .product-image,
-  .container > button {
+  .add-to-cart,
+  .cart-fab {
     transition: none;
   }
 }
