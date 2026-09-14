@@ -7,4 +7,11 @@
   <img class="product-image" [src]="prodotto?.thumbnail" />
   <button class="add-to-cart btn btn-primary" (click)="aggiungicarrello(prodotto!)">Aggiungi al carrello</button>
   <a class="cart-fab" routerLink="/shop/cart">Carrello</a>
+
+  @for (carrello of cartprodotti(); track carrello.prodotto.id) {
+    <p>
+      {{carrello.prodotto.title}}
+      {{carrello.quantita}}
+    </p>
+  }
 </div>

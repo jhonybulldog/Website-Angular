@@ -13,7 +13,7 @@ export class Productdetail implements OnInit {
   private route = inject(ActivatedRoute)
   private prodottiser = inject(Prodotti)
   private carrello = inject(CartService)
-
+  cartprodotti = this.carrello.carrello;
   idprodotto: string | null = null;
   prodotto: ListaProdotti | undefined;
   

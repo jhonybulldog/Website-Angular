@@ -16,8 +16,6 @@ export class Shop implements OnInit{
 
   cercaProdotto(testo: string) {
     this.ricerca.set(testo);
-        console.log(this.prodotti()[194]);
-
   }
 
 

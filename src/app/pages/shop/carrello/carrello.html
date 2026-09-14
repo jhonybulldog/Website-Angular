@@ -50,7 +50,7 @@
     @if(totale() == 0 ){
     <p class="totale">il carrello e vuoto</p>
     }@else{
-    <p class="totale">il totale del prezzo e : {{totale()}} €</p>
+    <p class="totale">il totale del prezzo e : {{totale().toFixed(2)}} €</p>
     }
   </div>
 </div>
