@@ -17,17 +17,18 @@ export class Prodotti {
   private http = inject(HttpClient);
 
   caricaProdotti() {
-    this.http.get<{products: ListaProdotti[];}>("https://dummyjson.com/products?limit=0")
+    this.http.get<{products: ListaProdotti[];}>("https://dummyjson.com/products")
       .subscribe((risposta) => {
         this.prod.set(risposta.products);
         this.nextid =
           Math.max(...this.prod().map((prodotto) => prodotto.id)) + 1;
-          console.log(this.prod)
+          console.log(this.prod())
       });
   }
   prod = signal<ListaProdotti[]>([]);
   aggiungiProdotto(prodotto: ListaProdotti) {
     prodotto.id = this.nextid;
+    this.nextid++;
     this.prod.set([...this.prod(), prodotto]);
   }
 

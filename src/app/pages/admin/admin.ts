@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from "@angular/core";
+import { Component, inject, OnInit, signal, computed } from "@angular/core";
 import {
   FormControl,
   FormGroup,
@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import { LoginService, User } from "./login/login.service";
 import { delay } from "rxjs";
-import { Prodotti , ListaProdotti} from "../shop/prodotti.service";
+import { Prodotti, ListaProdotti } from "../shop/prodotti.service";
 import { RouterLink } from "@angular/router";
 
 @Component({
@@ -26,6 +26,8 @@ export class Admin implements OnInit {
   crea = "";
   canc = "";
   change = "";
+  categoriaSelezionata = signal<string>("");
+
   prodotti = this.prodottiService.prod;
   prodottoDaModificare: ListaProdotti | null = null;
   creaform = new FormGroup({
@@ -48,7 +50,7 @@ export class Admin implements OnInit {
     description: new FormControl("", [Validators.required]),
     price: new FormControl(0, [Validators.required]),
     thumbnail: new FormControl("", [Validators.required]),
-    category: new FormControl("", [Validators.requiredTrue])
+    category: new FormControl("", [Validators.required]),
   });
 
   onSubmit() {
@@ -132,10 +134,19 @@ export class Admin implements OnInit {
         },
       });
   }
+  categorie = computed(() => [
+    ...new Set(this.prodotti().map((prodotto) => prodotto.category)),
+  ]);
+
+  selezionacategoria(categoria: string) {
+    this.categoriaSelezionata.set(categoria);
+    console.log(categoria);
+  }
 
   ngOnInit() {
-    this.caricaUtenti();
-    this.prodottiService.caricaProdotti()
+   if(this.prodotti().length===0){
+    this.prodottiService.caricaProdotti();
+   }
   }
   elimina(username: string) {
     this.loginService.cancellaAccount(username).subscribe({
@@ -162,15 +173,15 @@ export class Admin implements OnInit {
       };
       this.prodottiService.aggiungiProdotto(nuovoProdotto);
       console.log(this.prodottiService.prod());
-      this.productform.reset()
+      this.productform.reset();
     }
   }
 
-  eliminaprodott(id: number){
-    this.prodottiService.eliminaProdotto(id)
+  eliminaprodott(id: number) {
+    this.prodottiService.eliminaProdotto(id);
   }
 
-  modificaProdotti(prodotto: ListaProdotti){
+  modificaProdotti(prodotto: ListaProdotti) {
     this.prodottoDaModificare = prodotto;
 
     this.productform.patchValue({
@@ -178,25 +189,25 @@ export class Admin implements OnInit {
       description: prodotto.description,
       price: prodotto.price,
       thumbnail: prodotto.thumbnail,
-    })
+      category: prodotto.category,
+    });
   }
 
   salvaModifica() {
-  if (this.productform.valid && this.prodottoDaModificare !== null) {
+    if (this.productform.valid && this.prodottoDaModificare !== null) {
+      const prodottoModificato: ListaProdotti = {
+        id: this.prodottoDaModificare.id,
+        title: this.productform.value.title!,
+        description: this.productform.value.description!,
+        price: this.productform.value.price!,
+        thumbnail: this.productform.value.thumbnail!,
+        category: this.productform.value.category!,
+      };
 
-    const prodottoModificato: ListaProdotti = {
-      id: this.prodottoDaModificare.id,
-      title: this.productform.value.title!,
-      description: this.productform.value.description!,
-      price: this.productform.value.price!,
-      thumbnail: this.productform.value.thumbnail!,
-      category: this.productform.value.category!,
-    };
+      this.prodottiService.modificaProdotto(prodottoModificato);
 
-    this.prodottiService.modificaProdotto(prodottoModificato);
-
-    this.prodottoDaModificare = null;
-    this.productform.reset();
+      this.prodottoDaModificare = null;
+      this.productform.reset();
+    }
   }
-}
 }

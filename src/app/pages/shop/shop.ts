@@ -8,7 +8,7 @@ import { RouterLink } from "@angular/router";
   styleUrl: "./shop.css",
   templateUrl: "./shop.html",
 })
-export class Shop implements OnInit {
+export class Shop implements OnInit{
   private prodottiser = inject(Prodotti);
   prodotti = this.prodottiser.prod;
   categoriaSelezionata = signal<string>("");
@@ -16,8 +16,16 @@ export class Shop implements OnInit {
 
   cercaProdotto(testo: string) {
     this.ricerca.set(testo);
+        console.log(this.prodotti()[194]);
+
   }
 
+
+ngOnInit(){
+  if(this.prodotti().length===0){
+    this.prodottiser.caricaProdotti();
+  }
+}
   categorie = computed(() => [
     ...new Set(this.prodotti().map((prodotto) => prodotto.category)),
   ]);
@@ -41,7 +49,5 @@ export class Shop implements OnInit {
       });
     }
   });
-  ngOnInit() {
-    this.prodottiser.caricaProdotti();
-  }
+
 }

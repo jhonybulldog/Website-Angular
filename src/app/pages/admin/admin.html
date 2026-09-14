@@ -132,6 +132,16 @@
       <p class="error">immagine obbgliatoria</p>
       }
     </div>
+    <select
+      class="form-group"
+      #categoria
+      (change)="selezionacategoria(categoria.value)"
+      formControlName="category"
+    >
+      @for (categoria of categorie(); track categoria) {
+      <option [value]="categoria">{{ categoria }}</option>
+      }
+    </select>
     <button type="submit">aggiungi</button>
     <a class="shop-link" routerLink="/shop">Vai allo shop</a>
   </form>
@@ -175,7 +185,7 @@
           <th>Descrizione</th>
           <th>Prezzo</th>
           <th>Immagine</th>
-          <th> Categoria </th>
+          <th>Categoria</th>
           <th>Azioni</th>
         </tr>
       </thead>
@@ -200,7 +210,7 @@
             <button class="btn-delete" (click)="eliminaprodott(prodotto.id)">
               Elimina
             </button>
-            @if(prodottoDaModificare !== null) {
+            @if (prodottoDaModificare?.id === prodotto.id) {
             <button type="button" (click)="salvaModifica()">
               Salva modifica
             </button>

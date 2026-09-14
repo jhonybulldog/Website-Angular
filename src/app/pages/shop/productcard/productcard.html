@@ -1,13 +1,19 @@
 <div class="container">
-        <div class="prodotti-card">
-            <div class="prodotti-image">
-                <img [src]="proddi().thumbnail" alt="{{proddi().title}}">
-            </div>
-            <div class="prodotti-info">
-                <h3>{{proddi().title}}</h3>
-                <p>{{proddi().price}} €</p>
-            </div>
+  <div class="prodotti-card">
+    <div class="prodotti-image">
+      <img [src]="proddi().thumbnail" alt="{{proddi().title}}" />
+    </div>
+    <div class="prodotti-info">
+      <h3>{{proddi().title}}</h3>
+      <p>{{proddi().price}} €</p>
+    </div>
 
-            <button [routerLink]="['/shop', proddi().id]">visualizza</button>
-        </div>
+    <button [routerLink]="['/shop', proddi().id]">visualizza</button>
+    <button
+      class="add-to-cart btn btn-primary"
+      (click)="aggiungicarrello(proddi())"
+    >
+      Aggiungi al carrello
+    </button>
+  </div>
 </div>
