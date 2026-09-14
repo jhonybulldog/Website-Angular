@@ -296,6 +296,9 @@ node createuser.js
 
 ---
 
+
+comando utile shop
+(()=>{const a=ng.getComponent(document.querySelector('app-admin'));for(let i=1;i<=10;i++)a.prodottiService.aggiungiProdotto({id:0,nome:`Prodotto ${i}`,desc:`Descrizione prodotto ${i}`,prezzo:i*10,immagine:`immagine${i}.png`})})()
 <div align="center">
 
 Realizzato con Angular, TypeScript, Node.js ed Express.

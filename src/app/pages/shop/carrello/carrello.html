@@ -6,14 +6,38 @@
         <tr>
           <th>nome</th>
           <th>prezzo</th>
+          <th>quantita</th>
           <th>azioni</th>
         </tr>
       </thead>
       <tbody>
-        @for (prodotto of prodotti(); track prodotto.id) {
+        @for (prodotto of prodotti(); track prodotto.prodotto.id) {
         <tr>
-          <td>{{prodotto.nome}}</td>
-          <td>{{prodotto.prezzo}} €</td>
+          <td [routerLink]="['/shop', prodotto.prodotto.id]">{{ prodotto.prodotto.nome }}</td>
+          <td>{{prodotto.prodotto.prezzo}} €</td>
+          <td>
+            <div class="quantity-picker" aria-label="Selettore quantità">
+              <button
+                class="quantity-control quantity-control--decrease"
+                type="button"
+                aria-label="Diminuisci quantità"
+                (click)="diminuiscicarrell(prodotto.prodotto.id)"
+              >
+                <span aria-hidden="true">−</span>
+              </button>
+              <span class="quantity-value" aria-label="Quantità selezionata"
+                >{{prodotto.quantita}}</span
+              >
+              <button
+                class="quantity-control quantity-control--increase"
+                type="button"
+                aria-label="Aumenta quantità"
+                (click)="aumentaquantita(prodotto.prodotto.id)"
+              >
+                <span aria-hidden="true">+</span>
+              </button>
+            </div>
+          </td>
           <td>
             <button class="btn-delete" (click)="rimuoviCarello( $index)">
               Rimuovi
@@ -24,9 +48,9 @@
       </tbody>
     </table>
     @if(totale() == 0 ){
-      <p class="totale">il carrello e vuoto</p>
+    <p class="totale">il carrello e vuoto</p>
     }@else{
-      <p class="totale">il totale del prezzo e : {{totale()}} €</p>
-  }
-    </div>
+    <p class="totale">il totale del prezzo e : {{totale()}} €</p>
+    }
+  </div>
 </div>

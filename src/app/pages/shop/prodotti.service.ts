@@ -20,6 +20,7 @@ export class Prodotti {
     this.nextid++;
     this.prod.set([...this.prod(), prodotto]);
   }
+  
   eliminaProdotto(id: number) {
     this.prod.set(this.prod().filter((prodotto) => prodotto.id !== id));
   }

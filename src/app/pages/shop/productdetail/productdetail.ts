@@ -25,11 +25,7 @@ export class Productdetail implements OnInit {
   }
   
   
-  aggiungicarrello(){
-    if(this.prodotto !== undefined){
-    this.carrello.aggiungiCarrello(this.prodotto)
-    }else{
-      console.log("non aggiunto al carrello")
-    }
+  aggiungicarrello(prodotto: ListaProdotti){
+    this.carrello.aggiungiCarrello(prodotto)
   }
 }

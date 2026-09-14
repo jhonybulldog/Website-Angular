@@ -115,6 +115,63 @@ tbody td:last-child {
   font-weight: 750;
 }
 
+.quantity-picker {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  min-height: 2.65rem;
+  border: 1px solid #a7dfbe;
+  border-radius: 0.8rem;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(4, 120, 87, 0.08);
+}
+
+.quantity-control {
+  display: grid;
+  width: 2.65rem;
+  height: 2.65rem;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.quantity-control:hover {
+  background: #059669;
+  color: #fff;
+}
+
+.quantity-control:active {
+  transform: scale(0.9);
+}
+
+.quantity-control:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 3px solid #6ee7b7;
+  outline-offset: -3px;
+}
+
+.quantity-value {
+  display: grid;
+  width: 2.8rem;
+  height: 2.65rem;
+  place-items: center;
+  border-right: 1px solid #a7dfbe;
+  border-left: 1px solid #a7dfbe;
+  background: #fff;
+  color: #102a23;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 750;
+}
+
 @media (max-width: 560px) {
   :host {
     padding: 5.25rem 1rem 3rem;
@@ -131,6 +188,16 @@ tbody td:last-child {
   thead th,
   tbody td {
     padding: 1rem;
+  }
+
+  .quantity-picker {
+    min-height: 2.4rem;
+  }
+
+  .quantity-control,
+  .quantity-value {
+    width: 2.4rem;
+    height: 2.4rem;
   }
 }
 
