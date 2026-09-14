@@ -1,16 +1,47 @@
-import { Component, inject, signal} from '@angular/core';
-import { Prodotti, ListaProdotti } from './prodotti.service';
-import { Productcard } from './productcard/productcard';
+import { Component, inject, OnInit, signal, computed } from "@angular/core";
+import { Prodotti } from "./prodotti.service";
+import { Productcard } from "./productcard/productcard";
 import { RouterLink } from "@angular/router";
 @Component({
   imports: [Productcard, RouterLink],
-  selector: 'app-shop',
-  styleUrl: './shop.css',
-  templateUrl: './shop.html',
+  selector: "app-shop",
+  styleUrl: "./shop.css",
+  templateUrl: "./shop.html",
 })
-export class Shop {
-
-  private prodottiser = inject(Prodotti)
+export class Shop implements OnInit {
+  private prodottiser = inject(Prodotti);
   prodotti = this.prodottiser.prod;
+  categoriaSelezionata = signal<string>("");
+  ricerca = signal<string>("");
 
+  cercaProdotto(testo: string) {
+    this.ricerca.set(testo);
+  }
+
+  categorie = computed(() => [
+    ...new Set(this.prodotti().map((prodotto) => prodotto.category)),
+  ]);
+
+  selezionacategoria(categoria: string) {
+    this.categoriaSelezionata.set(categoria);
+    console.log(categoria);
+  }
+
+  filtroprod = computed(() => {
+    const categoria = this.categoriaSelezionata();
+    const testo = this.ricerca();
+
+    if (categoria === "" && testo === "") {
+      return this.prodotti();
+    } else {
+     return this.prodotti().filter((prodotto) => {
+        const selezionecategoria = categoria === ""||prodotto.category === categoria;
+        const selezionetesto = prodotto.title.toLowerCase().includes(testo.toLowerCase());
+        return selezionecategoria && selezionetesto;
+      });
+    }
+  });
+  ngOnInit() {
+    this.prodottiser.caricaProdotti();
+  }
 }

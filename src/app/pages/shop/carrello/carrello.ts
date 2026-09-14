@@ -15,7 +15,7 @@ export class Carrello {
 
     
   totale =  computed(() => this.prodotti().reduce((totale, prodotto) => {
-    return totale + prodotto.prodotto.prezzo * prodotto.quantita;
+    return totale + prodotto.prodotto.price * prodotto.quantita;
     
 }, 0));
 

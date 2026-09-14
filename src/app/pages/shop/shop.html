@@ -1,8 +1,25 @@
 <div class="shop-page">
 <div class="container">
 <h2 class="section-title">Ordina!</h2>
+<select class="category-select" #categoria (change)="selezionacategoria(categoria.value)">
+  <option value="">Tutte le categorie</option>
+
+  @for (categoria of categorie(); track categoria) {
+    <option  [value]="categoria">
+      {{ categoria }}
+    </option>
+  }
+</select>
+<div class="search-box">
+  <input
+    type="text"
+    placeholder="Cerca prodotto..."
+    #ricerca
+    (input)="cercaProdotto(ricerca.value)"
+  >
+</div>
 <div class="prodotti-grid">
-@for (prodotto of prodotti(); track prodotto.id) {
+@for (prodotto of filtroprod(); track prodotto.id) {
 <app-productcard [proddi]="prodotto"></app-productcard>
 }
 </div>

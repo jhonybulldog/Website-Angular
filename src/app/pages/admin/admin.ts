@@ -44,10 +44,11 @@ export class Admin implements OnInit {
   });
 
   productform = new FormGroup({
-    nome: new FormControl("", [Validators.required]),
-    desc: new FormControl("", [Validators.required]),
-    prezzo: new FormControl(0, [Validators.required]),
-    immagine: new FormControl("", [Validators.required]),
+    title: new FormControl("", [Validators.required]),
+    description: new FormControl("", [Validators.required]),
+    price: new FormControl(0, [Validators.required]),
+    thumbnail: new FormControl("", [Validators.required]),
+    category: new FormControl("", [Validators.requiredTrue])
   });
 
   onSubmit() {
@@ -134,6 +135,7 @@ export class Admin implements OnInit {
 
   ngOnInit() {
     this.caricaUtenti();
+    this.prodottiService.caricaProdotti()
   }
   elimina(username: string) {
     this.loginService.cancellaAccount(username).subscribe({
@@ -152,10 +154,11 @@ export class Admin implements OnInit {
       console.log(this.productform.value);
       const nuovoProdotto: ListaProdotti = {
         id: 0,
-        nome: this.productform.value.nome!,
-        desc: this.productform.value.desc!,
-        prezzo: this.productform.value.prezzo!,
-        immagine: this.productform.value.immagine!,
+        title: this.productform.value.title!,
+        description: this.productform.value.description!,
+        price: this.productform.value.price!,
+        thumbnail: this.productform.value.thumbnail!,
+        category: this.productform.value.category!,
       };
       this.prodottiService.aggiungiProdotto(nuovoProdotto);
       console.log(this.prodottiService.prod());
@@ -171,10 +174,10 @@ export class Admin implements OnInit {
     this.prodottoDaModificare = prodotto;
 
     this.productform.patchValue({
-      nome: prodotto.nome,
-      desc: prodotto.desc,
-      prezzo: prodotto.prezzo,
-      immagine: prodotto.immagine,
+      title: prodotto.title,
+      description: prodotto.description,
+      price: prodotto.price,
+      thumbnail: prodotto.thumbnail,
     })
   }
 
@@ -183,10 +186,11 @@ export class Admin implements OnInit {
 
     const prodottoModificato: ListaProdotti = {
       id: this.prodottoDaModificare.id,
-      nome: this.productform.value.nome!,
-      desc: this.productform.value.desc!,
-      prezzo: this.productform.value.prezzo!,
-      immagine: this.productform.value.immagine!
+      title: this.productform.value.title!,
+      description: this.productform.value.description!,
+      price: this.productform.value.price!,
+      thumbnail: this.productform.value.thumbnail!,
+      category: this.productform.value.category!,
     };
 
     this.prodottiService.modificaProdotto(prodottoModificato);

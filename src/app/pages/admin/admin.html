@@ -86,47 +86,49 @@
     }
   </form>
 
-  <h2>Aggiunta Prodotti e-commerce</h2>
+  <h2 id="form-prod">Aggiunta Prodotti e-commerce</h2>
   <form [formGroup]="productform" (ngSubmit)="aggiungiProdotto()">
     <div class="form-group">
       <input
         type="text"
-        formControlName="nome"
+        formControlName="title"
         placeholder="inseriesci nome prodotto"
       />
-      @if(productform.get('nome')?.invalid && productform.get('nome')?.touched){
+      @if(productform.get('title')?.invalid &&
+      productform.get('title')?.touched){
       <p class="error">nome obbgliatorio</p>
       }
     </div>
     <div class="form-group">
       <input
         type="text"
-        formControlName="desc"
+        formControlName="description"
         placeholder="inseriisci la descrizione del prodotto"
       />
-      @if(productform.get('desc')?.invalid && productform.get('desc')?.touched){
+      @if(productform.get('description')?.invalid &&
+      productform.get('description')?.touched){
       <p class="error">la descrizione è obbgliatoria</p>
       }
     </div>
     <div class="form-group">
       <input
         type="number"
-        formControlName="prezzo"
+        formControlName="price"
         placeholder="inseriesci il prezzo del prodotto"
       />
-      @if(productform.get('prezzo')?.invalid &&
-      productform.get('prezzo')?.touched){
+      @if(productform.get('price')?.invalid &&
+      productform.get('price')?.touched){
       <p class="error">il prezzo è obbgliatorio</p>
       }
     </div>
     <div class="form-group">
       <input
         type="text"
-        formControlName="immagine"
+        formControlName="thumbnail"
         placeholder="inserisci path immagine"
       />
-      @if(productform.get('immagine')?.invalid &&
-      productform.get('immagine')?.touched){
+      @if(productform.get('thumbnail')?.invalid &&
+      productform.get('thumbnail')?.touched){
       <p class="error">immagine obbgliatoria</p>
       }
     </div>
@@ -173,6 +175,7 @@
           <th>Descrizione</th>
           <th>Prezzo</th>
           <th>Immagine</th>
+          <th> Categoria </th>
           <th>Azioni</th>
         </tr>
       </thead>
@@ -181,14 +184,19 @@
         @for (prodotto of prodotti(); track prodotto.id) {
         <tr>
           <td>#{{ prodotto.id }}</td>
-          <td>{{ prodotto.nome }}</td>
-          <td>{{ prodotto.desc }}</td>
-          <td>{{ prodotto.prezzo }} €</td>
-          <td>{{ prodotto.immagine }}</td>
+          <td>{{ prodotto.title }}</td>
+          <td>{{ prodotto.description }}</td>
+          <td>{{ prodotto.price }} €</td>
+          <td>{{ prodotto.thumbnail }}</td>
+          <td>{{ prodotto.category}}</td>
           <td>
-            <button type="button" (click)="modificaProdotti(prodotto)">
+            <a
+              class="btn-edit"
+              href="/admin#form-prod"
+              (click)="modificaProdotti(prodotto)"
+            >
               Modifica
-            </button>
+            </a>
             <button class="btn-delete" (click)="eliminaprodott(prodotto.id)">
               Elimina
             </button>

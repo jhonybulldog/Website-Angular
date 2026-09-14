@@ -1,11 +1,11 @@
 <div class="container">
         <div class="prodotti-card">
             <div class="prodotti-image">
-                <img [src]="proddi().immagine" alt="{{proddi().nome}}">
+                <img [src]="proddi().thumbnail" alt="{{proddi().title}}">
             </div>
             <div class="prodotti-info">
-                <h3>{{proddi().nome}}</h3>
-                <p>{{proddi().prezzo}} €</p>
+                <h3>{{proddi().title}}</h3>
+                <p>{{proddi().price}} €</p>
             </div>
 
             <button [routerLink]="['/shop', proddi().id]">visualizza</button>

@@ -182,16 +182,38 @@ button:disabled {
 
 /* Pulsante Modifica */
 .btn-edit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
   background-color: #f59e0b;
   color: #ffffff;
   padding: 8px 14px;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
   font-size: 0.85rem;
+  font-weight: 600;
   margin-right: 8px;
+  text-decoration: none;
+  line-height: 1.25;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.btn-edit:hover:not(:disabled) {
+.btn-edit:hover {
   background-color: #d97706;
+  border-color: #d97706;
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-edit:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn-edit:focus-visible {
+  outline: 3px solid rgba(245, 158, 11, 0.35);
+  outline-offset: 3px;
 }
 
 /* Messaggi di Errore / Successo */

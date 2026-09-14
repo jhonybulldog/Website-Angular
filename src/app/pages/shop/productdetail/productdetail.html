@@ -1,10 +1,10 @@
 <div class="container">
   <div class="product-overlay">
-    <h2 class="product-title">{{prodotto?.nome}}</h2>
-    <p class="product-subtitles">{{prodotto?.desc }}</p>
-    <p class="product-proce">{{prodotto?.prezzo}} €</p>
+    <h2 class="product-title">{{prodotto?.title}}</h2>
+    <p class="product-subtitles">{{prodotto?.description }}</p>
+    <p class="product-proce">{{prodotto?.price}} €</p>
   </div>
-  <img class="product-image" [src]="prodotto?.immagine" />
+  <img class="product-image" [src]="prodotto?.thumbnail" />
   <button class="add-to-cart btn btn-primary" (click)="aggiungicarrello(prodotto!)">Aggiungi al carrello</button>
   <a class="cart-fab" routerLink="/shop/cart">Carrello</a>
 </div>
