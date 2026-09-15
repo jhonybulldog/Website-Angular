@@ -1,4 +1,4 @@
-import { Injectable, signal, inject, computed } from "@angular/core";
+import { Injectable, signal, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 export interface ListaProdotti {
   id: number;
@@ -15,17 +15,18 @@ export interface ListaProdotti {
 export class Prodotti {
   private nextid = 1;
   private http = inject(HttpClient);
-
+  prod = signal<ListaProdotti[]>([]);
+  categorianuove = signal<string[]>([])
   caricaProdotti() {
-    this.http.get<{products: ListaProdotti[];}>("https://dummyjson.com/products")
+    this.http
+      .get<{ products: ListaProdotti[] }>("https://dummyjson.com/products")
       .subscribe((risposta) => {
         this.prod.set(risposta.products);
         this.nextid =
           Math.max(...this.prod().map((prodotto) => prodotto.id)) + 1;
-          console.log(this.prod())
+        console.log(this.prod());
       });
   }
-  prod = signal<ListaProdotti[]>([]);
   aggiungiProdotto(prodotto: ListaProdotti) {
     prodotto.id = this.nextid;
     this.nextid++;
@@ -43,4 +44,23 @@ export class Prodotti {
       ),
     );
   }
+
+  aggiungicategoria(categoria: string){
+    this.categorianuove.set([
+      ...this.categorianuove(),
+      categoria
+    ])
+  }
+  eliminacategoria(categoria: string) {
+  this.categorianuove.update((categorie) =>
+    categorie.filter((c) => c !== categoria)
+  );
+}
+modificacategoria(categoriaVecchia: string, categoriaNuova: string) {
+  this.categorianuove.update((categorie) =>
+    categorie.map((categoria) =>
+      categoria === categoriaVecchia ? categoriaNuova : categoria
+    )
+  );
+}
 }

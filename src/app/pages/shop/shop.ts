@@ -25,9 +25,12 @@ ngOnInit(){
     this.prodottiser.caricaProdotti();
   }
 }
-  categorie = computed(() => [
-    ...new Set(this.prodotti().map((prodotto) => prodotto.category)),
-  ]);
+categorie = computed(() => [
+  ...new Set([
+    ...this.prodotti().map((prodotto) => prodotto.category),
+    ...this.prodottiser.categorianuove()
+  ])
+]);
 
   selezionacategoria(categoria: string) {
     this.categoriaSelezionata.set(categoria);
