@@ -4,14 +4,9 @@
     <p class="product-subtitles">{{prodotto?.description }}</p>
     <p class="product-proce">{{prodotto?.price}} €</p>
   </div>
-  <img class="product-image" [src]="prodotto?.thumbnail" />
+  <img class="product-image" [src]="prodotto?.thumbnail" [alt]="prodotto?.title || 'Prodotto'" />
   <button class="add-to-cart btn btn-primary" (click)="aggiungicarrello(prodotto!)">Aggiungi al carrello</button>
   <a class="cart-fab" routerLink="/shop/cart">Carrello</a>
 
-  @for (carrello of cartprodotti(); track carrello.prodotto.id) {
-    <p>
-      {{carrello.prodotto.title}}
-      {{carrello.quantita}}
-    </p>
-  }
+  <app-minicart />
 </div>

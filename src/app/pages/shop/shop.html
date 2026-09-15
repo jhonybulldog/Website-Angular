@@ -1,28 +1,32 @@
 <div class="shop-page">
-<div class="container">
-<h2 class="section-title">Ordina!</h2>
-<select class="category-select" #categoria (change)="selezionacategoria(categoria.value)">
-  <option value="">Tutte le categorie</option>
+  <div class="container shop-layout">
+    <div class="shop-main">
+      <h2 class="section-title">Ordina!</h2>
+      <select
+        class="category-select"
+        #categoria
+        (change)="selezionacategoria(categoria.value)"
+      >
+        <option value="">Tutte le categorie</option>
+        @for (categoria of categorie(); track categoria) {
+          <option [value]="categoria">{{ categoria }}</option>
+        }
+      </select>
+      <div class="search-box">
+        <input
+          type="text"
+          placeholder="Cerca prodotto..."
+          #ricerca
+          (input)="cercaProdotto(ricerca.value)"
+        />
+      </div>
+      <div class="prodotti-grid">
+        @for (prodotto of filtroprod(); track prodotto.id) {
+          <app-productcard [proddi]="prodotto"></app-productcard>
+        }
+      </div>
+    </div>
 
-  @for (categoria of categorie(); track categoria) {
-    <option  [value]="categoria">
-      {{ categoria }}
-    </option>
-  }
-</select>
-<div class="search-box">
-  <input
-    type="text"
-    placeholder="Cerca prodotto..."
-    #ricerca
-    (input)="cercaProdotto(ricerca.value)"
-  >
-</div>
-<div class="prodotti-grid">
-@for (prodotto of filtroprod(); track prodotto.id) {
-<app-productcard [proddi]="prodotto"></app-productcard>
-}
-</div>
-<a class="cart-fab" routerLink="/shop/cart">Carrello</a>
-</div>
+    <app-minicart></app-minicart>
+  </div>
 </div>

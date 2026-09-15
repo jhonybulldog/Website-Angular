@@ -1,0 +1,54 @@
+<aside class="mini-cart-amazon">
+  <div class="mini-cart-header">
+    <span class="cart-icon">🛒</span>
+    <h3>Il tuo carrello</h3>
+  </div>
+
+  <div class="mini-cart-body">
+    @for (carrello of cartprodotti(); track carrello.prodotto.id) {
+      <div class="mini-cart-item">
+        <div class="item-info">
+          <span class="item-title">{{carrello.prodotto.title}}</span>
+
+          <div class="item-controls">
+            <div class="quantity-picker">
+              <button
+                class="quantity-control quantity-control--decrease"
+                type="button"
+                aria-label="Diminuisci quantità"
+                (click)="diminuiscicarrell(carrello.prodotto.id)"
+              >
+                <span aria-hidden="true">−</span>
+              </button>
+              <span class="item-qty">{{carrello.quantita}}</span>
+              <button
+                class="quantity-control quantity-control--increase"
+                type="button"
+                aria-label="Aumenta quantità"
+                (click)="aumentaquantita(carrello.prodotto.id)"
+              >
+                <span aria-hidden="true">+</span>
+              </button>
+            </div>
+
+            <button class="btn-delete" type="button" (click)="rimuoviCarello($index)">
+              Rimuovi
+            </button>
+          </div>
+        </div>
+        <span class="item-price">{{(carrello.prodotto.price * carrello.quantita).toFixed(2)}} €</span>
+      </div>
+    }
+  </div>
+
+  @if (totale() == 0) {
+    <p class="totale totale--empty">Il carrello è vuoto</p>
+  } @else {
+    <div class="totale">
+      <span class="totale-label">Totale:</span>
+      <span class="totale-amount">{{ totale().toFixed(2) }} €</span>
+    </div>
+  }
+
+  <a class="btn-go-to-cart" routerLink="/shop/cart">Vai al carrello</a>
+</aside>
