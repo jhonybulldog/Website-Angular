@@ -1,12 +1,15 @@
 /* ===== CHECKOUT CONTAINER ===== */
 .checkout-container {
   max-width: 680px;
-  margin: 2.5rem auto;
-  padding: 0 1.25rem 3rem;
+  margin: 0 auto;
+  padding: 6rem 1.25rem 3rem;
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
 }
+
+
+
 
 .checkout-container h1 {
   font-size: 1.75rem;
@@ -376,8 +379,46 @@
   grid-column: 1 / -1;
 }
 
-/* Bottone salva */
-.indirizzi form button {
+/* Pulsanti di azione dell'indirizzo (Modifica / Elimina) */
+.indirizzo button {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  margin-top: 0.6rem;
+  margin-right: 0.5rem;
+  transition: all 150ms ease;
+}
+
+.indirizzo button[type="button"]:first-of-type {
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7dfbe;
+}
+
+.indirizzo button[type="button"]:first-of-type:hover {
+  background-color: #10b981;
+  color: #ffffff;
+  border-color: #10b981;
+}
+
+.indirizzo button[type="button"]:last-of-type {
+  background-color: #fee2e2;
+  color: #ef4444;
+  border: 1px solid #fca5a5;
+}
+
+.indirizzo button[type="button"]:last-of-type:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+}
+
+/* Pulsanti salva / salva modifica nel form */
+.indirizzi form button[type="submit"],
+.indirizzi form button[type="button"] {
   grid-column: 1 / -1;
   background: linear-gradient(135deg, #10b981, #059669);
   color: #fff;
@@ -392,12 +433,14 @@
   justify-self: start;
 }
 
-.indirizzi form button:hover:not(:disabled) {
+.indirizzi form button[type="submit"]:hover:not(:disabled),
+.indirizzi form button[type="button"]:hover:not(:disabled) {
   opacity: 0.9;
   transform: translateY(-1px);
 }
 
-.indirizzi form button:disabled {
+.indirizzi form button[type="submit"]:disabled,
+.indirizzi form button[type="button"]:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }

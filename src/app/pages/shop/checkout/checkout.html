@@ -154,7 +154,7 @@
 
       <input type="text" formControlName="citta" placeholder="Città" />
 
-      <input type="text" formControlName="cap" placeholder="CAP" />
+      <input type="number" formControlName="cap" placeholder="CAP" />
 
       <input type="text" formControlName="provincia" placeholder="Provincia" />
       @if (indirizzoDaModificare === null) {
@@ -170,9 +170,6 @@
         Salva modifica
       </button>
       }
-      <button type="submit" [disabled]="indirizzoForm.invalid">
-        Salva indirizzo
-      </button>
     </form>
   </section>
 </div>

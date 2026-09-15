@@ -1,4 +1,4 @@
-import { Component, inject, computed} from "@angular/core";
+import { Component, inject, computed, input } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { CartService } from "../carrello/cart.service";
 
@@ -12,6 +12,7 @@ import { CartService } from "../carrello/cart.service";
 export class Minicart {
   private carrello = inject(CartService);
   cartprodotti = this.carrello.carrello;
+  mostraBottoneVaiAlCarrello = input<boolean>(true);
   rimuoviCarello(indice: number) {
     this.carrello.rimuoviCarello(indice);
   }

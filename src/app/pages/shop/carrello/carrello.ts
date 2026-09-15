@@ -1,9 +1,9 @@
-import { Component, inject, computed } from "@angular/core";
+import { Component, inject, computed, input } from "@angular/core";
 import { CartService } from "./cart.service";
 import { RouterLink } from "@angular/router";
-
+import { Minicart } from "../minicart/minicart";
 @Component({
-  imports: [RouterLink],
+  imports: [RouterLink, Minicart],
   selector: "app-carrello",
   styleUrl: "./carrello.css",
   templateUrl: "./carrello.html",
@@ -13,6 +13,7 @@ export class Carrello {
 
   prodotti = this.carelloser.carrello;
 
+  mini = input(false);
     
   totale =  computed(() => this.prodotti().reduce((totale, prodotto) => {
     return totale + prodotto.prodotto.price * prodotto.quantita;

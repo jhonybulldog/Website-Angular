@@ -50,5 +50,7 @@
     </div>
   }
 
-  <a class="btn-go-to-cart" routerLink="/shop/cart">Vai al carrello</a>
+  @if (mostraBottoneVaiAlCarrello()) {
+    <a class="btn-go-to-cart" routerLink="/shop/cart">Vai al carrello</a>
+  }
 </aside>

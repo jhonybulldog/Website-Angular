@@ -12,7 +12,7 @@ interface Indirizzo {
   nomeCognome: string;
   via: string;
   citta: string;
-  cap: string;
+  cap: number;
   provincia: string;
 }
 @Component({
@@ -65,7 +65,7 @@ export class Checkout {
     nomeCognome: new FormControl("", [Validators.required]),
     via: new FormControl("", [Validators.required]),
     citta: new FormControl("", [Validators.required]),
-    cap: new FormControl("", [Validators.required]),
+    cap: new FormControl(0, [Validators.required]),
     provincia: new FormControl("", [Validators.required]),
   });
 
@@ -128,11 +128,14 @@ salvaModificaIndirizzo() {
 }
 eliminaIndirizzo(id: number) {
   this.indirizzi.update((indirizzi) =>
-    indirizzi.filter((indirizzo) => indirizzo.id !== id)
+    indirizzi.filter((indirizzo) => indirizzo.id !== id),
   );
 
   if (this.indirizzoSelezionato() === id) {
     this.indirizzoSelezionato.set(null);
   }
+
+      this.indirizzoForm.reset()
+
 }
 }
