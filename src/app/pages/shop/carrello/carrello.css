@@ -172,6 +172,73 @@ tbody td:last-child {
   font-weight: 750;
 }
 
+/* Pulsante Elimina Tabella */
+.btn-delete {
+  background-color: #ef4444;
+  color: #ffffff;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-delete:hover:not(:disabled) {
+  background-color: #dc2626;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+  transform: translateY(-1px);
+}
+
+/* =========================
+   SEZIONE E BOTTONE CHECKOUT
+   ========================= */
+.checkout {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+.btn-checkout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 2.25rem;
+  border: none;
+  border-radius: 0.85rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 750;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  box-shadow: 0 10px 24px rgba(5, 150, 105, 0.28);
+  cursor: pointer;
+  transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
+}
+
+.btn-checkout .arrow {
+  font-size: 1.2rem;
+  transition: transform 200ms ease;
+}
+
+.btn-checkout:hover {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(5, 150, 105, 0.35);
+}
+
+.btn-checkout:hover .arrow {
+  transform: translateX(4px);
+}
+
+.btn-checkout:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 16px rgba(5, 150, 105, 0.22);
+}
+
 @media (max-width: 560px) {
   :host {
     padding: 5.25rem 1rem 3rem;
@@ -199,61 +266,21 @@ tbody td:last-child {
     width: 2.4rem;
     height: 2.4rem;
   }
+
+  .checkout {
+    justify-content: center;
+  }
+
+  .btn-checkout {
+    width: 100%;
+    padding: 0.95rem 1.5rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  tbody tr {
+  tbody tr,
+  .btn-checkout,
+  .btn-checkout .arrow {
     transition: none;
   }
-}
-.btn-delete {
-  background-color: #ef4444;
-  color: #ffffff;
-  padding: 8px 14px;
-  font-size: 0.85rem;
-}
-
-.btn-delete:hover:not(:disabled) {
-  background-color: #dc2626;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
-}
-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 18px;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  background-color: #2563eb;
-  color: #ffffff;
-}
-
-button:hover:not(:disabled) {
-  background-color: #1d4ed8;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-}
-
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-/* Pulsante Elimina Tabella */
-.btn-delete {
-  background-color: #ef4444;
-  color: #ffffff;
-  padding: 8px 14px;
-  font-size: 0.85rem;
-}
-
-.btn-delete:hover:not(:disabled) {
-  background-color: #dc2626;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
 }

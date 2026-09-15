@@ -52,5 +52,15 @@
     }@else{
     <p class="totale">il totale del prezzo e : {{totale().toFixed(2)}} €</p>
     }
+
   </div>
+
+  @if (totale() > 0) {
+    <div class="checkout">
+      <a class="btn-checkout" routerLink="/checkout">
+        <span>Procedi al Checkout</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  }
 </div>

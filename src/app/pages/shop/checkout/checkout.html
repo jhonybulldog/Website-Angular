@@ -1,0 +1,178 @@
+<div class="checkout-container">
+  <h1>Checkout</h1>
+
+  <section class="riepilogo-ordine">
+    <h2>Riepilogo ordine</h2>
+
+    <div class="riepilogo-row">
+      <span>Articoli</span>
+      <span>{{ totale().toFixed(2) }} €</span>
+    </div>
+
+    <div class="riepilogo-row">
+      <span>Spedizione</span>
+      <span>{{ spedizione().toFixed(2) }} €</span>
+    </div>
+
+    <hr class="riepilogo-divider" />
+
+    <div class="riepilogo-row riepilogo-totale">
+      <span>Totale ordine</span>
+      <span>{{ totaleordine().toFixed(2) }} €</span>
+    </div>
+  </section>
+
+  <section class="metodo-pagamento">
+    <h2>Metodo di pagamento</h2>
+
+    <form [formGroup]="metodoPagamentoForm" (ngSubmit)="selezionaPagamento()">
+      <div class="radio-group">
+        <label class="radio-label">
+          <input type="radio" formControlName="metodo" value="paypal" />
+          <span class="radio-custom"></span>
+          PayPal
+        </label>
+
+        <label class="radio-label">
+          <input type="radio" formControlName="metodo" value="carta" />
+          <span class="radio-custom"></span>
+          Carta di credito
+        </label>
+      </div>
+
+      @if (metodoPagamentoForm.get('metodo')?.invalid &&
+      metodoPagamentoForm.get('metodo')?.touched) {
+      <p class="error">Seleziona un metodo di pagamento</p>
+      }
+
+      <button
+        class="btn-continua"
+        type="submit"
+        [disabled]="metodoPagamentoForm.invalid"
+      >
+        Continua
+      </button>
+    </form>
+
+    @if (metodoPagamento() === "paypal") {
+    <p class="paypal-info">
+      Verrai reindirizzato a PayPal per completare il pagamento.
+    </p>
+    } @if (metodoPagamento() === "carta") {
+    <form
+      class="carta-form"
+      [formGroup]="cartaform"
+      (ngSubmit)="confermacance()"
+    >
+      <div class="form-group">
+        <label>Numero carta</label>
+        <input
+          type="text"
+          placeholder="Inserisci i dati della carta"
+          formControlName="dati"
+        />
+      </div>
+      <div class="form-group">
+        <label>CVV</label>
+        <input
+          type="text"
+          placeholder="Inserisci il CVV"
+          formControlName="cvv"
+        />
+      </div>
+
+      <button class="btn-conferma" type="submit" [disabled]="cartaform.invalid">
+        Conferma
+      </button>
+
+      @if (cartaConfermata()) {
+      <p class="success-msg">Carta creata con successo</p>
+      }
+    </form>
+    }
+  </section>
+
+  <section class="indirizzi">
+    <h2>Indirizzo di spedizione</h2>
+
+    @if (indirizzi().length > 0) {
+    <div class="indirizzi-lista">
+      @for (indirizzo of indirizzi(); track indirizzo.id) {
+
+      <div class="indirizzo">
+        <label>
+          <input
+            type="radio"
+            name="indirizzo"
+            [value]="indirizzo.id"
+            (change)="selezionaIndirizzo(indirizzo.id)"
+          />
+
+          <strong>{{ indirizzo.nome }}</strong>
+        </label>
+
+        <p>{{ indirizzo.nomeCognome }}</p>
+        <p>{{ indirizzo.via }}</p>
+        <p>
+          {{ indirizzo.cap }} {{ indirizzo.citta }} ({{ indirizzo.provincia }})
+        </p>
+        <button type="button" (click)="modificaIndirizzo(indirizzo)">
+          Modifica
+        </button>
+
+        <button type="button" (click)="eliminaIndirizzo(indirizzo.id)">
+          Elimina
+        </button>
+      </div>
+
+      }
+    </div>
+    } @else {
+    <p>Non hai ancora indirizzi salvati.</p>
+    }
+
+    <h3>Aggiungi nuovo indirizzo</h3>
+
+    <form [formGroup]="indirizzoForm" (ngSubmit)="aggiungiIndirizzo()">
+      <input
+        type="text"
+        formControlName="nome"
+        placeholder="Nome indirizzo (es. Casa)"
+      />
+
+      <input
+        type="text"
+        formControlName="nomeCognome"
+        placeholder="Nome e cognome"
+      />
+
+      <input
+        type="text"
+        formControlName="via"
+        placeholder="Via e numero civico"
+      />
+
+      <input type="text" formControlName="citta" placeholder="Città" />
+
+      <input type="text" formControlName="cap" placeholder="CAP" />
+
+      <input type="text" formControlName="provincia" placeholder="Provincia" />
+      @if (indirizzoDaModificare === null) {
+      <button type="submit" [disabled]="indirizzoForm.invalid">
+        Salva indirizzo
+      </button>
+      } @else {
+      <button
+        type="button"
+        [disabled]="indirizzoForm.invalid"
+        (click)="salvaModificaIndirizzo()"
+      >
+        Salva modifica
+      </button>
+      }
+      <button type="submit" [disabled]="indirizzoForm.invalid">
+        Salva indirizzo
+      </button>
+    </form>
+  </section>
+</div>
