@@ -1,6 +1,6 @@
 # Jhonnyfolio
 
-> Portfolio personale costruito con Angular, con area amministrativa, backend REST e una piccola esperienza e-commerce con carrello.
+> Portfolio personale costruito con Angular, con area amministrativa, backend REST, e-commerce con carrello e checkout, Dex Pokémon e calcolatore di subnetting IPv4.
 
 <div align="center">
 
@@ -14,9 +14,9 @@
 
 ## Panoramica
 
-**Jhonnyfolio** è un progetto di apprendimento e portfolio personale realizzato in Angular. Oltre alle sezioni classiche di un portfolio, include una dashboard amministrativa protetta da guardia di navigazione, un backend Express con database SQLite per la gestione degli account e una sezione shop.
+**Jhonnyfolio** è un progetto di apprendimento e portfolio personale realizzato in Angular. Oltre alle sezioni classiche di un portfolio, include una dashboard amministrativa protetta da guardia di navigazione, un backend Express con database SQLite per la gestione degli account, una sezione e-commerce completa con carrello e checkout, un Dex Pokémon e un calcolatore di subnetting IPv4.
 
-Il progetto è pensato per mettere in pratica componenti standalone, lazy loading, router, Signals, computed signals, Reactive Forms e comunicazione HTTP tra frontend e backend.
+Il progetto mette in pratica componenti standalone, lazy loading, router, Signals, computed signals, Reactive Forms e comunicazione HTTP tra frontend e backend.
 
 ## Funzionalità
 
@@ -25,16 +25,35 @@ Il progetto è pensato per mettere in pratica componenti standalone, lazy loadin
 - Hero, presentazione personale, competenze, progetti, contatti e footer.
 - Navigazione responsive.
 - Form di contatto basato su Reactive Forms e Formspree.
-- Dex Pokémon con ricerca e informazioni su debolezze, resistenze, immunità ed efficacia dei tipi.
 
-### Shop e carrello
+### Dex Pokémon
+
+- Ricerca Pokémon per nome o numero.
+- Informazioni su debolezze, resistenze, immunità ed efficacia dei tipi.
+- Disponibile su `/Dex`.
+
+### Calcolatore di Subnetting IPv4
+
+- Calcolo in tempo reale dei parametri di rete a partire da un indirizzo IPv4 con notazione CIDR.
+- Validazione completa dell'input con messaggi di errore descrittivi.
+- Pulsante "Calcola" e calcolo automatico alla digitazione.
+- Chip preimpostati per testare rapidamente configurazioni comuni (`192.168.1.0/24`, `10.0.0.0/16`, `172.16.0.0/12`).
+- Parametri calcolati: Network, Broadcast, Subnet Mask, Wildcard Mask, Host Min/Max, Host Range, numero di host utili.
+- Identificazione della classe IPv4 (A–E) e della tipologia di indirizzo (Privato RFC 1918, Loopback, Link-Local APIPA, CGNAT, Multicast, Riservato, Pubblico).
+- Rappresentazione in binario di IP e Subnet Mask.
+- Gestione corretta delle subnet `/31` (RFC 3021) e `/32`.
+- Disponibile su `/calc`.
+
+### Shop, carrello e checkout
 
 - Catalogo prodotti disponibile su `/shop`.
 - Scheda di dettaglio per ogni prodotto (`/shop/:id`).
+- Mini-carrello flottante per accedere rapidamente al riepilogo.
 - Inserimento di articoli nel carrello.
 - Rimozione di singoli articoli e calcolo automatico del totale.
-- Pulsante flottante per raggiungere rapidamente il carrello.
-- Gestione dei prodotti dall’area admin.
+- Pagina carrello dedicata (`/shop/cart`) con riepilogo completo.
+- Pagina di checkout (`/checkout`) per la finalizzazione dell'ordine.
+- Gestione dei prodotti dall'area admin.
 
 ### Area amministrativa
 
@@ -66,7 +85,7 @@ Il progetto è pensato per mettere in pratica componenti standalone, lazy loadin
 
 | Area | Tecnologie |
 | --- | --- |
-| Frontend | Angular 22, TypeScript, HTML5, CSS3, RxJS |
+| Frontend | Angular 22, TypeScript 6, HTML5, CSS3, RxJS |
 | Stato e form | Angular Signals, computed signals, Reactive Forms |
 | Routing | Angular Router, lazy loading, route guard |
 | Backend | Node.js, Express 5, CORS |
@@ -80,25 +99,34 @@ Il progetto è pensato per mettere in pratica componenti standalone, lazy loadin
 src/app/
 ├── about/                     # Presentazione personale
 ├── competenze/                # Competenze
-├── contatti/                  # Form di contatto
-├── dex/                       # Dex Pokémon
+├── contatti/                  # Form di contatto (Formspree)
 ├── footer/                    # Footer
 ├── hero/                      # Hero section
 ├── home-c/                    # Homepage
 ├── navbar/                    # Navigazione e logout
+├── proggetti/                 # Progetti portfolio
 ├── pages/
 │   ├── admin/
 │   │   ├── guards/            # authGuard
 │   │   ├── login/             # LoginService e pagina login
 │   │   └── admin.*            # Dashboard amministrativa
-│   └── shop/
-│       ├── carrello/          # CartService e pagina carrello
-│       ├── productcard/       # Card prodotto
-│       ├── productdetail/     # Dettaglio prodotto
-│       └── prodotti.service.ts
-├── proggetti/                 # Progetti portfolio
+│   ├── dex/
+│   │   ├── dex.*              # Componente Dex Pokémon
+│   │   └── dex.service.ts     # Servizio dati tipi/debolezze
+│   ├── shop/
+│   │   ├── carrello/          # CartService e pagina carrello
+│   │   ├── checkout/          # Pagina di checkout
+│   │   ├── minicart/          # Mini-carrello flottante
+│   │   ├── productcard/       # Card prodotto
+│   │   ├── productdetail/     # Dettaglio prodotto
+│   │   ├── prodotti.service.ts# Servizio catalogo prodotti
+│   │   └── shop.*             # Pagina catalogo
+│   └── subnetcalc/
+│       └── subnetcalc.*       # Calcolatore di subnetting IPv4
 ├── app.routes.ts              # Definizione rotte
-└── app.config.ts              # Provider router e HttpClient
+├── app.config.ts              # Provider router e HttpClient
+├── app.ts                     # Componente root
+└── app.html                   # Template root
 
 backend/
 ├── server.js                  # API Express
@@ -106,27 +134,28 @@ backend/
 └── createuser.js              # Script per creare un utente locale
 ```
 
-## Rotte principali
+## Rotte
 
 | Rotta | Descrizione | Accesso |
 | --- | --- | --- |
 | `/` | Homepage portfolio | Pubblico |
 | `/Dex` | Dex Debolezze Pokémon | Pubblico |
-| `/login` | Pagina di login | Pubblico |
+| `/calc` | Calcolatore di subnetting IPv4 | Pubblico |
 | `/shop` | Catalogo prodotti | Pubblico |
 | `/shop/:id` | Dettaglio prodotto | Pubblico |
 | `/shop/cart` | Carrello | Pubblico |
+| `/checkout` | Checkout | Pubblico |
+| `/login` | Pagina di login | Pubblico |
 | `/admin` | Dashboard amministrativa | Protetto |
+
+> Qualsiasi rotta non definita viene reindirizzata alla homepage (`**` → `/`).
 
 ## Avvio del progetto
 
 ### Prerequisiti
 
-Sono necessari:
-
-- Node.js;
-- npm;
-- un terminale per il frontend e uno per il backend.
+- Node.js (v18 o superiore)
+- npm
 
 ### 1. Frontend Angular
 
@@ -137,7 +166,7 @@ npm install
 npm start
 ```
 
-L’app Angular è disponibile su:
+L'app Angular è disponibile su:
 
 ```text
 http://localhost:4200
@@ -177,20 +206,20 @@ Risposta attesa:
 { "message": "pong" }
 ```
 
-> Il frontend chiama il backend all’indirizzo `http://localhost:3000`. Se il server backend non è avviato, login e gestione utenti non possono funzionare.
+> Il frontend chiama il backend all'indirizzo `http://localhost:3000`. Se il server backend non è avviato, login e gestione utenti non possono funzionare.
 
 ## API REST
 
 | Metodo | Endpoint | Descrizione |
 | --- | --- | --- |
 | `GET` | `/ping` | Verifica che il server sia attivo |
-| `GET` | `/users` | Restituisce gli utenti senza hash password |
+| `GET` | `/users` | Restituisce gli utenti (senza hash password) |
 | `POST` | `/users` | Crea un nuovo account |
 | `DELETE` | `/users/:username` | Elimina un account |
-| `PATCH` | `/users/:username/password` | Aggiorna una password |
+| `PATCH` | `/users/:username/password` | Aggiorna la password |
 | `POST` | `/login` | Verifica username e password |
 
-Esempio di richiesta login:
+### Esempio: login
 
 ```http
 POST /login
@@ -204,9 +233,33 @@ Content-Type: application/json
 
 In caso di credenziali corrette, il server restituisce una risposta `200` con `success: true`.
 
-## Autenticazione
+### Esempio: creazione account
 
-Il flusso è il seguente:
+```http
+POST /users
+Content-Type: application/json
+
+{
+  "username": "nuovo-utente",
+  "password": "password-sicura"
+}
+```
+
+Risposta `201` con `success: true`.
+
+### Esempio: modifica password
+
+```http
+PATCH /users/nome-utente/password
+Content-Type: application/json
+
+{
+  "currentPassword": "password-attuale",
+  "newPassword": "nuova-password"
+}
+```
+
+## Autenticazione
 
 ```text
 Login form
@@ -227,7 +280,7 @@ localStorage + authGuard
 /admin
 ```
 
-Le password non sono salvate in chiaro: nel database viene memorizzato esclusivamente l’hash generato da bcrypt.
+Le password non sono salvate in chiaro: nel database viene memorizzato esclusivamente l'hash generato da bcrypt.
 
 ## Stato reattivo dello shop
 
@@ -245,10 +298,10 @@ Il backend crea automaticamente il file SQLite `backend/data.db` e la tabella `u
 
 ```text
 users
-├── id
-├── username
-├── password_hash
-└── created_at
+├── id              INTEGER PRIMARY KEY AUTOINCREMENT
+├── username        TEXT UNIQUE NOT NULL
+├── password_hash   TEXT NOT NULL
+└── created_at      TEXT DEFAULT CURRENT_TIMESTAMP
 ```
 
 Per creare manualmente un utente di prova è disponibile lo script:
@@ -273,19 +326,26 @@ node createuser.js
 - [x] Gestione account admin.
 - [x] Shop, dettaglio prodotto e carrello.
 - [x] Calcolo totale e rimozione degli articoli.
+- [x] Mini-carrello flottante.
+- [x] Pagina di checkout.
+- [x] Calcolatore di subnetting IPv4 con validazione completa.
+- [x] Classificazione IP (classe, tipo, binario).
+- [x] Supporto subnet /31 (RFC 3021) e /32.
 
 ### Possibili evoluzioni
 
 - [ ] Salvare prodotti e carrello nel backend/database.
 - [ ] Gestire quantità e disponibilità dei prodotti.
-- [ ] Aggiungere ordini e checkout.
-- [ ] Sostituire l’autenticazione locale con token o sessioni server-side.
-- [ ] Migliorare i messaggi di errore e gli stati di caricamento.
+- [ ] Aggiungere flusso di pagamento reale al checkout.
+- [ ] Sostituire l'autenticazione locale con token JWT o sessioni server-side.
+- [ ] Migliorare gli stati di caricamento (skeleton, spinner).
 - [ ] Aggiungere test per servizi, guard e componenti.
+- [ ] Supporto IPv6 nel calcolatore di subnetting.
+- [ ] Dark mode.
 
 ## Limiti attuali e note di sicurezza
 
-- L’autenticazione usa un flag in `localStorage`: è utile per il progetto didattico, ma non sostituisce JWT, cookie sicuri o sessioni server-side.
+- L'autenticazione usa un flag in `localStorage`: è utile per il progetto didattico, ma non sostituisce JWT, cookie sicuri o sessioni server-side.
 - Le API utenti non hanno ancora autorizzazione lato server: in produzione vanno protette.
 - Il catalogo e il carrello non sono persistenti.
 - Il backend è configurato per lo sviluppo locale su porta `3000`.
@@ -295,9 +355,6 @@ node createuser.js
 **Jhonny** — portfolio personale e progetto di apprendimento dedicato allo sviluppo web con Angular e TypeScript.
 
 ---
-
-
-comando utile shop
 
 <div align="center">
 
