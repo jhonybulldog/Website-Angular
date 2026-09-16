@@ -14,7 +14,7 @@ export class Proggetti {
       descrizione:
         "Soluzione completa di e-commerce con gestione prodotti, carrello dinamico, sistema di checkout e dashboard amministrativa.",
       tech: ["React", "Node.js", "MongoDB", "Stripe API"],
-      link: "#contatti",
+      link: "#Contatti",
       testoLink: "Più Info",
     },
     {

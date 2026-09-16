@@ -1,0 +1,122 @@
+<div class="subnet-container">
+
+  <div class="header">
+    <h1>Subnet Calculator</h1>
+    <p>Inserisci un indirizzo IPv4 con CIDR per calcolare i parametri della rete.</p>
+  </div>
+
+  <div class="calculator-card">
+
+    <form (submit)="calcoloForm($event)" class="input-section">
+      <label for="ip">Indirizzo IPv4 / CIDR</label>
+
+      <div class="input-row">
+        <input
+          id="ip"
+          type="text"
+          placeholder="es. 192.168.1.50/24"
+          [value]="ip()"
+          (input)="cambiaIp($event)"
+          aria-describedby="ip-error"
+          autocomplete="off"
+        />
+        <button type="submit" class="btn-calcola">Calcola</button>
+      </div>
+
+      <div class="preset-chips">
+        <span class="preset-label">Esempi veloci:</span>
+        <button type="button" class="chip" (click)="impostaIp('192.168.1.0/24')">192.168.1.0/24</button>
+        <button type="button" class="chip" (click)="impostaIp('10.0.0.0/16')">10.0.0.0/16</button>
+        <button type="button" class="chip" (click)="impostaIp('172.16.0.0/12')">172.16.0.0/12</button>
+      </div>
+
+      @if (error()) {
+        <p id="ip-error" class="error" role="alert">{{ error() }}</p>
+      }
+    </form>
+
+    @if (calcolato()) {
+
+      <div class="results">
+
+        <div class="result-card">
+          <span class="label">Indirizzo IP</span>
+          <span class="value">{{ risultato().indirizzo }}</span>
+        </div>
+
+        <div class="result-card">
+          <span class="label">CIDR</span>
+          <span class="value">/{{ risultato().cidr }}</span>
+        </div>
+
+        <div class="result-card">
+          <span class="label">Classe</span>
+          <span class="value">{{ risultato().classe }}</span>
+        </div>
+
+        <div class="result-card">
+          <span class="label">Tipo</span>
+          <span class="value">{{ risultato().tipo }}</span>
+        </div>
+
+        <div class="result-card">
+          <span class="label">Subnet Mask</span>
+          <span class="value">{{ risultato().subnetMask }}</span>
+        </div>
+
+        <div class="result-card">
+          <span class="label">Wildcard Mask</span>
+          <span class="value">{{ risultato().wildcard }}</span>
+        </div>
+
+        <div class="result-card">
+          <span class="label">Network</span>
+          <span class="value">{{ risultato().network }}</span>
+        </div>
+
+        <div class="result-card">
+          <span class="label">Broadcast</span>
+          <span class="value">{{ risultato().broadcast }}</span>
+        </div>
+
+        <div class="result-card">
+          <span class="label">Host Min</span>
+          <span class="value">{{ risultato().hostMin }}</span>
+        </div>
+
+        <div class="result-card">
+          <span class="label">Host Max</span>
+          <span class="value">{{ risultato().hostMax }}</span>
+        </div>
+
+        <div class="result-card">
+          <span class="label">Numero Host Utili</span>
+          <span class="value">{{ risultato().hostsFormatted }}</span>
+        </div>
+
+        <div class="result-card">
+          <span class="label">Host Range</span>
+          <span class="value">{{ risultato().hostRange }}</span>
+        </div>
+
+      </div>
+
+      <div class="binary-section">
+
+        <div class="binary-card">
+          <span class="label">IP in binario</span>
+          <span class="binary-value">{{ risultato().ipBinario }}</span>
+        </div>
+
+        <div class="binary-card">
+          <span class="label">Subnet Mask in binario</span>
+          <span class="binary-value">{{ risultato().maskBinario }}</span>
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>

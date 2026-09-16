@@ -92,7 +92,6 @@ export class Checkout {
         provincia: this.indirizzoForm.value.provincia!,
       };
 
-      // Aggiungo sia alla lista globale degli indirizzi che a quella in attesa di intestatario
       this.indirizzi.update((indirizzi) => [...indirizzi, nuovoIndirizzo]);
       this.indirizziInAttesa.update((lista) => [
         ...lista,
@@ -171,8 +170,7 @@ export class Checkout {
 
       this.indirizziIntestati.update((lista) => [...lista, nuovaNotifica]);
 
-      // Rimuovo questo indirizzo dalla lista "in attesa" perché ormai confermato
-      this.indirizziInAttesa.update((lista) =>
+        this.indirizziInAttesa.update((lista) =>
         lista.filter((el) => el.indirizzo.id !== item.indirizzo.id),
       );
     }
