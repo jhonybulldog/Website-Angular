@@ -1,14 +1,10 @@
 import { Component, inject, OnInit, signal, computed } from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from "@angular/forms";
+import {FormControl,FormGroup,ReactiveFormsModule,Validators,} from "@angular/forms";
 import { LoginService, User } from "./login/login.service";
 import { delay } from "rxjs";
 import { Prodotti, ListaProdotti } from "../shop/prodotti.service";
 import { RouterLink } from "@angular/router";
+import { validate } from "@angular/forms/signals";
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
@@ -53,6 +49,14 @@ export class Admin implements OnInit {
     category: new FormControl("", [Validators.required]),
   });
 
+  categoryform = new FormGroup({
+    name: new FormControl("", [Validators.required])
+  })
+
+  categorymanageform = new FormGroup({
+  categoria: new FormControl("", [Validators.required]),
+  nomeNuovo: new FormControl("", [Validators.required]),
+});
   onSubmit() {
     if (this.creaform.valid) {
       console.log(this.creaform.value);
@@ -135,7 +139,10 @@ export class Admin implements OnInit {
       });
   }
   categorie = computed(() => [
-    ...new Set(this.prodotti().map((prodotto) => prodotto.category)),
+    ...new Set([
+      ...this.prodotti().map((prodotto) => prodotto.category),
+      ...this.prodottiService.categorianuove()
+    ]),
   ]);
 
   selezionacategoria(categoria: string) {
@@ -210,4 +217,32 @@ export class Admin implements OnInit {
       this.productform.reset();
     }
   }
+
+  aggiungicategory(){
+    if(this.categoryform.valid){
+      const categorianuova = this.categoryform.value.name!
+      this.prodottiService.aggiungicategoria(categorianuova)
+      this.categoryform.reset()
+    }
+  }
+  modificacategory() {
+  if (this.categorymanageform.valid) {
+
+    const categoria = this.categorymanageform.value.categoria!;
+    const nomeNuovo = this.categorymanageform.value.nomeNuovo!;
+
+    this.prodottiService.modificacategoria(categoria, nomeNuovo);
+
+    this.categorymanageform.reset();
+  }
+}
+eliminacategory() {
+  if (this.categorymanageform.valid) {
+    const categoria = this.categorymanageform.value.categoria!;
+
+    this.prodottiService.eliminacategoria(categoria);
+
+    this.categorymanageform.reset();
+  }
+}
 }

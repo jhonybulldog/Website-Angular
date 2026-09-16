@@ -92,33 +92,33 @@
       <input
         type="text"
         formControlName="title"
-        placeholder="inseriesci nome prodotto"
+        placeholder="inserisci nome prodotto"
       />
       @if(productform.get('title')?.invalid &&
       productform.get('title')?.touched){
-      <p class="error">nome obbgliatorio</p>
+      <p class="error">nome obbligatorio</p>
       }
     </div>
     <div class="form-group">
       <input
         type="text"
         formControlName="description"
-        placeholder="inseriisci la descrizione del prodotto"
+        placeholder="inserisci la descrizione del prodotto"
       />
       @if(productform.get('description')?.invalid &&
       productform.get('description')?.touched){
-      <p class="error">la descrizione è obbgliatoria</p>
+      <p class="error">la descrizione è obbligatoria</p>
       }
     </div>
     <div class="form-group">
       <input
         type="number"
         formControlName="price"
-        placeholder="inseriesci il prezzo del prodotto"
+        placeholder="inserisci il prezzo del prodotto"
       />
       @if(productform.get('price')?.invalid &&
       productform.get('price')?.touched){
-      <p class="error">il prezzo è obbgliatorio</p>
+      <p class="error">il prezzo è obbligatorio</p>
       }
     </div>
     <div class="form-group">
@@ -129,22 +129,70 @@
       />
       @if(productform.get('thumbnail')?.invalid &&
       productform.get('thumbnail')?.touched){
-      <p class="error">immagine obbgliatoria</p>
+      <p class="error">immagine obbligatoria</p>
       }
     </div>
-    <select
-      class="form-group"
-      #categoria
-      (change)="selezionacategoria(categoria.value)"
-      formControlName="category"
-    >
-      @for (categoria of categorie(); track categoria) {
-      <option [value]="categoria">{{ categoria }}</option>
+    <div class="form-group">
+      <select
+        #categoria
+        (change)="selezionacategoria(categoria.value)"
+        formControlName="category"
+      >
+        <option value="" disabled selected>Seleziona una categoria...</option>
+        @for (categoria of categorie(); track categoria) {
+        <option [value]="categoria">{{ categoria }}</option>
+        }
+      </select>
+      @if(productform.get('category')?.invalid &&
+      productform.get('category')?.touched){
+      <p class="error">la categoria è obbligatoria</p>
       }
-    </select>
+    </div>
     <button type="submit">aggiungi</button>
     <a class="shop-link" routerLink="/shop">Vai allo shop</a>
   </form>
+
+  <h2>Crea Categorie Prodotti</h2>
+  <form [formGroup]="categoryform" (ngSubmit)="aggiungicategory()">
+    <div class="form-group">
+      <input
+        type="text"
+        formControlName="name"
+        placeholder="inserisci il nome della categoria nuova"
+      />
+      @if(categoryform.get('name')?.invalid &&
+      categoryform.get('name')?.touched){
+      <p class="error">obbligatorio</p>
+      }
+    </div>
+    <button type="submit">aggiungi</button>
+  </form>
+
+<h2>Modifica categoria</h2>
+
+<form [formGroup]="categorymanageform" (ngSubmit)="modificacategory()">
+  <select formControlName="categoria">
+    <option value="">Seleziona categoria</option>
+
+    @for (categoria of categorie(); track categoria) {
+      <option [value]="categoria">{{ categoria }}</option>
+    }
+  </select>
+
+  <input
+    type="text"
+    formControlName="nomeNuovo"
+    placeholder="Nuovo nome"
+  />
+
+  <button type="button" (click)="eliminacategory()">
+    Elimina
+  </button>
+
+  <button type="submit">
+    Modifica
+  </button>
+</form>
 
   <h2>Account Registrati:</h2>
   @if (isLoading()) {
@@ -198,7 +246,7 @@
           <td>{{ prodotto.description }}</td>
           <td>{{ prodotto.price }} €</td>
           <td>{{ prodotto.thumbnail }}</td>
-          <td>{{ prodotto.category}}</td>
+          <td><span class="category-badge">{{ prodotto.category }}</span></td>
           <td>
             <a
               class="btn-edit"

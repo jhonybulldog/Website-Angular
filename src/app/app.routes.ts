@@ -10,5 +10,6 @@ export const routes: Routes = [
   { path: 'shop' , loadComponent: () => import('./pages/shop/shop').then(m => m.Shop)},
   {path: 'shop/cart', loadComponent: () => import('./pages/shop/carrello/carrello').then(m => m.Carrello)},
   {path: 'shop/:id', loadComponent: () => import('./pages/shop/productdetail/productdetail').then(m => m.Productdetail)},
+  {path: 'checkout',loadComponent: () => import('./pages/shop/checkout/checkout').then(m => m.Checkout)},
   {path: '**', redirectTo: ''},
 ];

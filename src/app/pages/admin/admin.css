@@ -96,6 +96,58 @@ input:focus {
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
 }
 
+/* Stile per il menu a tendina Categoria (Select) */
+select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 40px 12px 16px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1e293b;
+  background-color: #ffffff;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 1.15rem;
+}
+
+select:hover {
+  border-color: #10b981;
+}
+
+select:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+}
+
+select option {
+  background-color: #ffffff;
+  color: #1e293b;
+  padding: 8px;
+}
+
+/* Stile per il Badge della Categoria in Tabella */
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7dfbe;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+  box-shadow: 0 1px 3px rgba(4, 120, 87, 0.08);
+}
+
 /* Pulsanti Generici */
 button {
   display: inline-flex;
