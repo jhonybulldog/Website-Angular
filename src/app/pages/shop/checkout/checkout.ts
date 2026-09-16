@@ -31,6 +31,13 @@ export class Checkout {
   indirizzi = signal<Indirizzo[]>([]);
   indirizzoSelezionato = signal<number | null>(null);
   indirizzoDaModificare: Indirizzo | null = null;
+  ultimoIndirizzoCreato = signal<Indirizzo | null>(null);
+  indirizziIntestati = signal<{ via: string; intestatario: string }[]>([]);
+  indirizziInAttesa = signal<{ indirizzo: Indirizzo; form: FormGroup }[]>([]);
+
+  indirizzoIntestatoForm = new FormGroup({
+    intestatario: new FormControl("", [Validators.required]),
+  });
 
   metodoPagamentoForm = new FormGroup({
     metodo: new FormControl("", [Validators.required]),
@@ -65,13 +72,14 @@ export class Checkout {
     nomeCognome: new FormControl("", [Validators.required]),
     via: new FormControl("", [Validators.required]),
     citta: new FormControl("", [Validators.required]),
-    cap: new FormControl(0, [Validators.required]),
+    cap: new FormControl("", [Validators.required]),
     provincia: new FormControl("", [Validators.required]),
   });
 
   selezionaIndirizzo(id: number) {
     this.indirizzoSelezionato.set(id);
   }
+
   aggiungiIndirizzo() {
     if (this.indirizzoForm.valid) {
       const nuovoIndirizzo: Indirizzo = {
@@ -80,62 +88,93 @@ export class Checkout {
         nomeCognome: this.indirizzoForm.value.nomeCognome!,
         via: this.indirizzoForm.value.via!,
         citta: this.indirizzoForm.value.citta!,
-        cap: this.indirizzoForm.value.cap!,
+        cap: Number(this.indirizzoForm.value.cap!),
         provincia: this.indirizzoForm.value.provincia!,
       };
 
+      // Aggiungo sia alla lista globale degli indirizzi che a quella in attesa di intestatario
       this.indirizzi.update((indirizzi) => [...indirizzi, nuovoIndirizzo]);
+      this.indirizziInAttesa.update((lista) => [
+        ...lista,
+        {
+          indirizzo: nuovoIndirizzo,
+          form: new FormGroup({
+            intestatario: new FormControl("", [Validators.required]),
+          }),
+        },
+      ]);
 
       this.nextId++;
       this.indirizzoForm.reset();
     }
   }
+
   modificaIndirizzo(indirizzo: Indirizzo) {
-  this.indirizzoDaModificare = indirizzo;
+    this.indirizzoDaModificare = indirizzo;
 
-  this.indirizzoForm.patchValue({
-    nome: indirizzo.nome,
-    nomeCognome: indirizzo.nomeCognome,
-    via: indirizzo.via,
-    citta: indirizzo.citta,
-    cap: indirizzo.cap,
-    provincia: indirizzo.provincia,
-  });
-}
-salvaModificaIndirizzo() {
-  if (this.indirizzoForm.valid && this.indirizzoDaModificare !== null) {
-    const indirizzoModificato: Indirizzo = {
-      id: this.indirizzoDaModificare.id,
-      nome: this.indirizzoForm.value.nome!,
-      nomeCognome: this.indirizzoForm.value.nomeCognome!,
-      via: this.indirizzoForm.value.via!,
-      citta: this.indirizzoForm.value.citta!,
-      cap: this.indirizzoForm.value.cap!,
-      provincia: this.indirizzoForm.value.provincia!,
-    };
+    this.indirizzoForm.patchValue({
+      nome: indirizzo.nome,
+      nomeCognome: indirizzo.nomeCognome,
+      via: indirizzo.via,
+      citta: indirizzo.citta,
+      cap: String(indirizzo.cap),
+      provincia: indirizzo.provincia,
+    });
+  }
 
+  salvaModificaIndirizzo() {
+    if (this.indirizzoForm.valid && this.indirizzoDaModificare !== null) {
+      const indirizzoModificato: Indirizzo = {
+        id: this.indirizzoDaModificare.id,
+        nome: this.indirizzoForm.value.nome!,
+        nomeCognome: this.indirizzoForm.value.nomeCognome!,
+        via: this.indirizzoForm.value.via!,
+        citta: this.indirizzoForm.value.citta!,
+        cap: Number(this.indirizzoForm.value.cap!),
+        provincia: this.indirizzoForm.value.provincia!,
+      };
+
+      this.indirizzi.update((indirizzi) =>
+        indirizzi.map((indirizzo) =>
+          indirizzo.id === indirizzoModificato.id
+            ? indirizzoModificato
+            : indirizzo,
+        ),
+      );
+
+      this.indirizzoDaModificare = null;
+      this.indirizzoForm.reset();
+    }
+  }
+
+  eliminaIndirizzo(id: number) {
     this.indirizzi.update((indirizzi) =>
-      indirizzi.map((indirizzo) =>
-        indirizzo.id === indirizzoModificato.id
-          ? indirizzoModificato
-          : indirizzo
-      )
+      indirizzi.filter((indirizzo) => indirizzo.id !== id),
+    );
+    this.indirizziInAttesa.update((lista) =>
+      lista.filter((el) => el.indirizzo.id !== id),
     );
 
-    this.indirizzoDaModificare = null;
+    if (this.indirizzoSelezionato() === id) {
+      this.indirizzoSelezionato.set(null);
+    }
+
     this.indirizzoForm.reset();
   }
-}
-eliminaIndirizzo(id: number) {
-  this.indirizzi.update((indirizzi) =>
-    indirizzi.filter((indirizzo) => indirizzo.id !== id),
-  );
 
-  if (this.indirizzoSelezionato() === id) {
-    this.indirizzoSelezionato.set(null);
+  confermaIntestatario(item: { indirizzo: Indirizzo; form: FormGroup }) {
+    if (item.form.valid) {
+      const nuovaNotifica = {
+        via: item.indirizzo.via,
+        intestatario: item.form.value.intestatario!,
+      };
+
+      this.indirizziIntestati.update((lista) => [...lista, nuovaNotifica]);
+
+      // Rimuovo questo indirizzo dalla lista "in attesa" perché ormai confermato
+      this.indirizziInAttesa.update((lista) =>
+        lista.filter((el) => el.indirizzo.id !== item.indirizzo.id),
+      );
+    }
   }
-
-      this.indirizzoForm.reset()
-
-}
 }

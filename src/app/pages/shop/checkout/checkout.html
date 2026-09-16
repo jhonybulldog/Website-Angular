@@ -172,4 +172,29 @@
       }
     </form>
   </section>
+@for (item of indirizziInAttesa(); track item.indirizzo.id) {
+<div class="indirizzo-intestato">
+  <h3>A chi è intestato questo indirizzo?</h3>
+  <p>{{ item.indirizzo.via }}, {{ item.indirizzo.citta }}</p>
+
+  <form [formGroup]="item.form" (ngSubmit)="confermaIntestatario(item)">
+    <input
+      type="text"
+      formControlName="intestatario"
+      placeholder="Nome e cognome intestatario"
+    />
+    <button type="submit" [disabled]="item.form.invalid">
+      Conferma
+    </button>
+  </form>
+</div>
+}
+
+@for (notifica of indirizziIntestati(); track notifica.via + notifica.intestatario) {
+<p>
+  Indirizzo {{ notifica.via }} intestato a:
+  <strong>{{ notifica.intestatario }}</strong>
+</p>
+}
+
 </div>

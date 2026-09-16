@@ -1,9 +1,9 @@
 import { Component, inject, computed, input } from "@angular/core";
 import { CartService } from "./cart.service";
 import { RouterLink } from "@angular/router";
-import { Minicart } from "../minicart/minicart";
+
 @Component({
-  imports: [RouterLink, Minicart],
+  imports: [RouterLink],
   selector: "app-carrello",
   styleUrl: "./carrello.css",
   templateUrl: "./carrello.html",
