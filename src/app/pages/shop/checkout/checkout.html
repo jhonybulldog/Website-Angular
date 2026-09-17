@@ -190,11 +190,14 @@
 </div>
 }
 
-@for (notifica of indirizziIntestati(); track notifica.via + notifica.intestatario) {
+@for (notifica of indirizziIntestati(); track notifica.via) {
 <p>
   Indirizzo {{ notifica.via }} intestato a:
   <strong>{{ notifica.intestatario }}</strong>
 </p>
 }
 
+<button (click)="completaordine()">
+  Completa ordine
+</button>
 </div>

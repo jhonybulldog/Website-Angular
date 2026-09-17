@@ -1,0 +1,65 @@
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.dashboard-container h1 {
+  margin-bottom: 30px;
+  font-size: 2.2rem;
+}
+
+.ultimi-acquisti h2 {
+  margin-bottom: 20px;
+}
+
+.ordine {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 25px;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.ordine h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.ordine p {
+  margin: 8px 0;
+}
+
+.prodotti-ordine {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.prodotto-acquistato {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+}
+
+.prodotto-acquistato img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.prodotto-acquistato strong {
+  font-size: 1.1rem;
+}
+
+.prodotto-acquistato p {
+  margin: 5px 0;
+}

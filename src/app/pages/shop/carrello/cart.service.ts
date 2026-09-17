@@ -77,4 +77,8 @@ aggiungiCarrello(prodotto: ListaProdotti) {
       });
     });
   }
+
+  svuotacarrello(){
+   this.carrello.set([]) 
+  }
 }

@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="dashboard-container">
+    <h1>Dashboard</h1>
+
+    <section class="ultimi-acquisti">
+      <h2>Ultimi acquisti</h2>
+
+      @for (ordine of ordini(); track ordine.id) {
+      <div class="ordine">
+        <h3>Ordine #{{ ordine.id }}</h3>
+
+        <p>Data: {{ ordine.data }}</p>
+
+        <p>Totale: {{ ordine.totale.toFixed(2) }} €</p>
+
+        <p>Indirizzo: {{ ordine.indirizzo }}</p>
+
+        <p>Pagamento: {{ ordine.metodoPagamento }}</p>
+        <div class="prodotti-ordine">
+          @for (item of ordine.prodotti; track item.prodotto.id) {
+          <div class="prodotto-acquistato">
+            <img [src]="item.prodotto.thumbnail" [alt]="item.prodotto.title" />
+
+            <div>
+              <strong>{{ item.prodotto.title }}</strong>
+              <p>Prezzo: {{ item.prodotto.price.toFixed(2) }} €</p>
+              <p>Quantità: {{ item.quantita }}</p>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+      }
+    </section>
+  </div>
+</div>
