@@ -1,6 +1,6 @@
 # Jhonnyfolio
 
-> Portfolio personale costruito con Angular, con area amministrativa, backend REST, e-commerce con carrello e checkout, Dex Pokémon e calcolatore di subnetting IPv4.
+> Portfolio personale costruito con Angular, con area amministrativa, backend REST, e-commerce con carrello, checkout e dashboard utente, Dex Pokémon e calcolatore di subnetting IPv4.
 
 <div align="center">
 
@@ -14,56 +14,65 @@
 
 ## Panoramica
 
-**Jhonnyfolio** è un progetto di apprendimento e portfolio personale realizzato in Angular. Oltre alle sezioni classiche di un portfolio, include una dashboard amministrativa protetta da guardia di navigazione, un backend Express con database SQLite per la gestione degli account, una sezione e-commerce completa con carrello e checkout, un Dex Pokémon e un calcolatore di subnetting IPv4.
+**Jhonnyfolio** è un progetto di apprendimento e portfolio personale realizzato in Angular. Oltre alle sezioni classiche di un portfolio, include un'area e-commerce completa di catalogo prodotti, mini-carrello, pagina carrello, procedura di checkout avanzata e dashboard utente (con profilo, storico ordini e preferenze categorie), una dashboard amministrativa protetta da route guard, un backend Express con database SQLite per la gestione degli account, un Dex Pokémon e un calcolatore di subnetting IPv4.
 
-Il progetto mette in pratica componenti standalone, lazy loading, router, Signals, computed signals, Reactive Forms e comunicazione HTTP tra frontend e backend.
+Il progetto sfrutta le più recenti funzionalità di Angular: componenti standalone, lazy loading delle rotte, Angular Signals e computed signals per la reattività dello stato, Reactive Forms con validazione e comunicazione HTTP REST con il backend.
 
 ## Funzionalità
 
 ### Portfolio pubblico
 
 - Hero, presentazione personale, competenze, progetti, contatti e footer.
-- Navigazione responsive.
-- Form di contatto basato su Reactive Forms e Formspree.
+- Navigazione responsive con navbar fissa e link di scorrimento rapido.
+- Form di contatto basato su Reactive Forms e integrazione Formspree.
 
 ### Dex Pokémon
 
-- Ricerca Pokémon per nome o numero.
-- Informazioni su debolezze, resistenze, immunità ed efficacia dei tipi.
+- Ricerca Pokémon per nome o numero identificativo.
+- Calcolo e visualizzazione di debolezze, resistenze, immunità ed efficacia dei tipi.
 - Disponibile su `/Dex`.
 
 ### Calcolatore di Subnetting IPv4
 
-- Calcolo in tempo reale dei parametri di rete a partire da un indirizzo IPv4 con notazione CIDR.
-- Validazione completa dell'input con messaggi di errore descrittivi.
-- Pulsante "Calcola" e calcolo automatico alla digitazione.
+- Calcolo in tempo reale dei parametri di rete a partire da un indirizzo IPv4 in notazione CIDR.
+- Validazione completa dell'input con messaggi di errore contestuali.
+- Calcolo automatico alla digitazione o tramite pulsante dedicato.
 - Chip preimpostati per testare rapidamente configurazioni comuni (`192.168.1.0/24`, `10.0.0.0/16`, `172.16.0.0/12`).
-- Parametri calcolati: Network, Broadcast, Subnet Mask, Wildcard Mask, Host Min/Max, Host Range, numero di host utili.
+- Parametri calcolati: Network, Broadcast, Subnet Mask, Wildcard Mask, Host Min/Max, Host Range, numero di host utilizzabili.
 - Identificazione della classe IPv4 (A–E) e della tipologia di indirizzo (Privato RFC 1918, Loopback, Link-Local APIPA, CGNAT, Multicast, Riservato, Pubblico).
-- Rappresentazione in binario di IP e Subnet Mask.
-- Gestione corretta delle subnet `/31` (RFC 3021) e `/32`.
+- Rappresentazione in formato binario di indirizzo IP e Subnet Mask.
+- Supporto per le subnet speciali `/31` (RFC 3021 punto-punto) e `/32` (host singolo).
 - Disponibile su `/calc`.
 
-### Shop, carrello e checkout
+### Shop, Carrello e Checkout
 
-- Catalogo prodotti disponibile su `/shop`.
-- Scheda di dettaglio per ogni prodotto (`/shop/:id`).
-- Mini-carrello flottante per accedere rapidamente al riepilogo.
-- Inserimento di articoli nel carrello.
-- Rimozione di singoli articoli e calcolo automatico del totale.
-- Pagina carrello dedicata (`/shop/cart`) con riepilogo completo.
-- Pagina di checkout (`/checkout`) per la finalizzazione dell'ordine.
-- Gestione dei prodotti dall'area admin.
+- **Catalogo prodotti (`/shop`)**: griglia prodotti reattiva con categorie dinamiche, badge di categoria e filtri.
+- **Dettaglio prodotto (`/shop/:id`)**: scheda informativa del prodotto con navigazione rapida per tornare allo shop o accedere alla dashboard.
+- **Mini-carrello flottante (`app-minicart`)**: componente sticky/flottante sempre accessibile nello shop con conteggio articoli, totale parziale e accesso diretto al carrello.
+- **Pagina Carrello (`/shop/cart`)**: riepilogo dettagliato degli articoli con incremento/decremento quantità, rimozione prodotti e calcolo totale computed.
+- **Procedura di Checkout (`/checkout`)**:
+  - Gestione reattiva degli indirizzi di spedizione (aggiunta, modifica, eliminazione e assegnazione intestatario).
+  - Selezione del metodo di pagamento (carta di credito/debito con form e validazione CVV, contrassegno, PayPal).
+  - Calcolo dinamico di subtotale, spese di spedizione e totale complessivo dell'ordine.
+  - Finalizzazione con salvataggio dell'ordine tramite `OrdiniService`, svuotamento automatico del carrello e notifica d'ordine confermato con animazione moderna.
 
-### Area amministrativa
+### Dashboard Utente
 
-- Login tramite backend REST.
-- Protezione della rotta `/admin` con `authGuard`.
-- Elenco degli account presenti nel database.
-- Creazione ed eliminazione degli account.
-- Modifica della password.
-- Inserimento di prodotti per lo shop.
-- Logout e salvataggio dello stato di accesso in `localStorage`.
+- **Pagina dedicata (`/dashboard`)**: accessibile dallo shop e dalla scheda dettaglio prodotto.
+- **Profilo Utente**: visualizzazione dati utente con avatar, nome, email e stato account.
+- **Storico Ultimi Acquisti**: elenco cronologico degli ordini effettuati con identificativo, data e ora, riepilogo articoli acquistati (prezzo unitario e quantità), indirizzo di consegna, metodo di pagamento e totale pagato.
+- **Preferenze Categorie**: form interattivo per impostare il livello di preferenza su tutte le categorie disponibili (con dropdown alimentato da computed signal reattivo) e tabella di riepilogo con possibilità di aggiornamento.
+- **Gestione in-memory reattiva**: ordini e preferenze operano interamente tramite Angular Signals in memoria per una demo istantanea e fluida.
+
+### Area Amministrativa
+
+- Login autenticato tramite backend REST su `/login`.
+- Protezione della rotta `/admin` tramite `authGuard`.
+- Elenco degli account registrati nel database SQLite.
+- Creazione ed eliminazione di account operatore.
+- Modifica sicura della password utente.
+- Inserimento di nuovi prodotti e categorie per il catalogo dello shop.
+- Logout e memorizzazione dello stato di sessione.
 
 ## Screenshot
 
@@ -85,94 +94,97 @@ Il progetto mette in pratica componenti standalone, lazy loading, router, Signal
 
 | Area | Tecnologie |
 | --- | --- |
-| Frontend | Angular 22, TypeScript 6, HTML5, CSS3, RxJS |
-| Stato e form | Angular Signals, computed signals, Reactive Forms |
-| Routing | Angular Router, lazy loading, route guard |
-| Backend | Node.js, Express 5, CORS |
-| Database | SQLite, better-sqlite3 |
-| Sicurezza password | bcrypt |
-| Servizi esterni | Formspree |
+| **Frontend** | Angular 22, TypeScript 6, HTML5, CSS3, RxJS |
+| **Reattività e Stato** | Angular Signals (`signal`, `computed`), Reactive Forms |
+| **Routing** | Angular Router, Standalone Components, Lazy Loading, Route Guards |
+| **Backend** | Node.js, Express 5, CORS |
+| **Database** | SQLite, better-sqlite3 |
+| **Sicurezza Password** | bcrypt |
+| **Servizi Esterni** | Formspree |
 
-## Architettura
+## Architettura del Progetto
 
 ```text
 src/app/
 ├── about/                     # Presentazione personale
-├── competenze/                # Competenze
+├── competenze/                # Competenze tecniche
 ├── contatti/                  # Form di contatto (Formspree)
-├── footer/                    # Footer
-├── hero/                      # Hero section
-├── home-c/                    # Homepage
-├── navbar/                    # Navigazione e logout
-├── proggetti/                 # Progetti portfolio
+├── footer/                    # Footer con social e copyright
+├── hero/                      # Hero section principale
+├── home-c/                    # Container homepage portfolio
+├── navbar/                    # Barra di navigazione responsive e logout
+├── proggetti/                 # Sezione progetti del portfolio
 ├── pages/
 │   ├── admin/
-│   │   ├── guards/            # authGuard
-│   │   ├── login/             # LoginService e pagina login
-│   │   └── admin.*            # Dashboard amministrativa
+│   │   ├── guards/            # authGuard per la protezione rotte
+│   │   ├── login/             # LoginService e vista di login
+│   │   └── admin.*            # Dashboard amministrativa (utenti e prodotti)
 │   ├── dex/
 │   │   ├── dex.*              # Componente Dex Pokémon
-│   │   └── dex.service.ts     # Servizio dati tipi/debolezze
+│   │   └── dex.service.ts     # Servizio per tipi, debolezze ed efficacia
 │   ├── shop/
 │   │   ├── carrello/          # CartService e pagina carrello
-│   │   ├── checkout/          # Pagina di checkout
+│   │   ├── checkout/          # Procedura di checkout e conferma ordine
+│   │   ├── dashboard/         # Dashboard utente (profilo, ordini, preferenze)
 │   │   ├── minicart/          # Mini-carrello flottante
-│   │   ├── productcard/       # Card prodotto
-│   │   ├── productdetail/     # Dettaglio prodotto
-│   │   ├── prodotti.service.ts# Servizio catalogo prodotti
-│   │   └── shop.*             # Pagina catalogo
+│   │   ├── productcard/       # Card riutilizzabile per i prodotti
+│   │   ├── productdetail/     # Scheda dettaglio singolo prodotto
+│   │   ├── ordini.service.ts  # Servizio ordini reattivo (Signals)
+│   │   ├── prodotti.service.ts# Servizio catalogo prodotti e categorie
+│   │   └── shop.*             # Pagina principale catalogo
 │   └── subnetcalc/
 │       └── subnetcalc.*       # Calcolatore di subnetting IPv4
-├── app.routes.ts              # Definizione rotte
-├── app.config.ts              # Provider router e HttpClient
-├── app.ts                     # Componente root
-└── app.html                   # Template root
+├── app.routes.ts              # Definizione e lazy loading delle rotte
+├── app.config.ts              # Provider globali (Router, HttpClient)
+├── app.ts                     # Root component
+└── app.html                   # Root template con router-outlet
 
 backend/
-├── server.js                  # API Express
-├── database.js                # Inizializzazione SQLite
-└── createuser.js              # Script per creare un utente locale
+├── server.js                  # API REST Express
+├── database.js                # Connessione e inizializzazione SQLite
+└── createuser.js              # Script CLI per generare utenti iniziali
 ```
 
-## Rotte
+## Rotte dell'Applicazione
 
 | Rotta | Descrizione | Accesso |
 | --- | --- | --- |
 | `/` | Homepage portfolio | Pubblico |
 | `/Dex` | Dex Debolezze Pokémon | Pubblico |
 | `/calc` | Calcolatore di subnetting IPv4 | Pubblico |
-| `/shop` | Catalogo prodotti | Pubblico |
-| `/shop/:id` | Dettaglio prodotto | Pubblico |
-| `/shop/cart` | Carrello | Pubblico |
-| `/checkout` | Checkout | Pubblico |
-| `/login` | Pagina di login | Pubblico |
-| `/admin` | Dashboard amministrativa | Protetto |
+| `/shop` | Catalogo prodotti e-commerce | Pubblico |
+| `/shop/:id` | Scheda dettaglio del singolo prodotto | Pubblico |
+| `/shop/cart` | Pagina carrello con gestione articoli | Pubblico |
+| `/checkout` | Procedura di pagamento e checkout | Pubblico |
+| `/dashboard` | Dashboard utente (profilo, ultimi acquisti, preferenze) | Pubblico |
+| `/login` | Accesso all'area amministrativa | Pubblico |
+| `/admin` | Dashboard amministrativa (utenti, prodotti) | Protetto (`authGuard`) |
 
-> Qualsiasi rotta non definita viene reindirizzata alla homepage (`**` → `/`).
+> Qualsiasi rotta non censita viene reindirizzata automaticamente alla homepage (`**` → `/`).
 
-## Avvio del progetto
+## Avvio del Progetto
 
 ### Prerequisiti
 
-- Node.js (v18 o superiore)
+- Node.js (v22 o superiore per compatibilità Angular CLI)
 - npm
 
 ### 1. Frontend Angular
 
-Dalla cartella principale del progetto:
+Dalla cartella principale del repository:
 
 ```bash
 npm install
 npm start
 ```
 
-L'app Angular è disponibile su:
+L'applicazione sarà accessibile all'indirizzo:
 
 ```text
 http://localhost:4200
 ```
 
-Per creare una build di produzione:
+Per generare la build di produzione:
 
 ```bash
 npm run build
@@ -180,7 +192,7 @@ npm run build
 
 ### 2. Backend Express
 
-In un secondo terminale:
+In un terminale separato:
 
 ```bash
 cd backend
@@ -188,13 +200,13 @@ npm install
 node server.js
 ```
 
-Il backend deve restare in ascolto su:
+Il server Express rimarrà in ascolto sulla porta:
 
 ```text
 http://localhost:3000
 ```
 
-Puoi verificare che sia attivo con:
+È possibile verificare il corretto funzionamento del backend con:
 
 ```bash
 curl http://localhost:3000/ping
@@ -206,63 +218,72 @@ Risposta attesa:
 { "message": "pong" }
 ```
 
-> Il frontend chiama il backend all'indirizzo `http://localhost:3000`. Se il server backend non è avviato, login e gestione utenti non possono funzionare.
+> Il frontend comunica con il backend all'indirizzo `http://localhost:3000`. Se il backend non è avviato, le funzionalità di login e gestione utenti admin non saranno disponibili.
 
 ## API REST
 
 | Metodo | Endpoint | Descrizione |
 | --- | --- | --- |
-| `GET` | `/ping` | Verifica che il server sia attivo |
-| `GET` | `/users` | Restituisce gli utenti (senza hash password) |
-| `POST` | `/users` | Crea un nuovo account |
-| `DELETE` | `/users/:username` | Elimina un account |
-| `PATCH` | `/users/:username/password` | Aggiorna la password |
-| `POST` | `/login` | Verifica username e password |
+| `GET` | `/ping` | Verifica dello stato del server |
+| `GET` | `/users` | Restituisce la lista degli account (hash escluso) |
+| `POST` | `/users` | Registra un nuovo account amministrativo |
+| `DELETE` | `/users/:username` | Cancella un account esistente |
+| `PATCH` | `/users/:username/password` | Aggiorna la password dell'account |
+| `POST` | `/login` | Autentica le credenziali di accesso |
 
-### Esempio: login
+### Esempio: Login
 
 ```http
 POST /login
 Content-Type: application/json
 
 {
-  "username": "nome-utente",
-  "password": "password"
+  "username": "admin",
+  "password": "password123"
 }
 ```
 
-In caso di credenziali corrette, il server restituisce una risposta `200` con `success: true`.
+In caso di credenziali valide, il server risponde con `200` e `{ "success": true }`.
 
-### Esempio: creazione account
+### Esempio: Creazione Account
 
 ```http
 POST /users
 Content-Type: application/json
 
 {
-  "username": "nuovo-utente",
+  "username": "nuovo-operatore",
   "password": "password-sicura"
 }
 ```
 
-Risposta `201` con `success: true`.
+Risposta `201` con `{ "success": true }`.
 
-### Esempio: modifica password
+### Esempio: Modifica Password
 
 ```http
-PATCH /users/nome-utente/password
+PATCH /users/nuovo-operatore/password
 Content-Type: application/json
 
 {
   "currentPassword": "password-attuale",
-  "newPassword": "nuova-password"
+  "newPassword": "nuova-password-sicura"
 }
 ```
 
-## Autenticazione
+## Gestione dello Stato Reattivo
+
+L'applicazione fa uso intensivo della reattività offerta da **Angular Signals**:
+
+- **`Prodotti` (`prodotti.service.ts`)**: gestisce il catalogo prodotti con signal `prod` e categorie addizionali con `categorianuove`. Permette l'aggiunta di nuovi articoli sia da form interno che da area admin.
+- **`CartService` (`cart.service.ts`)**: gestisce gli articoli aggiunti al carrello con signal `carrello`. Il totale dell'ordine e il conteggio elementi sono esposti come `computed()` reattivi che si aggiornano istantaneamente.
+- **`OrdiniService` (`ordini.service.ts`)**: mantiene in-memory lo storico degli ordini finalizzati tramite il signal `ordini`. Al completamento del checkout, l'ordine viene aggiunto allo storico e reso subito visibile nella Dashboard Utente.
+- **In-memory by design**: catalogo, carrello e ordini operano interamente in memoria senza persistenza su storage locale, garantendo un ambiente demo pulito e ripristinabile al refresh.
+
+## Autenticazione e Sicurezza
 
 ```text
-Login form
+Form Login
     │
     ▼
 POST /login
@@ -277,24 +298,14 @@ LoginService.setLoggedIn()
 localStorage + authGuard
     │
     ▼
-/admin
+Accesso a /admin
 ```
 
-Le password non sono salvate in chiaro: nel database viene memorizzato esclusivamente l'hash generato da bcrypt.
-
-## Stato reattivo dello shop
-
-`Prodotti` e `CartService` sono servizi Angular forniti a livello root e utilizzano Signals:
-
-- `Prodotti` mantiene il catalogo e permette aggiunta, modifica ed eliminazione;
-- `CartService` mantiene gli articoli scelti e permette la rimozione per indice;
-- il totale del carrello è un `computed()` che somma i prezzi degli articoli.
-
-Attualmente questi dati restano **in memoria**. Un refresh del browser azzera prodotti aggiunti e carrello: è una scelta adatta alla demo, non una persistenza definitiva.
+Le credenziali non vengono mai memorizzate in chiaro: il database SQLite conserva esclusivamente gli hash crittografici calcolati da bcrypt.
 
 ## Database
 
-Il backend crea automaticamente il file SQLite `backend/data.db` e la tabella `users` se non sono già presenti.
+Il backend inizializza automaticamente il file SQLite `backend/data.db` e la tabella `users` al primo avvio:
 
 ```text
 users
@@ -304,55 +315,47 @@ users
 └── created_at      TEXT DEFAULT CURRENT_TIMESTAMP
 ```
 
-Per creare manualmente un utente di prova è disponibile lo script:
+Per creare un primo utente di prova tramite script:
 
 ```bash
 cd backend
 node createuser.js
 ```
 
-> Eseguilo una sola volta per lo stesso username, altrimenti SQLite segnalerà un vincolo di unicità.
-
 ## Roadmap
 
 ### Completato
 
-- [x] Portfolio responsive in Angular.
-- [x] Routing e lazy loading.
-- [x] Reactive Forms e Signals.
-- [x] Dex Pokémon con ricerca.
-- [x] Backend Express e database SQLite.
-- [x] Login, logout e route guard.
-- [x] Gestione account admin.
-- [x] Shop, dettaglio prodotto e carrello.
-- [x] Calcolo totale e rimozione degli articoli.
-- [x] Mini-carrello flottante.
-- [x] Pagina di checkout.
-- [x] Calcolatore di subnetting IPv4 con validazione completa.
-- [x] Classificazione IP (classe, tipo, binario).
-- [x] Supporto subnet /31 (RFC 3021) e /32.
+- [x] Portfolio responsive in Angular con navigazione a sezioni.
+- [x] Routing con lazy loading dei componenti standalone.
+- [x] Reattività moderna tramite Angular Signals e computed signals.
+- [x] Dex Pokémon con calcolo debolezze, resistenze ed efficacia tipi.
+- [x] Calcolatore di subnetting IPv4 completo con classificazione, notazione CIDR e formato binario.
+- [x] Supporto subnet `/31` (RFC 3021) e `/32`.
+- [x] Backend Express 5 e database SQLite con bcrypt.
+- [x] Autenticazione con route guard protetta (`authGuard`).
+- [x] Area amministrativa per gestione account, prodotti e categorie.
+- [x] Catalogo e-commerce con schede prodotto, filtri e ricerca.
+- [x] Mini-carrello flottante e pagina carrello dedicata.
+- [x] Flusso di checkout completo con gestione indirizzi di spedizione e metodi di pagamento.
+- [x] Dashboard utente (`/dashboard`) con dati profilo, storico acquisti e preferenze categorie.
+- [x] Servizio ordini reattivo (`OrdiniService`) sincronizzato con il checkout e la dashboard.
+- [x] Notifica di conferma ordine con animazione grafica.
+- [x] Collegamenti di navigazione rapida tra shop, dettaglio prodotto e dashboard utente.
 
-### Possibili evoluzioni
+### Possibili Evoluzioni Future
 
-- [ ] Salvare prodotti e carrello nel backend/database.
-- [ ] Gestire quantità e disponibilità dei prodotti.
-- [ ] Aggiungere flusso di pagamento reale al checkout.
-- [ ] Sostituire l'autenticazione locale con token JWT o sessioni server-side.
-- [ ] Migliorare gli stati di caricamento (skeleton, spinner).
-- [ ] Aggiungere test per servizi, guard e componenti.
-- [ ] Supporto IPv6 nel calcolatore di subnetting.
-- [ ] Dark mode.
-
-## Limiti attuali e note di sicurezza
-
-- L'autenticazione usa un flag in `localStorage`: è utile per il progetto didattico, ma non sostituisce JWT, cookie sicuri o sessioni server-side.
-- Le API utenti non hanno ancora autorizzazione lato server: in produzione vanno protette.
-- Il catalogo e il carrello non sono persistenti.
-- Il backend è configurato per lo sviluppo locale su porta `3000`.
+- [ ] Persistenza di prodotti e ordini su database backend / cloud.
+- [ ] Integrazione di un gateway di pagamento reale (Stripe / PayPal SDK).
+- [ ] Autenticazione avanzata con JWT (JSON Web Tokens) e refresh token.
+- [ ] Filtro avanzato e ordinamento prodotti per prezzo, categoria e disponibilità.
+- [ ] Dark mode con switch di tema dinamico.
+- [ ] Supporto IPv6 per il calcolatore di subnetting.
+- [ ] Suite di test unitari e di integrazione per componenti e servizi.
 
 ## Autore
 
-**Jhonny** — portfolio personale e progetto di apprendimento dedicato allo sviluppo web con Angular e TypeScript.
+**Jhonny** — portfolio personale e progetto per l'apprendimento delle architetture moderne con Angular, TypeScript, Node.js ed Express.
 
 ---
 
