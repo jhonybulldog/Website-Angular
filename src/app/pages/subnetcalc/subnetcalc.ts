@@ -32,20 +32,6 @@ export class Subnetcalc {
   cambiaIp(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.ip.set(value);
-    const trimmed = value.trim();
-
-    if (!trimmed) {
-      this.error.set("");
-      this.calcolato.set(false);
-      return;
-    }
-
-    if (trimmed.includes("/")) {
-      this.calcolo();
-    } else {
-      this.error.set("");
-      this.calcolato.set(false);
-    }
   }
 
   impostaIp(valore: string) {
@@ -119,7 +105,6 @@ export class Subnetcalc {
 
     const numerip = valorip.map(Number);
 
-    // Calcolo della maschera di rete
     const maschera = [0, 0, 0, 0];
     const ottettiPieni = Math.floor(numerocidr / 8);
     const bitRimanenti = numerocidr % 8;
@@ -131,16 +116,13 @@ export class Subnetcalc {
       maschera[ottettiPieni] = 256 - Math.pow(2, 8 - bitRimanenti);
     }
 
-    // Calcolo Indirizzo Network
     const network = [0, 0, 0, 0];
     for (let i = 0; i < 4; i++) {
       network[i] = numerip[i] & maschera[i];
     }
 
-    // Calcolo Wildcard Mask
     const wildcard = maschera.map((num) => 255 - num);
 
-    // Calcolo Broadcast
     const broadcast = [0, 0, 0, 0];
     for (let i = 0; i < 4; i++) {
       broadcast[i] = network[i] | wildcard[i];
@@ -151,14 +133,13 @@ export class Subnetcalc {
     const subnetMask = maschera.join(".");
     const wildcardString = wildcard.join(".");
 
-    // Calcolo Host e Intervallo Host
     let hosts = Math.pow(2, 32 - numerocidr) - 2;
     let hostMin = [...network];
     let hostMax = [...broadcast];
     let hostRange = "";
 
     if (numerocidr === 31) {
-      hosts = 2; // RFC 3021 (Point-to-point)
+      hosts = 2;
       hostMin = [...network];
       hostMax = [...broadcast];
       hostRange = `${hostMin.join(".")} - ${hostMax.join(".")}`;
@@ -173,7 +154,6 @@ export class Subnetcalc {
       hostRange = `${hostMin.join(".")} - ${hostMax.join(".")}`;
     }
 
-    // Identificazione Classe IPv4
     const primoOttetto = numerip[0];
     let classe = "";
     if (primoOttetto >= 0 && primoOttetto <= 127) {
@@ -188,7 +168,6 @@ export class Subnetcalc {
       classe = "E (Sperimentale)";
     }
 
-    // Identificazione Tipo (Privato / Pubblico / Speciale)
     let tipo = "Pubblico";
     if (numerip[0] === 10) {
       tipo = "Privato (RFC 1918)";
@@ -210,7 +189,6 @@ export class Subnetcalc {
       tipo = "Riservato";
     }
 
-    // Rappresentazione in binario
     const ipBinarioString = numerip.map((num) => num.toString(2).padStart(8, "0")).join(".");
     const maskBinarioString = maschera.map((num) => num.toString(2).padStart(8, "0")).join(".");
 

@@ -30,7 +30,7 @@ export class Proggetti {
       titolo: "Calcolatore di Subnetting",
       descrizione:
         "Strumento web per calcolare parametri di rete da un indirizzo IP con notazione CIDR. Fornisce subnet mask, indirizzi di rete, broadcast, host disponibili e rappresentazioni binarie.",
-      tech: ["HTML5", "CSS3", "JavaScript", "RetiIP"],
+      tech: ["HTML5", "CSS3", "typescript","Angular" , "RetiIP"],
       link: "/calc",
       testoLink: "Provalo Ora",
     },
