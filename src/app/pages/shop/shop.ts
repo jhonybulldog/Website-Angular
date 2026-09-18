@@ -1,9 +1,10 @@
 import { Component, inject, OnInit, signal, computed } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { Prodotti } from "./prodotti.service";
 import { Productcard } from "./productcard/productcard";
 import { Minicart } from "./minicart/minicart";
 @Component({
-  imports: [Productcard, Minicart],
+  imports: [RouterLink, Productcard, Minicart],
   selector: "app-shop",
   styleUrl: "./shop.css",
   templateUrl: "./shop.html",

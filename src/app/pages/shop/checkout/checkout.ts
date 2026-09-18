@@ -31,6 +31,7 @@ export class Checkout {
   prodotti = this.carrelloser.carrello;
   spedizione = signal(5);
   cartaConfermata = signal(false);
+  ordineConfermato = signal(false);
 
   private nextId = 1;
 
@@ -261,5 +262,6 @@ export class Checkout {
     console.log(this.ordiniser.ordini());
 
     this.carrelloser.svuotacarrello();
+    this.ordineConfermato.set(true)
   }
 }

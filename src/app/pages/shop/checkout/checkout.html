@@ -197,7 +197,13 @@
 </p>
 }
 
-<button (click)="completaordine()">
+<button class="btn-completa-ordine" (click)="completaordine()">
   Completa ordine
 </button>
+@if (ordineConfermato()) {
+  <div class="ordine-confermato">
+    <h2>Ordine confermato!</h2>
+    <p>Il tuo ordine è stato completato con successo.</p>
+  </div>
+}
 </div>

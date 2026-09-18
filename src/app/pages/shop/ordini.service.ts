@@ -16,21 +16,7 @@ export interface ordine {
 export class OrdiniService {
   ordini = signal<ordine[]>([]);
 
-  constructor() {
-    const ordiniSalvati = localStorage.getItem("ordini");
-
-    if (ordiniSalvati) {
-      this.ordini.set(JSON.parse(ordiniSalvati));
-    }
-  }
-
   salvaOrdine(ordine: ordine) {
-    this.ordini.update((ordini) => {
-      const nuoviOrdini = [...ordini, ordine];
-
-      localStorage.setItem("ordini", JSON.stringify(nuoviOrdini));
-
-      return nuoviOrdini;
-    });
+    this.ordini.update((ordini) => [...ordini, ordine]);
   }
 }

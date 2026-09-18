@@ -1,65 +1,366 @@
 .container {
   max-width: 1100px;
-  margin: 40px auto;
+  margin: 100px auto 60px;
   padding: 0 20px;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1e293b;
 }
 
 .dashboard-container h1 {
-  margin-bottom: 30px;
-  font-size: 2.2rem;
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 3px solid #10b981;
+  display: inline-block;
 }
 
-.ultimi-acquisti h2 {
-  margin-bottom: 20px;
+section {
+  margin-bottom: 3rem;
 }
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* =========================
+   SECTION: PROFILO UTENTE
+   ========================= */
+
+.profilo-utente {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.profilo-contenuto {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  margin-top: 1rem;
+}
+
+.immagine-profilo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.immagine-profilo img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #10b981;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.22);
+  background: #f8fafc;
+}
+
+.dati-utente {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  flex: 1;
+}
+
+.dato-utente {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.dato-utente:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.dato-utente strong {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+}
+
+.dato-utente span {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* =========================
+   SECTION: ULTIMI ACQUISTI
+   ========================= */
 
 .ordine {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 25px;
-  background: #fff;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ordine:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
 .ordine h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #047857;
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed #e2e8f0;
 }
 
 .ordine p {
-  margin: 8px 0;
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.ordine p strong {
+  color: #1e293b;
 }
 
 .prodotti-ordine {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-top: 25px;
-  padding-top: 20px;
-  border-top: 1px solid #ddd;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #f1f5f9;
 }
 
 .prodotto-acquistato {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 15px;
-  border: 1px solid #eee;
-  border-radius: 10px;
+  gap: 1.25rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.prodotto-acquistato:hover {
+  background-color: #f1f5f9;
 }
 
 .prodotto-acquistato img {
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   object-fit: contain;
   border-radius: 8px;
+  background: #ffffff;
+  padding: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.prodotto-acquistato div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .prodotto-acquistato strong {
-  font-size: 1.1rem;
+  font-size: 1rem;
+  color: #0f172a;
 }
 
 .prodotto-acquistato p {
-  margin: 5px 0;
+  margin: 0;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+/* =========================
+   SECTION: PREFERENZE FORM
+   ========================= */
+
+.preferenze-categorie {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.preferenza-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 500px;
+}
+
+.preferenza-form label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: -0.5rem;
+}
+
+.preferenza-form select {
+  width: 100%;
+  padding: 0.85rem 2.5rem 0.85rem 1rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1e293b;
+  background-color: #ffffff;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.15rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.preferenza-form select:hover {
+  border-color: #10b981;
+}
+
+.preferenza-form select:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+}
+
+.preferenza-form button {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  padding: 0.85rem 1.75rem;
+  background-color: #10b981;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.preferenza-form button:hover {
+  background-color: #047857;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(4, 120, 87, 0.35);
+}
+
+.preferenza-form button:active {
+  transform: translateY(0);
+}
+
+/* =========================
+   SECTION: TABELLA PREFERENZE
+   ========================= */
+
+.tabella-preferenze {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  margin-top: 1rem;
+}
+
+thead {
+  background-color: #f8fafc;
+}
+
+th {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+td {
+  padding: 1rem 1.25rem;
+  font-size: 0.95rem;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .container {
+    margin-top: 80px;
+    padding: 0 15px;
+  }
+
+  .ordine {
+    padding: 1.25rem;
+  }
+
+  .prodotto-acquistato {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profilo-utente,
+  .preferenze-categorie,
+  .tabella-preferenze {
+    padding: 1.25rem;
+  }
+
+  .profilo-contenuto {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .dati-utente {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .preferenza-form button {
+    width: 100%;
+  }
 }

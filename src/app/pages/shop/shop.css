@@ -70,13 +70,23 @@ body {
 
 app-minicart {
   position: sticky;
-  top: 2rem;
+  top: 6.5rem;
   display: block;
+  z-index: 10;
+}
+
+.shop-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .section-title {
-  text-align: center;
-  margin-bottom: 2rem;
+  text-align: left;
+  margin-bottom: 0;
   position: relative;
 }
 
@@ -84,12 +94,35 @@ app-minicart {
   content: '';
   position: absolute;
   bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  transform: none;
   width: 60px;
   height: 4px;
   background: var(--primary-green);
   border-radius: var(--radius-sm);
+}
+
+.btn-dashboard {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--white);
+  color: var(--dark-green);
+  border: 2px solid var(--primary-green);
+  border-radius: var(--radius-lg);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  box-shadow: var(--shadow-md);
+  transition: all 0.2s ease;
+}
+
+.btn-dashboard:hover {
+  background: var(--primary-green);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 /* =========================

@@ -1,7 +1,6 @@
 .mini-cart-amazon {
   grid-area: cart;
-  position: sticky;
-  top: 2rem;
+  position: relative;
   display: flex;
   flex-direction: column;
   background: rgba(255, 255, 255, 0.95);

@@ -1,7 +1,32 @@
 <div class="container">
   <div class="dashboard-container">
     <h1>Dashboard</h1>
+    <section class="profilo-utente">
+      <h2>Profilo utente</h2>
 
+      <div class="profilo-contenuto">
+        <div class="immagine-profilo">
+          <img [src]="immagineProfilo()" alt="Immagine profilo" />
+        </div>
+
+        <div class="dati-utente">
+          <div class="dato-utente">
+            <strong>Nome utente</strong>
+            <span>{{ nomeUtente() }}</span>
+          </div>
+
+          <div class="dato-utente">
+            <strong>Email</strong>
+            <span>{{ emailUtente() }}</span>
+          </div>
+
+          <div class="dato-utente">
+            <strong>Password</strong>
+            <span>********</span>
+          </div>
+        </div>
+      </div>
+    </section>
     <section class="ultimi-acquisti">
       <h2>Ultimi acquisti</h2>
 
@@ -16,6 +41,7 @@
         <p>Indirizzo: {{ ordine.indirizzo }}</p>
 
         <p>Pagamento: {{ ordine.metodoPagamento }}</p>
+
         <div class="prodotti-ordine">
           @for (item of ordine.prodotti; track item.prodotto.id) {
           <div class="prodotto-acquistato">
@@ -32,5 +58,67 @@
       </div>
       }
     </section>
+
+    <section class="preferenze-categorie">
+      <h2>Preferenze categorie</h2>
+
+      <div class="preferenza-form">
+        <label for="categoria">Categoria</label>
+
+        <select
+          id="categoria"
+          [value]="categoriaSelezionata()"
+          (change)="categoriaSelezionata.set($any($event.target).value)"
+        >
+          <option value="">Seleziona una categoria</option>
+
+          @for (categoria of tutteCategorie(); track categoria) {
+          <option [value]="categoria">{{ categoria }}</option>
+          }
+        </select>
+
+        <label for="preferenza">Preferenza</label>
+
+        <select
+          id="preferenza"
+          [value]="preferenzaSelezionata()"
+          (change)="preferenzaSelezionata.set($any($event.target).value)"
+        >
+          <option value="">Seleziona preferenza</option>
+          <option value="Bassa">Bassa</option>
+          <option value="Media">Media</option>
+          <option value="Alta">Alta</option>
+        </select>
+
+        <button type="button" (click)="salvaPreferenza()">
+          Salva preferenza
+        </button>
+      </div>
+    </section>
+
+    @if (categoriePreferite().length > 0) {
+    <section class="tabella-preferenze">
+      <h2>Le mie categorie preferite</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Categoria</th>
+            <th>Preferenza</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for ( preferenza of categoriePreferite(); track preferenza.categoria
+          ) {
+          <tr>
+            <td>{{ preferenza.categoria }}</td>
+            <td>{{ preferenza.preferenza }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </section>
+    }
   </div>
 </div>
