@@ -7,7 +7,6 @@ import {
   Validators,
 } from "@angular/forms";
 import { OrdiniService } from "../ordini.service";
-
 interface Indirizzo {
   id: number;
   nome: string;
@@ -41,13 +40,9 @@ export class Checkout {
 
   ultimoIndirizzoCreato = signal<Indirizzo | null>(null);
 
-  indirizziIntestati = signal<
-    { via: string; intestatario: string }[]
-  >([]);
+  indirizziIntestati = signal<{ via: string; intestatario: string }[]>([]);
 
-  indirizziInAttesa = signal<
-    { indirizzo: Indirizzo; form: FormGroup }[]
-  >([]);
+  indirizziInAttesa = signal<{ indirizzo: Indirizzo; form: FormGroup }[]>([]);
 
   private ordiniser = inject(OrdiniService);
 
@@ -75,9 +70,7 @@ export class Checkout {
   });
 
   selezionaPagamento() {
-    this.metodoPagamento.set(
-      this.metodoPagamentoForm.value.metodo!,
-    );
+    this.metodoPagamento.set(this.metodoPagamentoForm.value.metodo!);
   }
 
   confermacance() {
@@ -112,19 +105,14 @@ export class Checkout {
         provincia: this.indirizzoForm.value.provincia!,
       };
 
-      this.indirizzi.update((indirizzi) => [
-        ...indirizzi,
-        nuovoIndirizzo,
-      ]);
+      this.indirizzi.update((indirizzi) => [...indirizzi, nuovoIndirizzo]);
 
       this.indirizziInAttesa.update((lista) => [
         ...lista,
         {
           indirizzo: nuovoIndirizzo,
           form: new FormGroup({
-            intestatario: new FormControl("", [
-              Validators.required,
-            ]),
+            intestatario: new FormControl("", [Validators.required]),
           }),
         },
       ]);
@@ -148,10 +136,7 @@ export class Checkout {
   }
 
   salvaModificaIndirizzo() {
-    if (
-      this.indirizzoForm.valid &&
-      this.indirizzoDaModificare !== null
-    ) {
+    if (this.indirizzoForm.valid && this.indirizzoDaModificare !== null) {
       const indirizzoModificato: Indirizzo = {
         id: this.indirizzoDaModificare.id,
         nome: this.indirizzoForm.value.nome!,
@@ -177,15 +162,11 @@ export class Checkout {
 
   eliminaIndirizzo(id: number) {
     this.indirizzi.update((indirizzi) =>
-      indirizzi.filter(
-        (indirizzo) => indirizzo.id !== id,
-      ),
+      indirizzi.filter((indirizzo) => indirizzo.id !== id),
     );
 
     this.indirizziInAttesa.update((lista) =>
-      lista.filter(
-        (el) => el.indirizzo.id !== id,
-      ),
+      lista.filter((el) => el.indirizzo.id !== id),
     );
 
     if (this.indirizzoSelezionato() === id) {
@@ -195,73 +176,36 @@ export class Checkout {
     this.indirizzoForm.reset();
   }
 
-  confermaIntestatario(item: {
-    indirizzo: Indirizzo;
-    form: FormGroup;
-  }) {
+  confermaIntestatario(item: { indirizzo: Indirizzo; form: FormGroup }) {
     if (item.form.valid) {
       const nuovaNotifica = {
         via: item.indirizzo.via,
         intestatario: item.form.value.intestatario!,
       };
 
-      this.indirizziIntestati.update((lista) => [
-        ...lista,
-        nuovaNotifica,
-      ]);
+      this.indirizziIntestati.update((lista) => [...lista, nuovaNotifica]);
 
       this.indirizziInAttesa.update((lista) =>
-        lista.filter(
-          (lista) =>
-            lista.indirizzo.id !== item.indirizzo.id,
-        ),
+        lista.filter((lista) => lista.indirizzo.id !== item.indirizzo.id),
       );
     }
   }
 
   completaordine() {
-    if (this.prodotti().length === 0) {
-      return;
-    }
-
-    if (this.metodoPagamentoForm.invalid) {
-      this.metodoPagamentoForm.markAllAsTouched();
-      return;
-    }
-
     const metodo = this.metodoPagamentoForm.value.metodo!;
-
-    if (metodo === "carta" && !this.cartaConfermata()) {
-      this.cartaform.markAllAsTouched();
-      return;
-    }
-
-    if (this.indirizzoSelezionato() === null) {
-      return;
-    }
-
-    const indirizzo = this.indirizzi().find(
+    const selezionato = this.indirizzi().find(
       (item) => item.id === this.indirizzoSelezionato(),
     );
-
-    if (!indirizzo) {
-      return;
-    }
-
     const ordine = {
       id: Date.now(),
       data: new Date().toISOString(),
       prodotti: this.prodotti(),
       totale: this.totaleordine(),
-      indirizzo: `${indirizzo.via}, ${indirizzo.cap} ${indirizzo.citta} (${indirizzo.provincia})`,
+      indirizzo: `${selezionato!.via}, ${selezionato!.cap} ${selezionato!.citta} ${selezionato!.provincia}`,
       metodoPagamento: metodo,
     };
-
     this.ordiniser.salvaOrdine(ordine);
-
-    console.log(this.ordiniser.ordini());
-
     this.carrelloser.svuotacarrello();
-    this.ordineConfermato.set(true)
+    this.ordineConfermato.set(true);
   }
 }

@@ -1,24 +1,31 @@
 import { Component, computed, inject, OnInit, signal } from "@angular/core";
 import { OrdiniService } from "../ordini.service";
 import { Prodotti } from "../prodotti.service";
-
+import { DatePipe } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { PreferenzeService } from "../preferenze.service";
 @Component({
-  imports: [],
+  imports: [DatePipe, FormsModule],
   selector: "app-dashboard",
   styleUrl: "./dashboard.css",
   templateUrl: "./dashboard.html",
 })
 export class Dashboard implements OnInit {
   private ordiniser = inject(OrdiniService);
+
   ordini = this.ordiniser.ordini;
+
   prodottiser = inject(Prodotti);
-  categoriePreferite = signal<{ categoria: string; preferenza: string }[]>([]);
-  categoriaSelezionata = signal("");
-  preferenzaSelezionata = signal("");
-  nomeUtente = signal("Federico");
-  emailUtente = signal("federico@email.it");
-  passwordUtente = signal("password");
-  immagineProfilo = signal("/profile.png");
+
+  nomeUtente = "Federico";
+  emailUtente = "federico@email.it";
+  passwordUtente = "password";
+  immagineProfilo = "/profile.png";
+
+  ricercaCategoria = signal("");
+
+  readonly preferenzeserv = inject(PreferenzeService)
+
   tutteCategorie = computed(() => {
     const categorieProdotti = this.prodottiser
       .prod()
@@ -28,41 +35,17 @@ export class Dashboard implements OnInit {
       ...new Set([...categorieProdotti, ...this.prodottiser.categorianuove()]),
     ];
   });
-  salvaPreferenza() {
-    if (!this.categoriaSelezionata() || !this.preferenzaSelezionata()) {
-      return;
-    }
 
-    this.categoriePreferite.update((preferenze) => {
-      const esistente = preferenze.find(
-        (item) => item.categoria === this.categoriaSelezionata(),
-      );
+  categorieFiltrate = computed(() => {
+    const ricerca = this.ricercaCategoria().toLowerCase().trim();
+    return this.tutteCategorie().filter((categoria) =>
+      categoria.toLowerCase().includes(ricerca),
+    );
+  });
 
-      if (esistente) {
-        return preferenze.map((item) =>
-          item.categoria === this.categoriaSelezionata()
-            ? {
-                ...item,
-                preferenza: this.preferenzaSelezionata(),
-              }
-            : item,
-        );
-      }
 
-      return [
-        ...preferenze,
-        {
-          categoria: this.categoriaSelezionata(),
-          preferenza: this.preferenzaSelezionata(),
-        },
-      ];
-    });
-
-    this.categoriaSelezionata.set("");
-    this.preferenzaSelezionata.set("");
-  }
   ngOnInit() {
-    if (this.prodottiser.prod().length === 0) {
+    if (this.ordini().length === 0) {
       this.prodottiser.caricaProdotti();
     }
   }

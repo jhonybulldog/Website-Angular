@@ -1,23 +1,24 @@
 <div class="container">
   <div class="dashboard-container">
     <h1>Dashboard</h1>
+
     <section class="profilo-utente">
       <h2>Profilo utente</h2>
 
       <div class="profilo-contenuto">
         <div class="immagine-profilo">
-          <img [src]="immagineProfilo()" alt="Immagine profilo" />
+          <img [src]="immagineProfilo" alt="Immagine profilo" />
         </div>
 
         <div class="dati-utente">
           <div class="dato-utente">
             <strong>Nome utente</strong>
-            <span>{{ nomeUtente() }}</span>
+            <span>{{ nomeUtente }}</span>
           </div>
 
           <div class="dato-utente">
             <strong>Email</strong>
-            <span>{{ emailUtente() }}</span>
+            <span>{{ emailUtente }}</span>
           </div>
 
           <div class="dato-utente">
@@ -27,98 +28,110 @@
         </div>
       </div>
     </section>
+
     <section class="ultimi-acquisti">
       <h2>Ultimi acquisti</h2>
 
       @for (ordine of ordini(); track ordine.id) {
-      <div class="ordine">
-        <h3>Ordine #{{ ordine.id }}</h3>
+        <div class="ordine">
+          <h3>Ordine #{{ ordine.id }}</h3>
 
-        <p>Data: {{ ordine.data }}</p>
+          <p>
+            Data: {{ ordine.data | date:'medium' }}
+          </p>
 
-        <p>Totale: {{ ordine.totale.toFixed(2) }} €</p>
+          <p>
+            Totale: {{ ordine.totale.toFixed(2) }} €
+          </p>
 
-        <p>Indirizzo: {{ ordine.indirizzo }}</p>
+          <p>
+            Indirizzo: {{ ordine.indirizzo }}
+          </p>
 
-        <p>Pagamento: {{ ordine.metodoPagamento }}</p>
+          <p>
+            Pagamento: {{ ordine.metodoPagamento }}
+          </p>
 
-        <div class="prodotti-ordine">
-          @for (item of ordine.prodotti; track item.prodotto.id) {
-          <div class="prodotto-acquistato">
-            <img [src]="item.prodotto.thumbnail" [alt]="item.prodotto.title" />
+          <div class="prodotti-ordine">
+            @for (item of ordine.prodotti; track item.prodotto.id) {
+              <div class="prodotto-acquistato">
+                <img
+                  [src]="item.prodotto.thumbnail"
+                  [alt]="item.prodotto.title"
+                />
 
-            <div>
-              <strong>{{ item.prodotto.title }}</strong>
-              <p>Prezzo: {{ item.prodotto.price.toFixed(2) }} €</p>
-              <p>Quantità: {{ item.quantita }}</p>
-            </div>
+                <div>
+                  <strong>{{ item.prodotto.title }}</strong>
+
+                  <p>
+                    Prezzo:
+                    {{ item.prodotto.price.toFixed(2) }} €
+                  </p>
+
+                  <p>
+                    Quantità: {{ item.quantita }}
+                  </p>
+                </div>
+              </div>
+            }
           </div>
-          }
         </div>
-      </div>
       }
     </section>
 
-    <section class="preferenze-categorie">
-      <h2>Preferenze categorie</h2>
 
-      <div class="preferenza-form">
-        <label for="categoria">Categoria</label>
+<section class="preferenze-categorie">
+  <div class="intestazione-toggle" (click)="preferenzeserv.alternaForm()">
+    <h2>Preferenze categorie</h2>
+    <span class="freccia" [class.chiuso]="preferenzeserv.formapertochiuso()">apri/chiudi</span>
+  </div>
 
-        <select
-          id="categoria"
-          [value]="categoriaSelezionata()"
-          (change)="categoriaSelezionata.set($any($event.target).value)"
-        >
-          <option value="">Seleziona una categoria</option>
+  @if (preferenzeserv.formapertochiuso()) {
+    <div class="contenuto-form">
+      <div class="ricerca-categoria">
+        <label for="ricerca-categoria">
+          Cerca categoria
+        </label>
 
-          @for (categoria of tutteCategorie(); track categoria) {
-          <option [value]="categoria">{{ categoria }}</option>
-          }
-        </select>
-
-        <label for="preferenza">Preferenza</label>
-
-        <select
-          id="preferenza"
-          [value]="preferenzaSelezionata()"
-          (change)="preferenzaSelezionata.set($any($event.target).value)"
-        >
-          <option value="">Seleziona preferenza</option>
-          <option value="Bassa">Bassa</option>
-          <option value="Media">Media</option>
-          <option value="Alta">Alta</option>
-        </select>
-
-        <button type="button" (click)="salvaPreferenza()">
-          Salva preferenza
-        </button>
+        <input
+          id="ricerca-categoria"
+          type="text"
+          placeholder="Cerca una categoria..."
+          [(ngModel)]="ricercaCategoria"
+        />
       </div>
-    </section>
 
-    @if (categoriePreferite().length > 0) {
-    <section class="tabella-preferenze">
-      <h2>Le mie categorie preferite</h2>
+      <div class="lista-categorie">
+        @for (categoria of categorieFiltrate(); track categoria) {
+          <div class="categoria-preferenza">
+            <strong>{{ categoria }}</strong>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Categoria</th>
-            <th>Preferenza</th>
-          </tr>
-        </thead>
+            <select
+              [id]="'preferenza-' + categoria"
+              [(ngModel)]="preferenzeserv.preferenze[categoria]"
+            >
+              <option value="">
+                Seleziona preferenza
+              </option>
 
-        <tbody>
-          @for ( preferenza of categoriePreferite(); track preferenza.categoria
-          ) {
-          <tr>
-            <td>{{ preferenza.categoria }}</td>
-            <td>{{ preferenza.preferenza }}</td>
-          </tr>
-          }
-        </tbody>
-      </table>
-    </section>
-    }
+              <option value="Bassa">
+                Bassa
+              </option>
+
+              <option value="Media">
+                Media
+              </option>
+
+              <option value="Alta">
+                Alta
+              </option>
+            </select>
+          </div>
+        } 
+      </div>
+
+    </div>
+  }
+</section>
   </div>
 </div>
