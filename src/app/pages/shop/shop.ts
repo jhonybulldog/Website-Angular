@@ -5,7 +5,7 @@ import { Productcard } from "./productcard/productcard";
 import { Minicart } from "./minicart/minicart";
 import { PreferenzeService } from "./preferenze.service";
 @Component({
-  imports: [RouterLink, Productcard, Minicart],
+  imports: [ Productcard, Minicart],
   selector: "app-shop",
   styleUrl: "./shop.css",
   templateUrl: "./shop.html",

@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { LoginService } from "./login.service";
-import { Router } from "@angular/router";
+import { Location } from "@angular/common";
 @Component({
   imports: [ReactiveFormsModule],
   selector: "app-login",
@@ -15,8 +15,7 @@ import { Router } from "@angular/router";
 })
 export class Login {
   private loginService = inject(LoginService);
-  private router = inject(Router);
-
+  private location = inject(Location)
   loginForm = new FormGroup({
     username: new FormControl("", [Validators.required]),
     password: new FormControl("", [Validators.required]),
@@ -33,8 +32,9 @@ export class Login {
         (risposta) => {
           console.log("Login effettuato con successo");
 
-          this.loginService.setLoggedIn();
-          this.router.navigate(["/admin"]);
+          this.loginService.setLoggedIn(username!);
+
+          this.location.back();
         },
         (error) => {
           console.log("risposta errata");

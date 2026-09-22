@@ -150,14 +150,17 @@ export class Admin implements OnInit {
     console.log(categoria);
   }
 
-  ngOnInit() {
-   if(this.prodotti().length===0){
+ngOnInit() {
+  this.caricaUtenti();
+
+  if (this.prodotti().length === 0) {
     this.prodottiService.caricaProdotti();
-   }
-      if(this.categorie().length===0){
-    this.prodottiService.caricaCategorie();
-   }
   }
+
+  if (this.categorie().length === 0) {
+    this.prodottiService.caricaCategorie();
+  }
+}
   elimina(username: string) {
     this.loginService.cancellaAccount(username).subscribe({
       next: () => {

@@ -13,12 +13,7 @@
         <div class="dati-utente">
           <div class="dato-utente">
             <strong>Nome utente</strong>
-            <span>{{ nomeUtente }}</span>
-          </div>
-
-          <div class="dato-utente">
-            <strong>Email</strong>
-            <span>{{ emailUtente }}</span>
+            <span>{{ nomeUtente() }}</span>
           </div>
 
           <div class="dato-utente">
@@ -57,6 +52,8 @@
       }
     </section>
 
+
+
     <section class="preferenze-categorie">
       <div class="intestazione-toggle" (click)="preferenzeserv.alternaForm()">
         <h2>Preferenze categorie</h2>
@@ -67,36 +64,48 @@
 
       @if (preferenzeserv.formapertochiuso()) {
       <div class="contenuto-form">
-        <div class="ricerca-categoria">
-          <label for="ricerca-categoria">Cerca categoria</label>
-          <input
-            id="ricerca-categoria"
-            type="text"
-            placeholder="Cerca una categoria..."
-            #inputRicerca
-            [value]="ricercaCategoria()"
-            (input)="ricercaCategoria.set(inputRicerca.value)"
-          />
-        </div>
+        <form [formGroup]="form" (change)="salvaTutto()">
+          <div class="lista-categorie" formArrayName="preferenze">
+            @for (riga of preferenzeFormArray.controls; track $index; let i = $index) {
+            <div [formGroupName]="i" class="categoria-preferenza">
+              <div class="form-gruppo-controlli">
+                <select formControlName="categoria">
+                  <option value="">Seleziona categoria</option>
+                  @for (categoria of categorieDisponibili(i); track categoria.slug) {
+                  <option [value]="categoria.slug">{{ categoria.name }}</option>
+                  }
+                </select>
+              </div>
 
-        <form class="lista-categorie">
-          @for (categoria of categorieFiltrate(); track categoria.categoria.slug) {
-          <div class="categoria-preferenza">
-            <strong>{{ categoria.categoria.name }}</strong>
+              <div class="form-gruppo-controlli">
+                <select formControlName="preferenza">
+                  <option value="">Seleziona preferenza</option>
+                  <option value="Bassa">Bassa</option>
+                  <option value="Media">Media</option>
+                  <option value="Alta">Alta</option>
+                </select>
 
-            <div class="form-gruppo-controlli">
-              <select
-                #selectPref
-                (change)="salvaPreferenza(categoria.categoria.slug, selectPref.value)"
-              >
-                <option value="">Seleziona preferenza</option>
-                <option value="Bassa">Bassa</option>
-                <option value="Media">Media</option>
-                <option value="Alta">Alta</option>
-              </select>
+                <button
+                  type="button"
+                  class="btn-rimuovi-categoria"
+                  (click)="rimuoviRiga(i)"
+                >
+                  ✕
+                </button>
+              </div>
             </div>
+            }
           </div>
-          }
+
+          <div class="azioni-preferenze">
+            <button
+              type="button"
+              class="btn-add-categoria"
+              (click)="aggiungiRiga()"
+            >
+              + Add
+            </button>
+          </div>
         </form>
       </div>
       }

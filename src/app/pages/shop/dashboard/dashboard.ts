@@ -1,10 +1,18 @@
-import { Component, computed, inject, OnInit, signal } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { OrdiniService } from "../ordini.service";
 import { Prodotti } from "../prodotti.service";
 import { DatePipe } from "@angular/common";
 import { PreferenzeService } from "../preferenze.service";
+import {
+  FormArray,
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
+import { LoginService } from "../../admin/login/login.service";
+
 @Component({
-  imports: [DatePipe],
+  imports: [DatePipe, ReactiveFormsModule],
   selector: "app-dashboard",
   styleUrl: "./dashboard.css",
   templateUrl: "./dashboard.html",
@@ -13,35 +21,68 @@ export class Dashboard implements OnInit {
   private ordiniService = inject(OrdiniService);
   ordini = this.ordiniService.ordini;
 
+  private loginser = inject(LoginService);
   private prodottiService = inject(Prodotti);
+  private fb = inject(FormBuilder);
 
-  nomeUtente = "Federico";
-  emailUtente = "federico@email.it";
+  nomeUtente = this.loginser.usernameLoggato;
+
   immagineProfilo = "/profile.png";
 
-  ricercaCategoria = signal("");
-
   readonly preferenzeserv = inject(PreferenzeService);
-
-  tutteCategorie = computed(() => {
-    return this.prodottiService.categorie();
+  form = this.fb.group({
+    preferenze: this.fb.array<typeof this.creaRiga>([]),
   });
 
-  categorieFiltrate = computed(() => {
-    const ricerca = this.ricercaCategoria().toLowerCase().trim();
-    return this.tutteCategorie().filter((categoria) => categoria.name.toLowerCase().includes(ricerca)).map((categoria) => ({
-        categoria,
-        preferenza: this.preferenzeserv.getPreferenza(categoria.slug),
-      }));
-  });
-
-  salvaPreferenza(slug: string, valore: string) {
-    const valorePreferenza = valore.trim();
-    this.preferenzeserv.salvaPreferenza(slug, valorePreferenza);
-    console.log(`preferenza aggiornata - nome preferenza: ${valorePreferenza}`);
+  get preferenzeFormArray(): FormArray {
+    return this.form.controls.preferenze;
   }
 
+  private creaRiga() {
+    return this.fb.group({
+      categoria: ["", Validators.required],
+      preferenza: ["", Validators.required],
+    });
+  }
+
+  aggiungiRiga() {
+    this.preferenzeFormArray.push(this.creaRiga());
+  }
+
+  rimuoviRiga(index: number) {
+    this.preferenzeFormArray.removeAt(index);
+  }
+
+  categorieDisponibili(index?: number) {
+    const slugscelti = this.preferenzeFormArray.controls
+      .filter((_, i) => i !== index)
+      .map((ctrl) => ctrl.get("categoria")?.value);
+
+    return this.prodottiService
+      .categorie()
+      .filter((c) => !slugscelti.includes(c.slug));
+  }
+
+  salvaTutto() {
+    for (const cate of this.preferenzeFormArray.value) {
+      this.preferenzeserv.salvaPreferenza(cate.categoria, cate.preferenza);
+    }
+    console.log("Preferenze salvate:", this.preferenzeFormArray.value);
+  }
+
+ popolaFormDaPreferenzeSalvate() {
+  const salvate = this.preferenzeserv.tutteLePreferenze();
+  for (const categoria of Object.keys(salvate)) {
+    this.preferenzeFormArray.push(
+      this.fb.group({
+        categoria: [categoria, Validators.required],
+        preferenza: [salvate[categoria], Validators.required],
+      })
+    )
+  }
+}
   ngOnInit() {
     this.prodottiService.caricaCategorie();
+      this.popolaFormDaPreferenzeSalvate();
   }
 }

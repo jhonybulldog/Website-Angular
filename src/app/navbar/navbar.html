@@ -6,27 +6,46 @@
       </div>
 
       <ul class="nav-menu" [class.active]="menuOpen()" (click)="closeMenu()">
-        <li class="nav-link"routerLink="/shop">E-commerce</li>
-        <li><a class="nav-link" href="#home" >home</a></li>
+        <li><a class="nav-link" href="#home">home</a></li>
         <li><a class="nav-link" href="#about">Chi Sono</a></li>
         <li><a class="nav-link" href="#Competenze">Competenze</a></li>
         <li><a class="nav-link" href="#Progetti">Proggetti</a></li>
         <li><a class="nav-link" href="#Contatti">Contatti</a></li>
-        @if (isLoggedIn()) {
-        <li>
-          <a (click)="logout()" class="nav-link admin-btn"> Logout </a>
-        </li>
-        } @else {
+        <li><a class="nav-link" routerLink="/shop">E-commerce</a></li>
 
-        <li>
-          <a routerLink="/admin" class="nav-link admin-btn"> Area Admin </a>
-        </li>
+        <li class="mobile-only-divider"></li>
+
+        @if (isLoggedIn()) {
+          <li class="mobile-only"><a routerLink="/dashboard" class="nav-link">Dashboard Utente</a></li>
+          <li class="mobile-only"><a routerLink="/admin" class="nav-link">Area Admin</a></li>
+          <li class="mobile-only"><a (click)="logout()" class="nav-link">Logout</a></li>
+        } @else {
+          <li class="mobile-only"><a routerLink="/admin" class="nav-link">Login</a></li>
         }
       </ul>
+
       <div class="hamburger" [class.active]="menuOpen()" (click)="toggleMenu()">
-        <span class="bar"> </span>
         <span class="bar"></span>
         <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+
+      <div class="user-menu-wrapper desktop-only">
+        <div class="hamburger hamburger-utente" [class.active]="menuUtenteOpen()" (click)="toggleMenuUtente()">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+
+        <ul class="user-menu" [class.active]="menuUtenteOpen()" (click)="closeMenuUtente()">
+          @if (isLoggedIn()) {
+            <li><a routerLink="/dashboard" class="nav-link">Dashboard Utente</a></li>
+            <li><a routerLink="/admin" class="nav-link">Area Admin</a></li>
+            <li><a (click)="logout()" class="nav-link">Logout</a></li>
+          } @else {
+            <li><a routerLink="/admin" class="nav-link">Login</a></li>
+          }
+        </ul>
       </div>
     </div>
   </nav>

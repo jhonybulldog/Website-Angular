@@ -18,4 +18,7 @@ export class PreferenzeService {
   getPreferenza(categoria: string): string {
     return this.preferenze()[categoria] || "";
   }
+    tutteLePreferenze(): { [categoria: string]: string } {
+    return this.preferenze();
+  }
 }
