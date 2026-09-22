@@ -140,7 +140,7 @@ export class Admin implements OnInit {
   }
   categorie = computed(() => [
     ...new Set([
-      ...this.prodotti().map((prodotto) => prodotto.category),
+      ...this.prodottiService.categorie().map((categoria) => categoria.name),
       ...this.prodottiService.categorianuove()
     ]),
   ]);
@@ -153,6 +153,9 @@ export class Admin implements OnInit {
   ngOnInit() {
    if(this.prodotti().length===0){
     this.prodottiService.caricaProdotti();
+   }
+      if(this.categorie().length===0){
+    this.prodottiService.caricaCategorie();
    }
   }
   elimina(username: string) {

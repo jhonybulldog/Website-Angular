@@ -8,6 +8,10 @@ export interface ListaProdotti {
   thumbnail: string;
   category: string;
 }
+export interface Category {
+  slug: string;
+  name: string;
+}
 
 @Injectable({
   providedIn: "root",
@@ -17,6 +21,15 @@ export class Prodotti {
   private http = inject(HttpClient);
   prod = signal<ListaProdotti[]>([]);
   categorianuove = signal<string[]>([])
+  categorie = signal<Category[]>([]);
+
+  caricaCategorie() {
+    this.http
+      .get<Category[]>("https://dummyjson.com/products/categories")
+      .subscribe((risposta) => {
+        this.categorie.set(risposta);
+      });
+  }
   caricaProdotti() {
     this.http
       .get<{ products: ListaProdotti[] }>("https://dummyjson.com/products")

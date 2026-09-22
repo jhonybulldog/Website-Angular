@@ -43,14 +43,14 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: 100px;
 }
 
 .container {
   width: 90%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 0;
-  margin-top: 50px;
+  padding: 20px 0 50px;
   flex: 1;
 }
 
@@ -308,9 +308,23 @@ app-minicart {
 }
 
 @media (max-width: 600px) {
+  .shop-page {
+    padding-top: 85px;
+  }
+
   .container {
     width: calc(100% - 2rem);
-    padding: 2rem 0;
+    padding: 1rem 0 2rem;
+  }
+
+  .shop-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .btn-dashboard {
+    justify-content: center;
   }
 
   .category-select,

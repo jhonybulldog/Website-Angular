@@ -3,9 +3,7 @@
     <div class="shop-main">
       <div class="shop-header">
         <h2 class="section-title">Ordina!</h2>
-        <a routerLink="/dashboard" class="btn-dashboard">
-           Dashboard Utente
-        </a>
+        <a routerLink="/dashboard" class="btn-dashboard"> Dashboard Utente </a>
       </div>
       <select
         class="category-select"
@@ -14,7 +12,7 @@
       >
         <option value="">Tutte le categorie</option>
         @for (categoria of categorie(); track categoria) {
-          <option [value]="categoria">{{ categoria }}</option>
+        <option [value]="categoria.slug">{{ categoria.name }}</option>
         }
       </select>
       <div class="search-box">
@@ -27,7 +25,7 @@
       </div>
       <div class="prodotti-grid">
         @for (prodotto of filtroprod(); track prodotto.id) {
-          <app-productcard [proddi]="prodotto"></app-productcard>
+        <app-productcard [proddi]="prodotto"></app-productcard>
         }
       </div>
     </div>

@@ -4,10 +4,18 @@ import { Injectable, signal } from "@angular/core";
   providedIn: "root",
 })
 export class PreferenzeService {
-  preferenze: { [categoria: string]: string } = {};
-
+  private preferenze = signal<{ [categoria: string]: string }>({});
   formapertochiuso = signal(true);
+
   alternaForm() {
     this.formapertochiuso.update((aperto) => !aperto);
+  }
+
+  salvaPreferenza(categoria: string, preferenza: string) {
+    this.preferenze.update((p) => ({ ...p, [categoria]: preferenza }));
+  }
+
+  getPreferenza(categoria: string): string {
+    return this.preferenze()[categoria] || "";
   }
 }
