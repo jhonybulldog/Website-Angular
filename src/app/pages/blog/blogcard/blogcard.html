@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="blog-card">
+    <div class="blog-info">
+      <h3>{{ blog().title }}</h3>
+
+      <p>{{ blog().body }}</p>
+
+      <div class="blog-tags">
+        @for (tag of blog().tags; track tag) {
+        <span>{{ tag }}</span>
+        }
+      </div>
+
+      <div class="blog-stats">
+        <span>like L {{ blog().reactions.likes }}</span>
+        <span> dislike : {{ blog().reactions.dislikes }}</span>
+        <span> wiews: {{ blog().views }}</span>
+      </div>
+      <button [routerLink]="['/blog', blog().id]">visualizza</button>
+    </div>
+  </div>
+</div>

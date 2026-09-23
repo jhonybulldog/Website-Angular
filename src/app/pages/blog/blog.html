@@ -1,0 +1,52 @@
+<div class="blog-page">
+
+  <div class="blog-header">
+    <div>
+      <h2>Blog</h2>
+      <p>Scopri gli ultimi articoli</p>
+    </div>
+
+    <select
+      class="category-select"
+      [(ngModel)]="limit"
+      (change)="caricaPagina(1)"
+    >
+      <option [ngValue]="21">seleziona quanti post vuoi visualizzare per pagina</option>
+      <option [ngValue]="5">5 post</option>
+      <option [ngValue]="10">10 post</option>
+      <option [ngValue]="20">20 post</option>
+      <option [ngValue]="50">50 post</option>
+      <option [ngValue]="100">100 post</option>
+    </select>
+  </div>
+
+  <div class="blog-grid">
+    @for (post of blogpost(); track post.id) {
+      <app-blogcard [blog]="post"></app-blogcard>
+    }
+  </div>
+  <div class="pagination">
+      <button
+        (click)="caricaPagina(paginaCorrente() - 1)"
+        [disabled]="paginaCorrente() === 1"
+      >
+        ←
+      </button>
+
+      @for (pagina of pagine(); track pagina) {
+      <button
+        [class.active]="paginaCorrente() === pagina"
+        (click)="caricaPagina(pagina)"
+      >
+        {{ pagina }}
+      </button>
+      }
+
+      <button
+        (click)="caricaPagina(paginaCorrente() + 1)"
+        [disabled]="paginaCorrente() === numeroPagine()"
+      >
+        →
+      </button>
+    </div>
+</div>

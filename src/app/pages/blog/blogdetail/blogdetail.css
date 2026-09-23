@@ -1,0 +1,217 @@
+.blog-detail-page {
+  min-height: 100vh;
+  padding: 120px 20px 64px;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(34, 197, 94, 0.12), transparent 28rem),
+    linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+  box-sizing: border-box;
+}
+
+.blog-detail {
+  width: min(100%, 860px);
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
+}
+
+.blog-detail-header {
+  position: relative;
+  padding: clamp(30px, 6vw, 64px);
+  color: #ffffff;
+  background:
+    linear-gradient(135deg, rgba(15, 118, 110, 0.96), rgba(22, 101, 52, 0.92)),
+    #166534;
+}
+
+.blog-detail-header::after {
+  position: absolute;
+  right: -70px;
+  bottom: -110px;
+  width: 260px;
+  height: 260px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  box-shadow: 0 0 0 35px rgba(255, 255, 255, 0.04);
+  content: "";
+}
+
+.blog-detail-id {
+  display: inline-flex;
+  margin-bottom: 22px;
+  padding: 7px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #dcfce7;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.blog-detail-header h1 {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.blog-detail-meta {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  margin-top: 28px;
+  color: #d1fae5;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.blog-detail-meta span + span::before {
+  margin-right: 24px;
+  color: rgba(255, 255, 255, 0.45);
+  content: "•";
+}
+
+.blog-detail-content {
+  padding: clamp(30px, 6vw, 58px) clamp(24px, 7vw, 72px) 12px;
+}
+
+.blog-detail-content p {
+  margin: 0;
+  color: #334155;
+  font-size: clamp(1.08rem, 2vw, 1.28rem);
+  line-height: 1.9;
+  white-space: pre-line;
+}
+
+.blog-detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding: 24px clamp(24px, 7vw, 72px) 32px;
+}
+
+.blog-detail-tags span {
+  padding: 8px 13px;
+  border: 1px solid #bbf7d0;
+  border-radius: 999px;
+  background: #f0fdf4;
+  color: #15803d;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.blog-detail-reactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 24px clamp(24px, 7vw, 72px);
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.blog-detail-reactions button,
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.blog-detail-reactions button {
+  padding: 0 18px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  cursor: pointer;
+}
+
+.blog-detail-reactions button:first-child {
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.blog-detail-reactions button:hover:not(:disabled),
+.back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+}
+
+.blog-detail-reactions button:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.blog-detail-actions {
+  padding: 28px clamp(24px, 7vw, 72px) 36px;
+}
+
+.back-button {
+  width: fit-content;
+  padding: 0 18px;
+  background: #1f2937;
+  color: #ffffff;
+}
+
+.blog-not-found {
+  width: min(100%, 620px);
+  margin: 10vh auto 0;
+  padding: clamp(32px, 7vw, 64px) 28px;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.1);
+  text-align: center;
+}
+
+.blog-not-found h2 {
+  margin: 0 0 10px;
+  color: #1e293b;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+}
+
+.blog-not-found p {
+  margin: 0 0 28px;
+  color: #64748b;
+}
+
+@media (max-width: 600px) {
+  .blog-detail-page {
+    padding: 96px 12px 36px;
+  }
+
+  .blog-detail {
+    border-radius: 20px;
+  }
+
+  .blog-detail-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .blog-detail-meta span + span::before {
+    display: none;
+  }
+
+  .blog-detail-reactions button,
+  .back-button {
+    width: 100%;
+  }
+}

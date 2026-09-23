@@ -1,0 +1,48 @@
+<div class="blog-detail-page">
+  @if (blog) {
+  <article class="blog-detail">
+    <div class="blog-detail-header">
+      <span class="blog-detail-id"> Articolo #{{ blog.id }} </span>
+
+      <h1>{{ blog.title }}</h1>
+
+      <div class="blog-detail-meta">
+        <span>Autore {{ blog.userId }}</span>
+        <span>{{ blog.views }} visualizzazioni</span>
+      </div>
+    </div>
+
+    <div class="blog-detail-content">
+      <p>{{ blog.body }}</p>
+    </div>
+
+    <div class="blog-detail-tags">
+      @for (tag of blog.tags; track tag) {
+      <span>{{ tag }}</span>
+      }
+    </div>
+
+    <div class="blog-detail-reactions">
+      <button (click)="putLike()" [disabled]="Like">
+        Like {{ blog.reactions.likes }}
+      </button>
+
+      <button (click)="putDislike()" [disabled]="Dislike">
+        Dislike {{ blog.reactions.dislikes }}
+      </button>
+    </div>
+
+    <div class="blog-detail-actions">
+      <a routerLink="/blog" class="back-button"> ← Torna al blog </a>
+    </div>
+  </article>
+  } @else {
+  <div class="blog-not-found">
+    <h2>Articolo non trovato</h2>
+
+    <p>L'articolo che stai cercando non esiste.</p>
+
+    <a routerLink="/blog" class="back-button"> ← Torna al blog </a>
+  </div>
+  }
+</div>
