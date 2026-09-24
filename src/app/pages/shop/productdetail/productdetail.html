@@ -1,4 +1,5 @@
 <div class="container">
+    @if (prodotto) {
   <div class="product-overlay">
     <div class="product-nav-links">
       <a routerLink="/shop" class="nav-back-link">← Torna allo Shop</a>
@@ -12,4 +13,19 @@
   <a class="cart-fab" routerLink="/shop/cart">Carrello</a>
 
   <app-minicart />
+   } @else {
+
+    <div class="product-not-found">
+      <h2>Prodotto non trovato</h2>
+
+      <p>
+        Il prodotto che stai cercando non esiste.
+      </p>
+
+      <a routerLink="/shop">
+        ← Torna allo shop
+      </a>
+    </div>
+
+  }
 </div>

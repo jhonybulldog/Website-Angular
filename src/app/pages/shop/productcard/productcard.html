@@ -8,6 +8,7 @@
       <p>{{proddi().price}} €</p>
     </div>
 
+    @if (nelCarrello()) { <span class="nel-carrello">Nel carrello</span> }
     <button [routerLink]="['/shop', proddi().id]">visualizza</button>
     <button
       class="add-to-cart btn btn-primary"

@@ -14,6 +14,19 @@
         <option [value]="categoria.slug">{{ categoria.name }}</option>
         }
       </select>
+      <select
+        class="category-select"
+        [(ngModel)]="limit"
+        (change)="caricaPagina(1)"
+      >
+        <option value="21">quanti prodotti vuoi vedere?</option>
+        <option value="5">5 prodotti</option>
+        <option value="10">10 prodotti</option>
+        <option value="20">20 prodotti</option>
+        <option value="50">50 prodotti</option>
+        <option value="100">100 prodotti</option>
+
+      </select>
       <div class="search-box">
         <input
           type="text"
@@ -28,7 +41,30 @@
         }
       </div>
     </div>
-
     <app-minicart></app-minicart>
+        <div class="pagination">
+      <button
+        (click)="caricaPagina(paginaCorrente() - 1)"
+        [disabled]="paginaCorrente() === 1"
+      >
+        ←
+      </button>
+
+      @for (pagina of pagine(); track pagina) {
+      <button
+        [class.active]="paginaCorrente() === pagina"
+        (click)="caricaPagina(pagina)"
+      >
+        {{ pagina }}
+      </button>
+      }
+
+      <button
+        (click)="caricaPagina(paginaCorrente() + 1)"
+        [disabled]="paginaCorrente() === numeroPagine()"
+      >
+        →
+      </button>
+    </div> 
   </div>
 </div>

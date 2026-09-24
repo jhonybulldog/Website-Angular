@@ -12,5 +12,7 @@ export const routes: Routes = [
   {path: 'shop/:id', loadComponent: () => import('./pages/shop/productdetail/productdetail').then(m => m.Productdetail)},
   {path: 'checkout',loadComponent: () => import('./pages/shop/checkout/checkout').then(m => m.Checkout)},
   {path: 'dashboard', canActivate: [authGuard],loadComponent: () => import('./pages/shop/dashboard/dashboard').then(m => m.Dashboard)},
+  {path: 'blog', loadComponent:() => import ('./pages/blog/blog').then(m => m.Blog)},
+  {path: 'blog/:id', loadComponent: () => import('./pages/blog/blogdetail/blogdetail').then(m => m.Blogdetail)},
   {path: '**', redirectTo: ''},
 ];

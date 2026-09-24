@@ -1,11 +1,11 @@
 import { Component, inject, OnInit, signal, computed } from "@angular/core";
-import { RouterLink } from "@angular/router";
 import { Prodotti } from "./prodotti.service";
 import { Productcard } from "./productcard/productcard";
 import { Minicart } from "./minicart/minicart";
 import { PreferenzeService } from "./preferenze.service";
+import { FormsModule } from "@angular/forms";
 @Component({
-  imports: [ Productcard, Minicart],
+  imports: [Productcard, Minicart, FormsModule],
   selector: "app-shop",
   styleUrl: "./shop.css",
   templateUrl: "./shop.html",
@@ -17,25 +17,31 @@ export class Shop implements OnInit {
   prodotti = this.prodottiser.prod;
   categoriaSelezionata = signal<string>("");
   ricerca = signal<string>("");
+  categorie = computed(() => this.prodottiser.categorie());
+
+  paginaCorrente = signal(1);
+  limit = 21;
+  totaleProdotti = this.prodottiser.totaleProdotti;
+
+  numeroPagine = computed(() => Math.ceil(this.totaleProdotti() / this.limit));
+
+  pagine = computed(() =>
+  Array(this.numeroPagine()).fill(0).map((_, i) => i + 1)
+  );
 
   cercaProdotto(testo: string) {
     this.ricerca.set(testo);
   }
 
-  ngOnInit() {
-    if (this.prodotti().length === 0) {
-      this.prodottiser.caricaProdotti();
-    }
-    if (this.categorie().length === 0) {
-      this.prodottiser.caricaCategorie();
-    }
-  }
+  caricaPagina(pagina: number) {
+    const skip = (pagina - 1) * this.limit;
+    this.paginaCorrente.set(pagina);
 
-  categorie = computed(() => this.prodottiser.categorie());
-
-  selezionacategoria(categoria: string) {
-    this.categoriaSelezionata.set(categoria);
-    console.log(categoria);
+    this.prodottiser.caricaProdotti(
+      this.limit,
+      skip,
+      this.categoriaSelezionata(),
+    );
   }
 
   filtroprod = computed(() => {
@@ -72,4 +78,16 @@ export class Shop implements OnInit {
 
     return lista;
   });
+
+  selezionacategoria(categoria: string) {
+    this.categoriaSelezionata.set(categoria);
+    this.caricaPagina(1);
+    console.log(categoria);
+  }
+  ngOnInit() {
+    this.caricaPagina(1);
+    if (this.categorie().length === 0) {
+      this.prodottiser.caricaCategorie();
+    }
+  }
 }

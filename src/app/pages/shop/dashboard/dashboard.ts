@@ -3,12 +3,7 @@ import { OrdiniService } from "../ordini.service";
 import { Prodotti } from "../prodotti.service";
 import { DatePipe } from "@angular/common";
 import { PreferenzeService } from "../preferenze.service";
-import {
-  FormArray,
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from "@angular/forms";
+import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { LoginService } from "../../admin/login/login.service";
 
 @Component({
@@ -30,6 +25,7 @@ export class Dashboard implements OnInit {
   immagineProfilo = "/profile.png";
 
   readonly preferenzeserv = inject(PreferenzeService);
+
   form = this.fb.group({
     preferenze: this.fb.array<typeof this.creaRiga>([]),
   });
@@ -70,7 +66,7 @@ export class Dashboard implements OnInit {
     console.log("Preferenze salvate:", this.preferenzeFormArray.value);
   }
 
- popolaFormDaPreferenzeSalvate() {
+ preferenzeSalvate() {
   const salvate = this.preferenzeserv.tutteLePreferenze();
   for (const categoria of Object.keys(salvate)) {
     this.preferenzeFormArray.push(
@@ -83,6 +79,6 @@ export class Dashboard implements OnInit {
 }
   ngOnInit() {
     this.prodottiService.caricaCategorie();
-      this.popolaFormDaPreferenzeSalvate();
+      this.preferenzeSalvate();
   }
 }

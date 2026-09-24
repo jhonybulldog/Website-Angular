@@ -39,6 +39,10 @@ body {
   color: var(--dark-gray);
 }
 
+/* =========================
+   SHOP
+   ========================= */
+
 .shop-page {
   min-height: 100vh;
   display: flex;
@@ -55,8 +59,9 @@ body {
 }
 
 /* =========================
-   LAYOUT CON MINICART A DESTRA
+   LAYOUT
    ========================= */
+
 .shop-layout {
   display: grid;
   grid-template-columns: 1fr minmax(280px, 340px);
@@ -74,6 +79,10 @@ app-minicart {
   display: block;
   z-index: 10;
 }
+
+/* =========================
+   HEADER
+   ========================= */
 
 .shop-header {
   display: flex;
@@ -95,34 +104,12 @@ app-minicart {
   position: absolute;
   bottom: -10px;
   left: 0;
-  transform: none;
+
   width: 60px;
   height: 4px;
+
   background: var(--primary-green);
   border-radius: var(--radius-sm);
-}
-
-.btn-dashboard {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  background: var(--white);
-  color: var(--dark-green);
-  border: 2px solid var(--primary-green);
-  border-radius: var(--radius-lg);
-  font-weight: 700;
-  font-size: 0.95rem;
-  text-decoration: none;
-  box-shadow: var(--shadow-md);
-  transition: all 0.2s ease;
-}
-
-.btn-dashboard:hover {
-  background: var(--primary-green);
-  color: var(--white);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
 }
 
 /* =========================
@@ -135,7 +122,7 @@ app-minicart {
   width: 100%;
   max-width: 320px;
 
-  margin: 0 auto 2.5rem auto;
+  margin: 0 auto 2.5rem;
 
   padding: 0.85rem 1rem;
 
@@ -165,6 +152,7 @@ app-minicart {
 
 .category-select:focus {
   outline: none;
+
   border-color: var(--primary-green);
 
   box-shadow:
@@ -182,6 +170,59 @@ app-minicart {
 }
 
 /* =========================
+   RICERCA
+   ========================= */
+
+.search-box {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  max-width: 500px;
+
+  margin: 0 auto 2.5rem;
+
+  padding: 0.85rem 1rem;
+
+  background: var(--white);
+
+  border: 2px solid var(--medium-gray);
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-md);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.search-box input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: var(--dark-gray);
+
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.search-box input::placeholder {
+  color: var(--text-gray);
+}
+
+.search-box:focus-within {
+  border-color: var(--primary-green);
+
+  box-shadow:
+    0 0 0 4px rgba(16, 185, 129, 0.15);
+}
+
+/* =========================
    PRODOTTI
    ========================= */
 
@@ -194,38 +235,78 @@ app-minicart {
   gap: 25px;
 }
 
-.search-box {
-  display: flex;
+/* Bottoni della paginazione */
+.pagination button {
+  min-width: 42px;
+  height: 42px;
+
+  display: inline-flex;
   align-items: center;
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto 2.5rem auto;
-  padding: 0.85rem 1rem;
+  justify-content: center;
+
+  padding: 0 0.75rem;
+
   background: var(--white);
+  color: var(--dark-gray);
+
   border: 2px solid var(--medium-gray);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
 
-.search-box input {
-  width: 100%;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: var(--dark-gray);
   font-family: inherit;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 0.95rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: var(--shadow-md);
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.search-box input::placeholder {
-  color: var(--medium-gray);
-}
+/* Hover */
+.pagination button:hover:not(:disabled) {
+  background: var(--light-green);
 
-.search-box:focus-within {
+  color: var(--dark-green);
+
   border-color: var(--primary-green);
-  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+
+  transform: translateY(-2px);
+
+  box-shadow: var(--shadow-lg);
+}
+
+/* Pagina attiva */
+.pagination button.active {
+  background: var(--primary-green);
+
+  color: var(--white);
+
+  border-color: var(--primary-green);
+
+  box-shadow:
+    0 4px 10px rgba(16, 185, 129, 0.25);
+}
+
+/* Bottoni disabilitati */
+.pagination button:disabled {
+  opacity: 0.4;
+
+  cursor: not-allowed;
+
+  background: var(--light-gray);
+
+  box-shadow: none;
+}
+
+/* Click */
+.pagination button:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 /* =========================
@@ -271,7 +352,9 @@ app-minicart {
 
 .cart-fab::before {
   margin-right: 0.55rem;
+
   content: "🛒";
+
   font-size: 1.05rem;
 }
 
@@ -294,7 +377,7 @@ app-minicart {
 }
 
 /* =========================
-   RESPONSIVE
+   RESPONSIVE TABLET
    ========================= */
 
 @media (max-width: 1024px) {
@@ -305,7 +388,15 @@ app-minicart {
   app-minicart {
     position: static;
   }
+
+  .pagination {
+    grid-column: auto;
+  }
 }
+
+/* =========================
+   RESPONSIVE MOBILE
+   ========================= */
 
 @media (max-width: 600px) {
   .shop-page {
@@ -314,28 +405,43 @@ app-minicart {
 
   .container {
     width: calc(100% - 2rem);
+
     padding: 1rem 0 2rem;
   }
 
   .shop-header {
     flex-direction: column;
     align-items: stretch;
-    gap: 1rem;
-  }
 
-  .btn-dashboard {
-    justify-content: center;
+    gap: 1rem;
   }
 
   .category-select,
   .search-box {
     max-width: 100%;
+
     margin-bottom: 2rem;
   }
 
   .prodotti-grid {
     grid-template-columns: 1fr;
+
     gap: 1.25rem;
+  }
+
+  .pagination {
+    gap: 0.35rem;
+
+    margin-top: 2rem;
+  }
+
+  .pagination button {
+    min-width: 38px;
+    height: 38px;
+
+    padding: 0 0.5rem;
+
+    font-size: 0.85rem;
   }
 }
 
@@ -345,7 +451,9 @@ app-minicart {
 
 @media (prefers-reduced-motion: reduce) {
   .cart-fab,
-  .category-select {
+  .category-select,
+  .pagination button,
+  .search-box {
     transition: none;
   }
 }

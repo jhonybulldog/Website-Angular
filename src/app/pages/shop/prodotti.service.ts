@@ -20,9 +20,10 @@ export class Prodotti {
   private nextid = 1;
   private http = inject(HttpClient);
   prod = signal<ListaProdotti[]>([]);
-  categorianuove = signal<string[]>([])
+  categorianuove = signal<string[]>([]);
   categorie = signal<Category[]>([]);
-
+  totaleProdotti = signal(0);
+  private url = "https://dummyjson.com/products/";
   caricaCategorie() {
     this.http
       .get<Category[]>("https://dummyjson.com/products/categories")
@@ -30,16 +31,24 @@ export class Prodotti {
         this.categorie.set(risposta);
       });
   }
-  caricaProdotti() {
+  caricaProdotti(limit: number, skip: number, categoria: string = "") {
+    let url = this.url
+      if(categoria){
+       url = `${this.url}/category/${categoria}`;
+      }
     this.http
-      .get<{ products: ListaProdotti[] }>("https://dummyjson.com/products")
+      .get<{ products: ListaProdotti[]; total: number }>(url, {
+        params: {
+          limit: limit,
+          skip: skip,
+        },
+      })
       .subscribe((risposta) => {
         this.prod.set(risposta.products);
-        this.nextid =
-          Math.max(...this.prod().map((prodotto) => prodotto.id)) + 1;
-        console.log(this.prod());
+        this.totaleProdotti.set(risposta.total);
       });
   }
+
   aggiungiProdotto(prodotto: ListaProdotti) {
     prodotto.id = this.nextid;
     this.nextid++;
@@ -58,22 +67,21 @@ export class Prodotti {
     );
   }
 
-  aggiungicategoria(categoria: string){
-    this.categorianuove.set([
-      ...this.categorianuove(),
-      categoria
-    ])
+  aggiungicategoria(categoria: string) {
+    this.categorianuove.set([...this.categorianuove(), categoria]);
   }
   eliminacategoria(categoria: string) {
-  this.categorianuove.update((categorie) =>
-    categorie.filter((c) => c !== categoria)
-  );
-}
-modificacategoria(categoriaVecchia: string, categoriaNuova: string) {
-  this.categorianuove.update((categorie) =>
-    categorie.map((categoria) =>
-      categoria === categoriaVecchia ? categoriaNuova : categoria
-    )
-  );
-}
+    this.categorianuove.update((categorie) =>
+      categorie.filter((c) => c !== categoria),
+    );
+  }
+  modificacategoria(categoriaVecchia: string, categoriaNuova: string) {
+    this.categorianuove.update((categorie) =>
+      categorie.map((categoria) =>
+        categoria === categoriaVecchia ? categoriaNuova : categoria,
+      ),
+    );
+  }
+
+  
 }

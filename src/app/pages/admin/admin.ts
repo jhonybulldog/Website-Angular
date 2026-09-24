@@ -1,5 +1,10 @@
 import { Component, inject, OnInit, signal, computed } from "@angular/core";
-import {FormControl,FormGroup,ReactiveFormsModule,Validators,} from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { LoginService, User } from "./login/login.service";
 import { delay } from "rxjs";
 import { Prodotti, ListaProdotti } from "../shop/prodotti.service";
@@ -50,13 +55,13 @@ export class Admin implements OnInit {
   });
 
   categoryform = new FormGroup({
-    name: new FormControl("", [Validators.required])
-  })
+    name: new FormControl("", [Validators.required]),
+  });
 
   categorymanageform = new FormGroup({
-  categoria: new FormControl("", [Validators.required]),
-  nomeNuovo: new FormControl("", [Validators.required]),
-});
+    categoria: new FormControl("", [Validators.required]),
+    nomeNuovo: new FormControl("", [Validators.required]),
+  });
   onSubmit() {
     if (this.creaform.valid) {
       console.log(this.creaform.value);
@@ -141,7 +146,7 @@ export class Admin implements OnInit {
   categorie = computed(() => [
     ...new Set([
       ...this.prodottiService.categorie().map((categoria) => categoria.name),
-      ...this.prodottiService.categorianuove()
+      ...this.prodottiService.categorianuove(),
     ]),
   ]);
 
@@ -150,17 +155,16 @@ export class Admin implements OnInit {
     console.log(categoria);
   }
 
-ngOnInit() {
-  this.caricaUtenti();
+  ngOnInit() {
+    this.caricaUtenti();
+     if (this.prodotti().length === 0) {
+      this.prodottiService.caricaProdotti(0,0);
+    }
 
-  if (this.prodotti().length === 0) {
-    this.prodottiService.caricaProdotti();
+    if (this.categorie().length === 0) {
+      this.prodottiService.caricaCategorie();
+    }
   }
-
-  if (this.categorie().length === 0) {
-    this.prodottiService.caricaCategorie();
-  }
-}
   elimina(username: string) {
     this.loginService.cancellaAccount(username).subscribe({
       next: () => {
@@ -224,31 +228,30 @@ ngOnInit() {
     }
   }
 
-  aggiungicategory(){
-    if(this.categoryform.valid){
-      const categorianuova = this.categoryform.value.name!
-      this.prodottiService.aggiungicategoria(categorianuova)
-      this.categoryform.reset()
+  aggiungicategory() {
+    if (this.categoryform.valid) {
+      const categorianuova = this.categoryform.value.name!;
+      this.prodottiService.aggiungicategoria(categorianuova);
+      this.categoryform.reset();
     }
   }
   modificacategory() {
-  if (this.categorymanageform.valid) {
+    if (this.categorymanageform.valid) {
+      const categoria = this.categorymanageform.value.categoria!;
+      const nomeNuovo = this.categorymanageform.value.nomeNuovo!;
 
-    const categoria = this.categorymanageform.value.categoria!;
-    const nomeNuovo = this.categorymanageform.value.nomeNuovo!;
+      this.prodottiService.modificacategoria(categoria, nomeNuovo);
 
-    this.prodottiService.modificacategoria(categoria, nomeNuovo);
-
-    this.categorymanageform.reset();
+      this.categorymanageform.reset();
+    }
   }
-}
-eliminacategory() {
-  if (this.categorymanageform.valid) {
-    const categoria = this.categorymanageform.value.categoria!;
+  eliminacategory() {
+    if (this.categorymanageform.valid) {
+      const categoria = this.categorymanageform.value.categoria!;
 
-    this.prodottiService.eliminacategoria(categoria);
+      this.prodottiService.eliminacategoria(categoria);
 
-    this.categorymanageform.reset();
+      this.categorymanageform.reset();
+    }
   }
-}
 }
