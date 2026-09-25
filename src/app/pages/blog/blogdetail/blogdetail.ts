@@ -55,7 +55,7 @@ export class Blogdetail implements OnInit {
       this.blog.set(post);
             this.bService.caricaAutore(post.userId).subscribe((autore) => {
         this.autore.set(autore);
-      })
+      });
     });
     
 
