@@ -6,34 +6,32 @@ import { LimitSelector } from '../shared/limit-selector/limit-selector';
 import { Pagination } from '../shared/pagination/pagination';
 
 @Component({
-  imports: [ Blogcard, LimitSelector, Pagination],
+  imports: [Blogcard, LimitSelector, Pagination],
   selector: 'app-blog',
   styleUrl: './blog.css',
   templateUrl: './blog.html',
   providers: [BlogService]
 })
-export class Blog implements OnInit{
+export class Blog implements OnInit {
   private bservice = inject(BlogService);
-  blogpost = this.bservice.blogpost
-  limit=21;
-  paginaCorrente = signal(1)
+  blogpost = this.bservice.blogpost;
+  limit = signal(21);
+  paginaCorrente = signal(1);
 
   totaleblog = this.bservice.totaleblog;
-  
-  numeroPagine = computed(() => Math.ceil(this.totaleblog() / this.limit));
 
+  numeroPagine = computed(() =>
+    Math.ceil(this.totaleblog() / this.limit()),
+  );
 
   caricaPagina(pagina: number) {
-    const skip = (pagina - 1) * this.limit;
+    const skip = (pagina - 1) * this.limit();
     this.paginaCorrente.set(pagina);
 
-    this.bservice.caricablog(
-      this.limit,
-      skip,
-    );
+    this.bservice.caricablog(this.limit(), skip);
   }
 
   ngOnInit(): void {
-    this.caricaPagina(1);    
+    this.caricaPagina(1);
   }
 }

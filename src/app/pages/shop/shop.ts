@@ -6,7 +6,6 @@ import { PreferenzeService } from "./preferenze.service";
 import { LimitSelector } from "../shared/limit-selector/limit-selector";
 import { Pagination } from "../shared/pagination/pagination";
 import { Searchbox } from "../shared/searchbox/searchbox";
-
 @Component({
   imports: [Productcard, Minicart, LimitSelector, Pagination, Searchbox],
   selector: "app-shop",

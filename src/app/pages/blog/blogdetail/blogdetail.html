@@ -1,34 +1,34 @@
 <div class="blog-detail-page">
-  @if (blog) {
+  @if (blog()) {
   <article class="blog-detail">
     <div class="blog-detail-header">
-      <span class="blog-detail-id"> Articolo #{{ blog.id }} </span>
+      <span class="blog-detail-id"> Articolo #{{ blog()!.id }} </span>
 
-      <h1>{{ blog.title }}</h1>
+      <h1>{{ blog()!.title }}</h1>
 
       <div class="blog-detail-meta">
-        <span>Autore {{ blog.userId }}</span>
-        <span>{{ blog.views }} visualizzazioni</span>
+        <span>Autore {{ autore()?.username }}</span>
+        <span>{{ blog()!.views }} visualizzazioni</span>
       </div>
     </div>
 
     <div class="blog-detail-content">
-      <p>{{ blog.body }}</p>
+      <p>{{ blog()!.body }}</p>
     </div>
 
     <div class="blog-detail-tags">
-      @for (tag of blog.tags; track tag) {
+      @for (tag of blog()!.tags; track tag) {
       <span>{{ tag }}</span>
       }
     </div>
 
     <div class="blog-detail-reactions">
       <button (click)="putLike()" [disabled]="Like">
-        Like {{ blog.reactions.likes }}
+        Like {{ blog()!.reactions.likes }}
       </button>
 
       <button (click)="putDislike()" [disabled]="Dislike">
-        Dislike {{ blog.reactions.dislikes }}
+        Dislike {{ blog()!.reactions.dislikes }}
       </button>
     </div>
 

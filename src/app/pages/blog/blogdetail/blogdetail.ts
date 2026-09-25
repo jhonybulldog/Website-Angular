@@ -1,48 +1,63 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, inject, OnInit, signal } from "@angular/core";
 import { ActivatedRoute, RouterLink } from "@angular/router";
-import { Post, BlogService } from "../blog.service";
+import { Post, BlogService, Author } from "../blog.service";
+
 @Component({
   imports: [RouterLink],
   selector: "app-blogdetail",
   styleUrl: "./blogdetail.css",
   templateUrl: "./blogdetail.html",
-  providers: [BlogService]
+  providers: [BlogService],
 })
 export class Blogdetail implements OnInit {
   private route = inject(ActivatedRoute);
   private bService = inject(BlogService);
-  blog: Post | undefined;
+  blog = signal<Post | undefined>(undefined);
   idblog: string | null = null;
   Like = false;
   Dislike = false;
-
+  autore = signal<Author | undefined>(undefined);
   putLike() {
-      if (this.Dislike) {
-        this.blog!.reactions.dislikes--;
-        this.Dislike = false;
-      }
+    const attuale = this.blog();
+    if (!attuale) return;
 
-      if (!this.Like) {
-        this.blog!.reactions.likes++;
-        this.Like = true;
-      }
+    if (this.Dislike) {
+      attuale.reactions.dislikes--;
+      this.Dislike = false;
+    }
+    if (!this.Like) {
+      attuale.reactions.likes++;
+      this.Like = true;
+    }
+    this.blog.set({ ...attuale });
   }
 
   putDislike() {
-      if (this.Like) {
-        this.blog!.reactions.likes--;
-        this.Like = false;
-      }
+    const attuale = this.blog();
+    if (!attuale) return;
 
-      if (!this.Dislike) {
-        this.blog!.reactions.dislikes++;
-        this.Dislike = true;
-      }
+    if (this.Like) {
+      attuale.reactions.likes--;
+      this.Like = false;
+    }
+    if (!this.Dislike) {
+      attuale.reactions.dislikes++;
+      this.Dislike = true;
+    }
+    this.blog.set({ ...attuale });
   }
+
   ngOnInit(): void {
     this.idblog = this.route.snapshot.paramMap.get("id");
-
     const id = Number(this.idblog);
-    this.blog = this.bService.blogpost().find((blog) => blog.id === id);
+
+    this.bService.caricaPost(id).subscribe((post) => {
+      this.blog.set(post);
+            this.bService.caricaAutore(post.userId).subscribe((autore) => {
+        this.autore.set(autore);
+      })
+    });
+    
+
   }
 }
