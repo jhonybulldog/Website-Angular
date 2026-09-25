@@ -3,9 +3,12 @@ import { Prodotti } from "./prodotti.service";
 import { Productcard } from "./productcard/productcard";
 import { Minicart } from "./minicart/minicart";
 import { PreferenzeService } from "./preferenze.service";
-import { FormsModule } from "@angular/forms";
+import { LimitSelector } from "../shared/limit-selector/limit-selector";
+import { Pagination } from "../shared/pagination/pagination";
+import { Searchbox } from "../shared/searchbox/searchbox";
+
 @Component({
-  imports: [Productcard, Minicart, FormsModule],
+  imports: [Productcard, Minicart, LimitSelector, Pagination, Searchbox],
   selector: "app-shop",
   styleUrl: "./shop.css",
   templateUrl: "./shop.html",
@@ -20,72 +23,60 @@ export class Shop implements OnInit {
   categorie = computed(() => this.prodottiser.categorie());
 
   paginaCorrente = signal(1);
-  limit = 21;
-  totaleProdotti = this.prodottiser.totaleProdotti;
-
-  numeroPagine = computed(() => Math.ceil(this.totaleProdotti() / this.limit));
-
-  pagine = computed(() =>
-  Array(this.numeroPagine()).fill(0).map((_, i) => i + 1)
-  );
-
-  cercaProdotto(testo: string) {
-    this.ricerca.set(testo);
-  }
-
-  caricaPagina(pagina: number) {
-    const skip = (pagina - 1) * this.limit;
-    this.paginaCorrente.set(pagina);
-
-    this.prodottiser.caricaProdotti(
-      this.limit,
-      skip,
-      this.categoriaSelezionata(),
-    );
-  }
+  limit = signal(21);
 
   filtroprod = computed(() => {
     const categoria = this.categoriaSelezionata();
     const testo = this.ricerca().toLowerCase().trim();
     let lista = this.prodotti();
-    if (categoria !== "" || testo !== "") {
-      lista = lista.filter((prodotto) => {
-        const selezionecategoria =
-          categoria === "" || prodotto.category === categoria;
-        const selezionetesto =
-          testo === "" || prodotto.title.toLowerCase().includes(testo);
-        return selezionecategoria && selezionetesto;
-      });
+
+    if (categoria !== "") {
+      lista = lista.filter((prodotto) => prodotto.category === categoria);
     }
+
+    if (testo !== "") {
+      lista = lista.filter((prodotto) =>
+        prodotto.title.toLowerCase().includes(testo),
+      );
+    }
+
     if (categoria === "") {
-      const pesi: { [key: string]: number } = {
+      const pesi: Record<string, number> = {
         Alta: 3,
         Media: 2,
         "": 1,
         Bassa: 0,
       };
-
       lista = [...lista].sort((a, b) => {
         const prefA = this.preferenzeser.getPreferenza(a.category);
         const prefB = this.preferenzeser.getPreferenza(b.category);
-
-        const pesoA = pesi[prefA];
-        const pesoB = pesi[prefB];
-
-        return pesoB - pesoA;
+        return pesi[prefB] - pesi[prefA];
       });
     }
 
     return lista;
   });
 
+  numeroPagine = computed(() =>
+    Math.ceil(this.filtroprod().length / this.limit()),
+  );
+
+  prodottiPagina = computed(() => {
+    const skip = (this.paginaCorrente() - 1) * this.limit();
+    return this.filtroprod().slice(skip, skip + this.limit());
+  });
+
+  caricaPagina(pagina: number) {
+    this.paginaCorrente.set(pagina);
+  }
+
   selezionacategoria(categoria: string) {
     this.categoriaSelezionata.set(categoria);
-    this.caricaPagina(1);
-    console.log(categoria);
+    this.paginaCorrente.set(1);
   }
+
   ngOnInit() {
-    this.caricaPagina(1);
+    this.prodottiser.caricaProdotti(200, 0);
     if (this.categorie().length === 0) {
       this.prodottiser.caricaCategorie();
     }

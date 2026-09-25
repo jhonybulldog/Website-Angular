@@ -1,13 +1,16 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { inject } from '@angular/core';
 import { BlogService } from './blog.service';
-import { FormsModule } from '@angular/forms';
 import { Blogcard } from './blogcard/blogcard';
+import { LimitSelector } from '../shared/limit-selector/limit-selector';
+import { Pagination } from '../shared/pagination/pagination';
+
 @Component({
-  imports: [FormsModule, Blogcard],
+  imports: [ Blogcard, LimitSelector, Pagination],
   selector: 'app-blog',
   styleUrl: './blog.css',
   templateUrl: './blog.html',
+  providers: [BlogService]
 })
 export class Blog implements OnInit{
   private bservice = inject(BlogService);
@@ -18,10 +21,6 @@ export class Blog implements OnInit{
   totaleblog = this.bservice.totaleblog;
   
   numeroPagine = computed(() => Math.ceil(this.totaleblog() / this.limit));
-
-  pagine = computed(() =>
-  Array(this.numeroPagine()).fill(0).map((_, i) => i + 1),  
-);
 
 
   caricaPagina(pagina: number) {

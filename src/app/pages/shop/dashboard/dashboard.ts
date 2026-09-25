@@ -26,18 +26,18 @@ export class Dashboard implements OnInit {
 
   readonly preferenzeserv = inject(PreferenzeService);
 
-  form = this.fb.group({
-    preferenze: this.fb.array<typeof this.creaRiga>([]),
-  });
+form = this.fb.group({
+  preferenze: this.fb.array<ReturnType<typeof this.creaRiga>>([]),
+});
 
   get preferenzeFormArray(): FormArray {
     return this.form.controls.preferenze;
   }
 
-  private creaRiga() {
+  private creaRiga(categoria = "", preferenza = "") {
     return this.fb.group({
-      categoria: ["", Validators.required],
-      preferenza: ["", Validators.required],
+      categoria: [categoria, Validators.required],
+      preferenza: [preferenza, Validators.required],
     });
   }
 
@@ -60,25 +60,28 @@ export class Dashboard implements OnInit {
   }
 
   salvaTutto() {
-    for (const cate of this.preferenzeFormArray.value) {
-      this.preferenzeserv.salvaPreferenza(cate.categoria, cate.preferenza);
+    const mappa: { [categoria: string]: string } = {};
+    for (const item of this.preferenzeFormArray.value) {
+      if (item.categoria && item.preferenza) {
+        mappa[item.categoria] = item.preferenza;
+      }
     }
-    console.log("Preferenze salvate:", this.preferenzeFormArray.value);
+    this.preferenzeserv.salvaTutteLePreferenze(mappa);
+    console.log("[DEBUG] Preferenze salvate manualmente:", mappa);
   }
 
- preferenzeSalvate() {
-  const salvate = this.preferenzeserv.tutteLePreferenze();
-  for (const categoria of Object.keys(salvate)) {
-    this.preferenzeFormArray.push(
-      this.fb.group({
-        categoria: [categoria, Validators.required],
-        preferenza: [salvate[categoria], Validators.required],
-      })
-    )
+  preferenzeSalvate() {
+    this.preferenzeFormArray.clear();
+    const salvate = this.preferenzeserv.tutteLePreferenze();
+    for (const categoria of Object.keys(salvate)) {
+      this.preferenzeFormArray.push(
+        this.creaRiga(categoria, salvate[categoria])
+      );
+    }
   }
-}
+
   ngOnInit() {
     this.prodottiService.caricaCategorie();
-      this.preferenzeSalvate();
+    this.preferenzeSalvate();
   }
 }

@@ -23,9 +23,7 @@ export interface PostsResponse {
   limit: number;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 
 export class BlogService {
     blogpost = signal<Post[]>([])

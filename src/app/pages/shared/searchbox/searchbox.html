@@ -1,0 +1,9 @@
+<div class="search-box">
+  <input
+  #ricerca
+    type="text"
+    placeholder="cerca...."
+    [value]="value()"
+    (input)="value.set(ricerca.value)"
+  />
+</div>

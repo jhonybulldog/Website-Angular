@@ -46,6 +46,10 @@ export class Checkout {
 
   private ordiniser = inject(OrdiniService);
 
+  erroreIndirizzo = signal(false);
+  erroreMetodoPagamento = signal(false);
+  erroreCartaNonConfermata = signal(false);
+
   indirizzoIntestatoForm = new FormGroup({
     intestatario: new FormControl("", [Validators.required]),
   });
@@ -55,8 +59,16 @@ export class Checkout {
   });
 
   cartaform = new FormGroup({
-    dati: new FormControl("", [Validators.required]),
-    cvv: new FormControl(0, [Validators.required]),
+    dati: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(16),
+      Validators.minLength(16),
+    ]),
+    cvv: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(3),
+      Validators.minLength(3),
+    ]),
   });
 
   totale = computed(() =>
@@ -192,17 +204,36 @@ export class Checkout {
   }
 
   completaordine() {
-    const metodo = this.metodoPagamentoForm.value.metodo!;
+    this.metodoPagamentoForm.markAllAsTouched();
+
+    const metodo = this.metodoPagamentoForm.value.metodo;
     const selezionato = this.indirizzi().find(
       (item) => item.id === this.indirizzoSelezionato(),
     );
+
+    this.erroreMetodoPagamento.set(this.metodoPagamentoForm.invalid);
+    this.erroreIndirizzo.set(!selezionato);
+    this.erroreCartaNonConfermata.set(
+      metodo === "carta" && !this.cartaConfermata(),
+    );
+
+    if (this.metodoPagamentoForm.invalid) {
+      return;
+    }
+    if (!selezionato) {
+      return;
+    }
+    if (metodo === "carta" && !this.cartaConfermata()) {
+      return;
+    }
+
     const ordine = {
       id: Date.now(),
       data: new Date().toISOString(),
       prodotti: this.prodotti(),
       totale: this.totaleordine(),
-      indirizzo: `${selezionato!.via}, ${selezionato!.cap} ${selezionato!.citta} ${selezionato!.provincia}`,
-      metodoPagamento: metodo,
+      indirizzo: `${selezionato.via}, ${selezionato.cap} ${selezionato.citta} ${selezionato.provincia}`,
+      metodoPagamento: metodo!,
     };
     this.ordiniser.salvaOrdine(ordine);
     this.carrelloser.svuotacarrello();

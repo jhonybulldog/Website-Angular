@@ -6,12 +6,13 @@ import { Post, BlogService } from "../blog.service";
   selector: "app-blogdetail",
   styleUrl: "./blogdetail.css",
   templateUrl: "./blogdetail.html",
+  providers: [BlogService]
 })
 export class Blogdetail implements OnInit {
   private route = inject(ActivatedRoute);
   private bService = inject(BlogService);
   blog: Post | undefined;
-  idblog: String | null = null;
+  idblog: string | null = null;
   Like = false;
   Dislike = false;
 

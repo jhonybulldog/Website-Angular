@@ -32,10 +32,10 @@ export class Prodotti {
       });
   }
   caricaProdotti(limit: number, skip: number, categoria: string = "") {
-    let url = this.url
-      if(categoria){
-       url = `${this.url}/category/${categoria}`;
-      }
+    let url = this.url;
+    if (categoria) {
+      url = `${this.url}category/${categoria}`;
+    }
     this.http
       .get<{ products: ListaProdotti[]; total: number }>(url, {
         params: {
@@ -82,6 +82,4 @@ export class Prodotti {
       ),
     );
   }
-
-  
 }

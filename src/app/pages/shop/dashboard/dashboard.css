@@ -389,6 +389,21 @@ h2 {
 /* Riga controlli: select + eventuale bottone rimuovi */
 .form-gruppo-controlli {
   display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+.form-gruppo-controlli label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748b;
+  letter-spacing: 0.05em;
+}
+
+.controlli-preferenza {
+  display: flex;
   align-items: center;
   gap: 0.75rem;
   width: 100%;

@@ -157,9 +157,9 @@ export class Admin implements OnInit {
 
   ngOnInit() {
     this.caricaUtenti();
-     if (this.prodotti().length === 0) {
-      this.prodottiService.caricaProdotti(0,0);
-    }
+
+      this.prodottiService.caricaProdotti(200,0);
+  
 
     if (this.categorie().length === 0) {
       this.prodottiService.caricaCategorie();

@@ -10,7 +10,7 @@ export interface User {
 })
 export class LoginService {
   private apiUrl = "http://localhost:3000";
-  usernameLoggato = signal<string | null>(null);
+  usernameLoggato = signal<string | null>(localStorage.getItem("username"));
   constructor(private http: HttpClient) {}
 
   loggedIn = signal(localStorage.getItem("loggedIn") === "true");

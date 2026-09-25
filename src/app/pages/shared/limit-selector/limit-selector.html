@@ -1,0 +1,13 @@
+<select
+  class="category-select"
+  [ngModel]="limit()"
+  (ngModelChange)="limit.set($event)"
+>
+  <option [ngValue]="21">
+    quanti elementi vuoi vedere?
+  </option>
+
+  @for(opzione of opzioni; track opzione){
+  <option [ngValue]="opzione">{{opzione}}</option>
+  }
+</select>

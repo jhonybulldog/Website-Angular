@@ -6,65 +6,30 @@
       </div>
       <select
         class="category-select"
-        #categoria
-        (change)="selezionacategoria(categoria.value)"
+        #categoriaSelect
+        (change)="selezionacategoria(categoriaSelect.value)"
       >
         <option value="">Tutte le categorie</option>
-        @for (categoria of categorie(); track categoria) {
-        <option [value]="categoria.slug">{{ categoria.name }}</option>
+        @for (cat of categorie(); track cat.slug) {
+        <option [value]="cat.slug">{{ cat.name }}</option>
         }
       </select>
-      <select
-        class="category-select"
-        [(ngModel)]="limit"
-        (change)="caricaPagina(1)"
-      >
-        <option value="21">quanti prodotti vuoi vedere?</option>
-        <option value="5">5 prodotti</option>
-        <option value="10">10 prodotti</option>
-        <option value="20">20 prodotti</option>
-        <option value="50">50 prodotti</option>
-        <option value="100">100 prodotti</option>
-
-      </select>
-      <div class="search-box">
-        <input
-          type="text"
-          placeholder="Cerca prodotto..."
-          #ricerca
-          (input)="cercaProdotto(ricerca.value)"
-        />
-      </div>
+      <app-limit-selector
+        [(limit)]="limit"
+        (limitChange)="caricaPagina(1)"
+      ></app-limit-selector>
+      <app-searchbox [(value)]="ricerca"></app-searchbox>
       <div class="prodotti-grid">
-        @for (prodotto of filtroprod(); track prodotto.id) {
+        @for (prodotto of prodottiPagina(); track prodotto.id) {
         <app-productcard [proddi]="prodotto"></app-productcard>
         }
       </div>
     </div>
     <app-minicart></app-minicart>
-        <div class="pagination">
-      <button
-        (click)="caricaPagina(paginaCorrente() - 1)"
-        [disabled]="paginaCorrente() === 1"
-      >
-        ←
-      </button>
-
-      @for (pagina of pagine(); track pagina) {
-      <button
-        [class.active]="paginaCorrente() === pagina"
-        (click)="caricaPagina(pagina)"
-      >
-        {{ pagina }}
-      </button>
-      }
-
-      <button
-        (click)="caricaPagina(paginaCorrente() + 1)"
-        [disabled]="paginaCorrente() === numeroPagine()"
-      >
-        →
-      </button>
-    </div> 
+    <app-pagination
+      [currentpage]="paginaCorrente()"
+      [numberpage]="numeroPagine()"
+      (changepage)="caricaPagina($event)"
+    ></app-pagination>
   </div>
 </div>
