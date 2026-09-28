@@ -1,0 +1,19 @@
+<app-limit-selector
+  [(limit)]="limit"
+  (limitChange)="caricaPagina(1)"
+></app-limit-selector>
+
+<div class="grid" >
+  @for (item of itemspage(); track item.id) {
+  <ng-container
+    [ngTemplateOutlet]="template()"
+    [ngTemplateOutletContext]="{ items: item }"
+  ></ng-container>
+  }
+</div>
+
+<app-pagination
+  [currentpage]="paginaCorrente()"
+  [numberpage]="numeroPagine()"
+  (changepage)="caricaPagina($event)"
+></app-pagination>
