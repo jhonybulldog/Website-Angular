@@ -1,18 +1,11 @@
 <div class="blog-page">
-
   <div class="blog-header">
     <div>
       <h2>Blog</h2>
       <p>Scopri gli ultimi articoli</p>
     </div>
-
-    <app-limit-selector [(limit)]="limit" (limitChange)="caricaPagina(1)"></app-limit-selector>
+    <app-searchbox [(value)]="ricerca"></app-searchbox>
   </div>
 
-  <div class="blog-grid">
-    @for (post of blogpost(); track post.id) {
-      <app-blogcard [blog]="post"></app-blogcard>
-    }
-  </div>
-  <app-pagination [currentpage]="paginaCorrente()" [numberpage]="numeroPagine()" (changepage)="caricaPagina($event)"></app-pagination>
+  <app-bloglist [posts]="postFiltrati()"></app-bloglist>
 </div>

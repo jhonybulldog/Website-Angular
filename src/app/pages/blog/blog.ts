@@ -1,37 +1,28 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
-import { inject } from '@angular/core';
-import { BlogService } from './blog.service';
-import { Blogcard } from './blogcard/blogcard';
-import { LimitSelector } from '../shared/limit-selector/limit-selector';
-import { Pagination } from '../shared/pagination/pagination';
+import { Component, OnInit, computed, inject, signal } from "@angular/core";
+import { BlogService } from "./blog.service";
+import { Bloglist } from "./bloglist/bloglist";
+import { Searchbox } from "../shared/searchbox/searchbox";
 
 @Component({
-  imports: [Blogcard, LimitSelector, Pagination],
-  selector: 'app-blog',
-  styleUrl: './blog.css',
-  templateUrl: './blog.html',
-  providers: [BlogService]
+  imports: [Bloglist, Searchbox],
+  selector: "app-blog",
+  styleUrl: "./blog.css",
+  templateUrl: "./blog.html",
+  providers: [BlogService],
 })
 export class Blog implements OnInit {
   private bservice = inject(BlogService);
-  blogpost = this.bservice.blogpost;
-  limit = signal(21);
-  paginaCorrente = signal(1);
 
-  totaleblog = this.bservice.totaleblog;
+  ricerca = signal("");
 
-  numeroPagine = computed(() =>
-    Math.ceil(this.totaleblog() / this.limit()),
-  );
-
-  caricaPagina(pagina: number) {
-    const skip = (pagina - 1) * this.limit();
-    this.paginaCorrente.set(pagina);
-
-    this.bservice.caricablog(this.limit(), skip);
-  }
+  postFiltrati = computed(() => {
+    const testo = this.ricerca().toLowerCase().trim();
+    return this.bservice
+      .blogpost()
+      .filter((post) => post.title.toLowerCase().includes(testo));
+  });
 
   ngOnInit(): void {
-    this.caricaPagina(1);
+    this.bservice.caricablog(0, 0);
   }
 }

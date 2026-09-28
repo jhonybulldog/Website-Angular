@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  min-height: 60vh;
+  overflow-anchor: none;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .blog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Smartphone */
+@media (max-width: 600px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}

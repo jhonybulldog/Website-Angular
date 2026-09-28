@@ -7,7 +7,7 @@
       <h1>{{ blog()!.title }}</h1>
 
       <div class="blog-detail-meta">
-        <span>Autore {{ autore()?.username }}</span>
+        <span>Autore {{ autore()!.username }}</span>
         <span>{{ blog()!.views }} visualizzazioni</span>
       </div>
     </div>
