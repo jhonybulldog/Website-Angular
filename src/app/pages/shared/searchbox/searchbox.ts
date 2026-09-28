@@ -7,5 +7,5 @@ import { Component, model } from '@angular/core';
   templateUrl: './searchbox.html',
 })
 export class Searchbox {
-  value = model.required<string>()
+  value = model.required<string>();
 }

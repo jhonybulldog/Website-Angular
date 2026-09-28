@@ -3,33 +3,11 @@
     <div class="shop-main">
       <div class="shop-header">
         <h2 class="section-title">Ordina!</h2>
-      </div>
-      <select
-        class="category-select"
-        #categoriaSelect
-        (change)="selezionacategoria(categoriaSelect.value)"
-      >
-        <option value="">Tutte le categorie</option>
-        @for (cat of categorie(); track cat.slug) {
-        <option [value]="cat.slug">{{ cat.name }}</option>
-        }
-      </select>
-      <app-limit-selector
-        [(limit)]="limit"
-        (limitChange)="caricaPagina(1)"
-      ></app-limit-selector>
+      </div> 
+      <app-categoryselect [categorie]="categorie()" [(value)]="categoriaSelezionata"></app-categoryselect>
       <app-searchbox [(value)]="ricerca"></app-searchbox>
-      <div class="prodotti-grid">
-        @for (prodotto of prodottiPagina(); track prodotto.id) {
-        <app-productcard [proddi]="prodotto"></app-productcard>
-        }
-      </div>
+      <app-productlist [prodotti]="filtroprod()"></app-productlist>
     </div>
     <app-minicart></app-minicart>
-    <app-pagination
-      [currentpage]="paginaCorrente()"
-      [numberpage]="numeroPagine()"
-      (changepage)="caricaPagina($event)"
-    ></app-pagination>
   </div>
 </div>

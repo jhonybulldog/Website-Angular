@@ -32,3 +32,5 @@ export class Productdetail implements OnInit {
     this.carrello.aggiungiCarrello(prodotto);
   }
 }
+
+

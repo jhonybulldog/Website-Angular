@@ -50,47 +50,6 @@ app-minicart {
   font-weight: 700;
 }
 
-.category-select {
-  display: block;
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 1.25rem;
-
-  padding: 0.75rem 1rem;
-
-  background: #ffffff;
-  color: var(--text);
-
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-
-  font-family: inherit;
-  font-size: 0.95rem;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.category-select:hover {
-  border-color: var(--primary);
-}
-
-.category-select:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
-}
-
-.prodotti-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 1.25rem;
-}
-
 .cart-fab {
   position: fixed;
   right: 1.5rem;

@@ -1,0 +1,11 @@
+<select
+  class="category-select"
+  #sel
+  [value]="value()"
+  (change)="value.set(sel.value)"
+>
+  <option value="">Tutte le categorie</option>
+  @for (cat of categorie(); track cat.slug) {
+  <option [value]="cat.slug">{{ cat.name }}</option>
+  }
+</select>
