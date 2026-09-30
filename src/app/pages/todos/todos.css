@@ -1,0 +1,44 @@
+.todos-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 110px 20px 40px;
+}
+
+.todos-page h2 {
+  margin-bottom: 24px;
+}
+
+app-paginated-grid {
+  --min-col: 100%;
+}
+
+.todo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.todo button {
+  padding: 6px 14px;
+  border: 1px solid #22a06b;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #22a06b;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.todo.done span {
+  color: #94a3b8;
+  text-decoration: line-through;
+}
+
+.todo.done button {
+  border-color: #cbd5e1;
+  color: #64748b;
+}

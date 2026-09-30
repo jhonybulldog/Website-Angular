@@ -1,0 +1,5 @@
+<select #sel (change)="changed.emit(sel.value)">
+  @for (opt of options(); track opt.value) {
+  <option [value]="opt.value">{{ opt.label }}</option>
+  }
+</select>

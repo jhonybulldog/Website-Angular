@@ -60,7 +60,7 @@ export class Proggetti {
       descrizione:
         " Task manager con categorie personalizzabile, priorità drag & drop. Salvataggio automatico nel browser",
       tech: ["HTML5", "CSS3", "Javascript"],
-      link: "/task",
+      link: "/todos",
       testoLink: "Task-Manager",
     },
     {

@@ -3,10 +3,19 @@
     <div class="shop-main">
       <div class="shop-header">
         <h2 class="section-title">Ordina!</h2>
-      </div> 
-      <app-categoryselect [categorie]="categorie()" [(value)]="categoriaSelezionata"></app-categoryselect>
+      </div>
+      <app-sort-select (changed)="order.set($event)" [options]="optionorder"></app-sort-select>
+      <app-categoryselect
+        [categorie]="categorie()"
+        [(value)]="categoriaSelezionata"
+      ></app-categoryselect>
       <app-searchbox [(value)]="ricerca"></app-searchbox>
-      <app-productlist [prodotti]="filtroprod()"></app-productlist>
+      <app-paginated-grid [items]="filtroprod()">
+        <ng-template let-product="items">
+          <app-productcard [proddi]="product"></app-productcard>
+        </ng-template>
+      </app-paginated-grid>
+      
     </div>
     <app-minicart></app-minicart>
   </div>

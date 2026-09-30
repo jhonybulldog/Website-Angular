@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from "@angular/core";
 import { ActivatedRoute, RouterLink } from "@angular/router";
-import { Post, BlogService, Author } from "../blog.service";
+import { Post, BlogService, Author, Comment } from "../blog.service";
 
 @Component({
   imports: [RouterLink],
@@ -17,6 +17,7 @@ export class Blogdetail implements OnInit {
   Like = false;
   Dislike = false;
   autore = signal<Author | undefined>(undefined);
+  comments = signal<Comment[]>([]);
   putLike() {
     const attuale = this.blog();
     if (!attuale) return;
@@ -46,18 +47,18 @@ export class Blogdetail implements OnInit {
     }
     this.blog.set({ ...attuale });
   }
-
   ngOnInit(): void {
     this.idblog = this.route.snapshot.paramMap.get("id");
     const id = Number(this.idblog);
 
     this.bService.caricaPost(id).subscribe((post) => {
       this.blog.set(post);
-            this.bService.caricaAutore(post.userId).subscribe((autore) => {
+      this.bService.caricaAutore(post.userId).subscribe((autore) => {
         this.autore.set(autore);
       });
     });
-    
-
+    this.bService.loadComments(id).subscribe((response) => {
+      this.comments.set(response.comments);
+    });
   }
 }

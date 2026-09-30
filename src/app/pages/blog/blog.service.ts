@@ -1,7 +1,6 @@
 import { Injectable, inject, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
-
 export interface Author {
   id: number;
   firstName: string;
@@ -30,6 +29,20 @@ export interface PostsResponse {
   skip: number;
   limit: number;
 }
+export interface Comment {
+  id: number;
+  body: string;
+  postId: number;
+  likes: number;
+  user: { id: number; username: string; fullName: string };
+}
+
+export interface CommentsResponse {
+  comments: Comment[];
+  total: number;
+  skip: number;
+  limit: number;
+}
 
 @Injectable()
 export class BlogService {
@@ -54,6 +67,11 @@ export class BlogService {
     return this.http.get<Post>(`${this.url}/${id}`);
   }
   caricaAutore(id: number) {
-  return this.http.get<Author>(`https://dummyjson.com/users/${id}`);
+    return this.http.get<Author>(`https://dummyjson.com/users/${id}`);
+  }
+  loadComments(postId: number) {
+  return this.http.get<CommentsResponse>(
+    `https://dummyjson.com/comments/post/${postId}`,
+  );
 }
 }

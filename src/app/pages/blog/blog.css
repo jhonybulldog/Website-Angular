@@ -5,7 +5,9 @@
   padding: 110px 20px 40px;
   box-sizing: border-box;
 }
-
+app-paginated-grid {
+  --min-col: 300px;
+}
 .blog-header {
   display: flex;
   align-items: center;

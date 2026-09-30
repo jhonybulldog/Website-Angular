@@ -2,11 +2,21 @@ import { Component, inject, OnInit, signal, computed } from "@angular/core";
 import { Prodotti } from "./prodotti.service";
 import { Minicart } from "./minicart/minicart";
 import { PreferenzeService } from "./preferenze.service";
-import { Productlist } from "./productlist/productlist";
 import { Categoryselect } from "./categoryselect/categoryselect";
 import { Searchbox } from "../shared/searchbox/searchbox";
+import { Productcard } from "./productcard/productcard";
+import { PaginatedGrid } from "../shared/paginated-grid/paginated-grid";
+import { SortSelect } from "../shared/sort-select/sort-select";
+
 @Component({
-  imports: [Productlist, Minicart, Categoryselect, Searchbox],
+  imports: [
+    Minicart,
+    Categoryselect,
+    Searchbox,
+    PaginatedGrid,
+    Productcard,
+    SortSelect,
+  ],
   selector: "app-shop",
   styleUrl: "./shop.css",
   templateUrl: "./shop.html",
@@ -19,6 +29,12 @@ export class Shop implements OnInit {
   categoriaSelezionata = signal<string>("");
   ricerca = signal<string>("");
   categorie = computed(() => this.prodottiser.categorie());
+  order = signal("");
+  optionorder = [
+    { value: "", label: "Ordina per prezzo" },
+    { value: "asc", label: "Prezzo più basso" },
+    { value: "desc", label: "Prezzo più alto" },
+  ];
 
   filtroprod = computed(() => {
     const categoria = this.categoriaSelezionata();
@@ -47,6 +63,13 @@ export class Shop implements OnInit {
         const prefB = this.preferenzeser.getPreferenza(b.category);
         return pesi[prefB] - pesi[prefA];
       });
+    }
+
+    if (this.order() === "asc") {
+      lista = [...lista].sort((a, b) => a.price - b.price);
+    }
+    if (this.order() === "desc") {
+      lista = [...lista].sort((a, b) => b.price - a.price);
     }
 
     return lista;

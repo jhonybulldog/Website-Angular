@@ -14,5 +14,6 @@ export const routes: Routes = [
   {path: 'dashboard', canActivate: [authGuard],loadComponent: () => import('./pages/shop/dashboard/dashboard').then(m => m.Dashboard)},
   {path: 'blog', loadComponent:() => import ('./pages/blog/blog').then(m => m.Blog)},
   {path: 'blog/:id', loadComponent: () => import('./pages/blog/blogdetail/blogdetail').then(m => m.Blogdetail)},
+  { path: 'todos', loadComponent: () => import('./pages/todos/todos').then(m => m.Todos) },
   {path: '**', redirectTo: ''},
 ];

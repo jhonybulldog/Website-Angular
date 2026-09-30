@@ -21,7 +21,19 @@
       <span>{{ tag }}</span>
       }
     </div>
+    <section class="blog-detail-comments">
+      <h2>Comments ({{ comments().length }})</h2>
 
+      @for (comment of comments(); track comment.id) {
+      <div class="comment">
+        <strong>{{ comment.user.fullName }}</strong>
+        <p>{{ comment.body }}</p>
+        <span>{{ comment.likes }} like</span>
+      </div>
+      } @empty {
+      <p>Nessun commento per questo articolo.</p>
+      }
+    </section>
     <div class="blog-detail-reactions">
       <button (click)="putLike()" [disabled]="Like">
         Like {{ blog()!.reactions.likes }}

@@ -4,8 +4,13 @@
       <h2>Blog</h2>
       <p>Scopri gli ultimi articoli</p>
     </div>
+    <app-sort-select (changed)="order.set($event)" [options]="orderoption"></app-sort-select>
     <app-searchbox [(value)]="ricerca"></app-searchbox>
   </div>
 
-  <app-bloglist [posts]="postFiltrati()"></app-bloglist>
+<app-paginated-grid [items]="postFiltrati()">
+  <ng-template let-post="items">
+    <app-blogcard [blog]="post"></app-blogcard>
+  </ng-template>
+</app-paginated-grid>
 </div>

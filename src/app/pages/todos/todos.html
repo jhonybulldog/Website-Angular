@@ -1,0 +1,14 @@
+<div class="todos-page">
+  <h2>Todos</h2>
+
+  <app-paginated-grid [items]="todos()">
+    <ng-template let-todo="items">
+      <div class="todo" [class.done]="todo.completed">
+        <span>{{ todo.todo }}</span>
+        <button (click)="toggle(todo)">
+          {{ todo.completed ? "annulla" : "segna come fatto" }}
+        </button>
+      </div>
+    </ng-template>
+  </app-paginated-grid>
+</div>

@@ -5,7 +5,6 @@ import {
   computed,
   contentChild,
   input,
-  linkedSignal,
   signal,
 } from "@angular/core";
 import { LimitSelector } from "../limit-selector/limit-selector";
@@ -22,11 +21,7 @@ export class PaginatedGrid<T extends { id: number }> {
   template = contentChild.required(TemplateRef);
 
   limit = signal(21);
-  paginaCorrente = linkedSignal(() => {
-    this.items();
-    return 1;
-  });
-
+  paginaCorrente = signal(1);
   numeroPagine = computed(() => Math.ceil(this.items().length / this.limit()));
 
   itemspage = computed(() => {
