@@ -31,9 +31,12 @@ export class Prodotti {
         this.categorie.set(risposta);
       });
   }
-  caricaProdotti(limit: number, skip: number, categoria: string = "") {
+  caricaProdotti(limit: number, skip: number, categoria: string = "", research: string = "", order: string = "", sortBy: string = "") {
+
     let url = this.url;
-    if (categoria) {
+    if(research){
+      url = `${this.url}search`
+    }else if (categoria) {
       url = `${this.url}category/${categoria}`;
     }
     this.http
@@ -41,6 +44,9 @@ export class Prodotti {
         params: {
           limit: limit,
           skip: skip,
+          q: research,
+          sortBy:sortBy,
+          order: order,
         },
       })
       .subscribe((risposta) => {

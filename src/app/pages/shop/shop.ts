@@ -1,9 +1,7 @@
-import { Component, inject, OnInit, signal, computed } from "@angular/core";
+import { Component, inject, OnInit, signal, computed , effect} from "@angular/core";
 import { Prodotti } from "./prodotti.service";
 import { Minicart } from "./minicart/minicart";
-import { PreferenzeService } from "./preferenze.service";
 import { Categoryselect } from "./categoryselect/categoryselect";
-import { Searchbox } from "../shared/searchbox/searchbox";
 import { Productcard } from "./productcard/productcard";
 import { PaginatedGrid } from "../shared/paginated-grid/paginated-grid";
 import { SortSelect } from "../shared/sort-select/sort-select";
@@ -12,75 +10,33 @@ import { SortSelect } from "../shared/sort-select/sort-select";
   imports: [
     Minicart,
     Categoryselect,
-    Searchbox,
     PaginatedGrid,
     Productcard,
-    SortSelect,
-  ],
+    SortSelect
+],
   selector: "app-shop",
   styleUrl: "./shop.css",
   templateUrl: "./shop.html",
 })
 export class Shop implements OnInit {
   private prodottiser = inject(Prodotti);
-  private preferenzeser = inject(PreferenzeService);
 
   prodotti = this.prodottiser.prod;
   categoriaSelezionata = signal<string>("");
-  ricerca = signal<string>("");
   categorie = computed(() => this.prodottiser.categorie());
-  order = signal("");
+  order = signal({label: "", sortBy: "", order: ""});
+  totale = this.prodottiser.totaleProdotti;
   optionorder = [
-    { value: "", label: "Ordina per prezzo" },
-    { value: "asc", label: "Prezzo più basso" },
-    { value: "desc", label: "Prezzo più alto" },
+    { label: "Ordina per..." , sortBy: "", order: ""},
+    {  label: "Prezzo più basso" , sortBy: "price", order: "asc" },
+    { label: "Prezzo più alto", sortBy: "price", order: "desc" },
+    { label: "Voto più alto", sortBy: "rating", order: "desc"  },
+    { label: "Voto più basso", sortBy: "rating", order: "asc" },
   ];
-
-  filtroprod = computed(() => {
-    const categoria = this.categoriaSelezionata();
-    const testo = this.ricerca().toLowerCase().trim();
-    let lista = this.prodotti();
-
-    if (categoria !== "") {
-      lista = lista.filter((prodotto) => prodotto.category === categoria);
-    }
-
-    if (testo !== "") {
-      lista = lista.filter((prodotto) =>
-        prodotto.title.toLowerCase().includes(testo),
-      );
-    }
-
-    if (categoria === "") {
-      const pesi: Record<string, number> = {
-        Alta: 3,
-        Media: 2,
-        "": 1,
-        Bassa: 0,
-      };
-      lista = [...lista].sort((a, b) => {
-        const prefA = this.preferenzeser.getPreferenza(a.category);
-        const prefB = this.preferenzeser.getPreferenza(b.category);
-        return pesi[prefB] - pesi[prefA];
-      });
-    }
-
-    if (this.order() === "asc") {
-      lista = [...lista].sort((a, b) => a.price - b.price);
-    }
-    if (this.order() === "desc") {
-      lista = [...lista].sort((a, b) => b.price - a.price);
-    }
-
-    return lista;
-  });
-
-  selezionacategoria(categoria: string) {
-    this.categoriaSelezionata.set(categoria);
+    carica(e: { limit: number; skip: number; search: string }) {
+    this.prodottiser.caricaProdotti(e.limit, e.skip, this.categoriaSelezionata(), e.search, this.order().order, this.order().sortBy);
   }
-
   ngOnInit() {
-    this.prodottiser.caricaProdotti(200, 0);
     if (this.categorie().length === 0) {
       this.prodottiser.caricaCategorie();
     }

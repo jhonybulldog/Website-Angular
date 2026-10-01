@@ -2,6 +2,7 @@
   <div class="container shop-layout">
     <div class="shop-main">
       <div class="shop-header">
+        <h2>E-commerce Shop</h2>
         <h2 class="section-title">Ordina!</h2>
       </div>
       <app-sort-select (changed)="order.set($event)" [options]="optionorder"></app-sort-select>
@@ -9,8 +10,8 @@
         [categorie]="categorie()"
         [(value)]="categoriaSelezionata"
       ></app-categoryselect>
-      <app-searchbox [(value)]="ricerca"></app-searchbox>
-      <app-paginated-grid [items]="filtroprod()">
+      <app-paginated-grid [items]="prodotti()" [total]="totale()" [filters]="[categoriaSelezionata(), order()]" (load)="carica($event)"
+      >
         <ng-template let-product="items">
           <app-productcard [proddi]="product"></app-productcard>
         </ng-template>

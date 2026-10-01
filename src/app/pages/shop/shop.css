@@ -22,16 +22,44 @@ body {
   padding-top: 90px;
 }
 
+.shop-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  --min-col: 200px;
+}
+
+.shop-main .shop-header {
+  order: -1;
+  flex: 0 0 100%;
+  margin-bottom: 8px;
+}
+
+.shop-main app-categoryselect,
+.shop-main app-sort-select {
+  order: 1;
+  flex: 1 1 200px;
+  min-width: 0;
+  max-width: 280px;
+}
+
+.shop-main app-searchbox {
+  order: 0;
+  flex: 0 0 100%;
+}
+
 .container {
-  width: 90%;
-  max-width: 1300px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 20px 0 50px;
+  padding: 20px 20px 40px;
 }
 
 .shop-layout {
   display: grid;
-  grid-template-columns: 1fr minmax(280px, 340px);
+  grid-template-columns: 1fr minmax(260px, 300px);
   gap: 2rem;
   align-items: start;
 }
@@ -41,13 +69,26 @@ app-minicart {
   top: 6rem;
 }
 
-.shop-header {
-  margin-bottom: 1.5rem;
+.shop-header h2 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1f2937;
+  text-align: left;
 }
 
-.section-title {
-  font-size: 1.75rem;
-  font-weight: 700;
+/* "Ordina!" come sottotitolo, identico a quello del blog */
+.shop-header h2.section-title {
+  margin: 6px 0 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #6b7280;
+}
+
+.shop-header h2.section-title::after {
+  content: none;
 }
 
 .cart-fab {
@@ -82,7 +123,9 @@ app-minicart {
   .shop-page {
     padding-top: 75px;
   }
-  .container {
-    width: calc(100% - 2rem);
+  .shop-main app-categoryselect,
+  .shop-main app-sort-select {
+    flex: 1 1 100%;
+    max-width: none;
   }
 }

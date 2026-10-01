@@ -50,12 +50,15 @@ export class BlogService {
   private http = inject(HttpClient);
   private url = "https://dummyjson.com/posts";
   totaleblog = signal(0);
-  caricablog(limit: number, skip: number) {
+  caricablog(limit: number, skip: number, order: string = "", sortBy: string ="", research: string = "") {
     this.http
       .get<PostsResponse>(this.url, {
         params: {
           limit: limit,
           skip: skip,
+          sortBy: sortBy,
+          order: order,
+          q: research,
         },
       })
       .subscribe((risposta) => {

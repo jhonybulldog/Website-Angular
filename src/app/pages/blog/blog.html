@@ -5,10 +5,13 @@
       <p>Scopri gli ultimi articoli</p>
     </div>
     <app-sort-select (changed)="order.set($event)" [options]="orderoption"></app-sort-select>
-    <app-searchbox [(value)]="ricerca"></app-searchbox>
   </div>
-
-<app-paginated-grid [items]="postFiltrati()">
+<app-paginated-grid
+  [items]="posts()"
+  [total]="totale()"
+  [filters]="[order()]"
+  (load)="carica($event)"
+>
   <ng-template let-post="items">
     <app-blogcard [blog]="post"></app-blogcard>
   </ng-template>

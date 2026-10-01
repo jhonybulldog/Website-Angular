@@ -1,10 +1,7 @@
-<app-limit-selector
-  [(limit)]="limit"
-  (limitChange)="caricaPagina(1)"
-></app-limit-selector>
-
-<div class="grid" >
-  @for (item of itemspage(); track item.id) {
+<app-limit-selector [(limit)]="limit" (limitChange)="pagina.set(1)"></app-limit-selector>
+<app-searchbox [(value)]="ricerca"></app-searchbox>
+<div class="grid">
+  @for (item of items(); track item.id) {
   <ng-container
     [ngTemplateOutlet]="template()"
     [ngTemplateOutletContext]="{ items: item }"
@@ -13,7 +10,7 @@
 </div>
 
 <app-pagination
-  [currentpage]="paginaCorrente()"
+  [currentpage]="pagina()"
   [numberpage]="numeroPagine()"
-  (changepage)="caricaPagina($event)"
+  (changepage)="pagina.set($event)"
 ></app-pagination>

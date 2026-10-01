@@ -1,11 +1,41 @@
+/* L'host sparisce: selettore, griglia e paginazione diventano elementi
+   del contenitore flex della pagina (stessa riga dei filtri). */
 :host {
-  display: block;
+  display: contents;
+}
+
+app-limit-selector {
+  order: 1;
+  flex: 1 1 200px;
+  min-width: 0;
+  max-width: 280px;
+}
+
+app-searchbox {
+  order: 0;
+  flex: 0 0 100%;
 }
 
 .grid {
+  order: 3;
+  flex: 0 0 100%;
+  margin-top: 14px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--min-col, 250px), 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(var(--min-col, 300px), 1fr));
+  gap: 24px;
+  align-content: start;
   min-height: 60vh;
   overflow-anchor: none;
+}
+
+app-pagination {
+  order: 4;
+  flex: 0 0 100%;
+}
+
+@media (max-width: 600px) {
+  app-limit-selector {
+    flex: 1 1 100%;
+    max-width: none;
+  }
 }

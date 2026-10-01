@@ -20,10 +20,16 @@ export class TodosService {
   private http = inject(HttpClient);
   private url = "https://dummyjson.com/todos";
 
-  loadAll() {
-    return this.http.get<TodosResponse>(this.url, { params: { limit: 0 } });
+  caricaTodos(limit: number, skip: number) {
+    return this.http.get<TodosResponse>(this.url, {
+      params: {
+        limit: limit,
+        skip: skip,
+      },
+    });
   }
-  update(id: number, completed: boolean) {
-  return this.http.put<Todo>(`${this.url}/${id}`, { completed });
-}
+
+  aggiornaTodo(id: number, completed: boolean) {
+    return this.http.put<Todo>(`${this.url}/${id}`, { completed: completed });
+  }
 }

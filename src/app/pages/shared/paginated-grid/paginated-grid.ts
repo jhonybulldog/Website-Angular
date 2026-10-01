@@ -1,36 +1,35 @@
 import { NgTemplateOutlet } from "@angular/common";
-import {
-  Component,
-  TemplateRef,
-  computed,
-  contentChild,
-  input,
-  signal,
-} from "@angular/core";
+import { Component, TemplateRef, computed, contentChild, effect, input, linkedSignal, output, signal } from "@angular/core";
 import { LimitSelector } from "../limit-selector/limit-selector";
 import { Pagination } from "../pagination/pagination";
+import { Searchbox } from "../searchbox/searchbox";
 
 @Component({
-  imports: [NgTemplateOutlet, LimitSelector, Pagination],
+  imports: [NgTemplateOutlet, LimitSelector, Pagination, Searchbox],
   selector: "app-paginated-grid",
   styleUrl: "./paginated-grid.css",
   templateUrl: "./paginated-grid.html",
 })
 export class PaginatedGrid<T extends { id: number }> {
   items = input.required<T[]>();
+  total = input.required<number>();
+  filters = input<unknown>();
+  load = output<{ limit: number; skip: number; search: string }>();
   template = contentChild.required(TemplateRef);
-
+  ricerca = signal("");
   limit = signal(21);
-  paginaCorrente = signal(1);
-  numeroPagine = computed(() => Math.ceil(this.items().length / this.limit()));
-
-  itemspage = computed(() => {
-    const skip = (this.paginaCorrente() - 1) * this.limit();
-    return this.items().slice(skip, skip + this.limit());
+  pagina = linkedSignal(() => {
+    this.filters();
+    this.ricerca();
+    return 1;
   });
+  numeroPagine = computed(() => Math.ceil(this.total() / this.limit()));
 
-  caricaPagina(pagina: number) {
-    this.paginaCorrente.set(pagina);
+  constructor() {
+    effect(() => {
+      this.filters();
+      let skip = (this.pagina() - 1) * this.limit();
+      this.load.emit({ limit: this.limit(), skip: skip, search: this.ricerca() });
+    });
   }
-  
 }

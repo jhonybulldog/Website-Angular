@@ -7,7 +7,6 @@ import { Component , output, input } from '@angular/core';
   templateUrl: './sort-select.html',
 })
 export class SortSelect {
-  changed = output<string>();
-  
-  options = input.required<{ value: string; label: string }[]>();
+  changed = output<{ label: string; sortBy: string; order: string }>();  
+  options = input.required<{ sortBy: string; order: string; label: string }[]>();
 }

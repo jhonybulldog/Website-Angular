@@ -70,33 +70,29 @@
   overflow: hidden;
 }
 .blog-card button {
-  width: 100%;
   margin-top: 18px;
-  padding: 11px 18px;
-
+  width: 100%;
+  padding: 12px 18px;
   border: none;
   border-radius: 10px;
-
-  background: #22a06b;
-  color: #ffffff;
-
   font-size: 14px;
   font-weight: 600;
-
   cursor: pointer;
-
   transition: all 0.2s ease;
+  background: #f3f4f6;
+  color: #111827;
 }
 
 .blog-card button:hover {
-  background: #198754;
+  background: #e5e7eb;
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(34, 160, 107, 0.2);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
 }
 
 .blog-card button:active {
   transform: translateY(0);
 }
+
 /* Tag */
 
 .blog-tags {

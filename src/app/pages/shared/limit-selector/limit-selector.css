@@ -1,39 +1,34 @@
+:host {
+  display: block;
+}
+
 .category-select {
   display: block;
   width: 100%;
-  max-width: 320px;
-  margin: 0 auto 2.5rem;
-
-  padding: 0.85rem 1rem;
-
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0.75rem 1rem;
   background: #ffffff;
   color: #1f2937;
-
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
-
   cursor: pointer;
-
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-
   transition:
     border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+    box-shadow 0.2s ease;
 }
 
 .category-select:hover {
-  border-color: #10b981;
+  border-color: #22a06b;
 }
 
 .category-select:focus {
   outline: none;
-  border-color: #10b981;
-  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+  border-color: #22a06b;
+  box-shadow: 0 0 0 3px rgba(34, 160, 107, 0.15);
 }
 
 .category-select:active {

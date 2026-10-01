@@ -1,40 +1,32 @@
-import { Component, OnInit, computed, inject, signal } from "@angular/core";
+import {
+  Component,
+  inject,
+  signal,
+} from "@angular/core";
 import { BlogService } from "./blog.service";
-import { Searchbox } from "../shared/searchbox/searchbox";
 import { PaginatedGrid } from "../shared/paginated-grid/paginated-grid";
 import { Blogcard } from "./blogcard/blogcard";
 import { SortSelect } from "../shared/sort-select/sort-select";
 @Component({
-  imports: [Searchbox, PaginatedGrid, Blogcard, SortSelect],
+  imports: [PaginatedGrid, Blogcard, SortSelect],
   selector: "app-blog",
   styleUrl: "./blog.css",
   templateUrl: "./blog.html",
   providers: [BlogService],
 })
-export class Blog implements OnInit {
+export class Blog {
   private bservice = inject(BlogService);
-  order = signal("");
-  ricerca = signal("");
+  posts = this.bservice.blogpost;
+  totale = this.bservice.totaleblog;
+  order = signal({ label: "", sortBy: "", order: "" });
   orderoption = [
-    { value: "", label: "Ordina per wiews" },
-    { value: "asc", label: "wiews più basso" },
-    { value: "desc", label: "wiews più alto" },
+    { label: "Ordina per views", sortBy: "", order: "" },
+    { label: "Views più basse", sortBy: "views", order: "asc" },
+    { label: "Views più alte", sortBy: "views", order: "desc" },
+    { label: "like più bassi", sortBy: "reactions.likes", order: "asc" },
+    { label: "like più alti", sortBy: "reactions.likes", order: "desc" },
   ];
-  postFiltrati = computed(() => {
-    const testo = this.ricerca().toLowerCase().trim();
-    let list = this.bservice
-      .blogpost()
-      .filter((post) => post.title.toLowerCase().includes(testo));
-
-    if (this.order() === "asc")
-      list = [...list].sort((a, b) => a.views - b.views);
-    if (this.order() === "desc")
-      list = [...list].sort((a, b) => b.views - a.views);
-
-    return list;
-  });
-
-  ngOnInit(): void {
-    this.bservice.caricablog(0, 0);
+  carica(e: { limit: number; skip: number; search: string }) {
+    this.bservice.caricablog(e.limit, e.skip, this.order().order, this.order().sortBy, e.search);
   }
 }
