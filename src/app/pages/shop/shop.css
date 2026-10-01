@@ -1,20 +1,7 @@
-:root {
-  --primary: #10b981;
-  --primary-dark: #047857;
-  --border: #e5e7eb;
-  --text: #1f2937;
-  --radius: 10px;
-}
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-body {
-  font-family: 'Inter', system-ui, sans-serif;
-  color: var(--text);
 }
 
 .shop-page {
@@ -43,11 +30,6 @@ body {
   flex: 1 1 200px;
   min-width: 0;
   max-width: 280px;
-}
-
-.shop-main app-searchbox {
-  order: 0;
-  flex: 0 0 100%;
 }
 
 .container {
@@ -89,25 +71,6 @@ app-minicart {
 
 .shop-header h2.section-title::after {
   content: none;
-}
-
-.cart-fab {
-  position: fixed;
-  right: 1.5rem;
-  bottom: 1.5rem;
-  z-index: 900;
-
-  padding: 0.8rem 1.2rem;
-  border-radius: 999px;
-
-  background: var(--primary-dark);
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.cart-fab::before {
-  content: "🛒 ";
 }
 
 @media (max-width: 1024px) {

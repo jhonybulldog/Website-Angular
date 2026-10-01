@@ -314,42 +314,6 @@ h2 {
   }
 }
 
-.ricerca-categoria {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
-  margin-bottom: 1.75rem;
-  max-width: 450px;
-}
-
-.ricerca-categoria label {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #475569;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.ricerca-categoria input {
-  width: 100%;
-  padding: 0.85rem 1.15rem;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  color: #1e293b;
-  outline: none;
-  background-color: #f8fafc;
-  transition: all 0.2s ease;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
-}
-
-.ricerca-categoria input:focus {
-  background-color: #ffffff;
-  border-color: #10b981;
-  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
-}
-
 /* Grid Layout per le righe categoria/preferenza */
 .lista-categorie {
   display: grid;
@@ -400,13 +364,6 @@ h2 {
   text-transform: uppercase;
   color: #64748b;
   letter-spacing: 0.05em;
-}
-
-.controlli-preferenza {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
 }
 
 .categoria-preferenza select {
@@ -497,37 +454,6 @@ h2 {
   color: #94a3b8;
 }
 
-.btn-salva-categoria {
-  padding: 0.65rem 1.25rem;
-  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
-  color: #ffffff;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.875rem;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);
-  transition: all 0.2s ease;
-}
-
-.btn-salva-categoria:hover:not(:disabled) {
-  background: linear-gradient(135deg, #047857 0%, #0f172a 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 5px 15px rgba(4, 120, 87, 0.35);
-}
-
-.btn-salva-categoria:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.btn-salva-categoria:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
-}
-
 /* ==========================================================================
    RESPONSIVE BREAKPOINTS
    ========================================================================== */
@@ -570,8 +496,7 @@ h2 {
     flex-direction: column;
   }
 
-  .btn-add-categoria,
-  .btn-salva-categoria {
+  .btn-add-categoria{
     width: 100%;
     text-align: center;
   }

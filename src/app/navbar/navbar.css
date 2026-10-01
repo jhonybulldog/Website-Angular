@@ -73,24 +73,6 @@
   width: 80%;
 }
 
-.admin-btn {
-  background: var(--primary-green);
-  color: var(--white) !important;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--radius-lg);
-  transition: var(--transition-normal);
-}
-
-.admin-btn:hover {
-  background: var(--dark-green);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.admin-btn::after {
-  display: none;
-}
-
 /* Hamburger principale */
 .hamburger {
   display: none;

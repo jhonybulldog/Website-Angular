@@ -29,11 +29,6 @@
   max-width: 280px;
 }
 
-.blog-header app-searchbox {
-  order: 0;
-  flex: 0 0 100%;
-}
-
 .blog-header h2 {
   margin: 0;
   font-size: 32px;

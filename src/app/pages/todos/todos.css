@@ -10,11 +10,6 @@
   padding: 110px 20px 40px;
   box-sizing: border-box;
 }
-.todos-page app-searchbox {
-  order: 0;
-  flex: 0 0 100%;
-}
-
 /* stesso titolo e sottotitolo di blog e shop */
 .todos-header {
   order: -1;

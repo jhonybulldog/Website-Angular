@@ -105,42 +105,6 @@
     box-shadow: var(--shadow-sm);
 }
 
-/* Opzione alternativa se vuoi mantenere altezza fissa ma mostrare immagini intere */
-.project-image-alt {
-    position: relative;
-    width: 100%;
-    height: 220px;
-    overflow: hidden;
-    background: linear-gradient(135deg, var(--light-green), var(--white));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.project-image-alt img {
-    max-width: 90%;
-    max-height: 90%;
-    object-fit: contain;
-    transition: var(--transition-slow);
-}
-
-/* Opzione per immagini con sfondo bianco */
-.project-image-white {
-    background: var(--white);
-    border-bottom: 1px solid var(--medium-gray);
-}
-
-/* Badge per progetti in sviluppo */
-.coming-soon-badge {
-    background: #ff9800;
-    color: white;
-    padding: 8px 20px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 0.9rem;
-    display: inline-block;
-}
-
 .project-info {
     padding: 1.5rem;
     flex-grow: 1;
