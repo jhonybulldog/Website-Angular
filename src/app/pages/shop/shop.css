@@ -1,35 +1,6 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 .shop-page {
   min-height: 100vh;
   padding-top: 90px;
-}
-
-.shop-main {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 16px;
-  min-width: 0;
-  --min-col: 200px;
-}
-
-.shop-main .shop-header {
-  order: -1;
-  flex: 0 0 100%;
-  margin-bottom: 8px;
-}
-
-.shop-main app-categoryselect,
-.shop-main app-sort-select {
-  order: 1;
-  flex: 1 1 200px;
-  min-width: 0;
-  max-width: 280px;
 }
 
 .container {
@@ -46,37 +17,26 @@
   align-items: start;
 }
 
+/* titolo, filtri e card condivisi in styles.css */
+.shop-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  --min-col: 200px;
+}
+
 app-minicart {
   position: sticky;
   top: 6rem;
-}
-
-.shop-header h2 {
-  margin: 0;
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: #1f2937;
-  text-align: left;
-}
-
-/* "Ordina!" come sottotitolo, identico a quello del blog */
-.shop-header h2.section-title {
-  margin: 6px 0 0;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 1.6;
-  color: #6b7280;
-}
-
-.shop-header h2.section-title::after {
-  content: none;
 }
 
 @media (max-width: 1024px) {
   .shop-layout {
     grid-template-columns: 1fr;
   }
+
   app-minicart {
     position: static;
   }
@@ -85,10 +45,5 @@ app-minicart {
 @media (max-width: 600px) {
   .shop-page {
     padding-top: 75px;
-  }
-  .shop-main app-categoryselect,
-  .shop-main app-sort-select {
-    flex: 1 1 100%;
-    max-width: none;
   }
 }

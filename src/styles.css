@@ -126,3 +126,182 @@ p {
 section {
   padding: 5rem 0;
 }
+
+/* ===== Pagine elenco condivise: blog, shop, todos ===== */
+.blog-page,
+.todos-page {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 110px 20px 40px;
+  --min-col: 300px;
+}
+
+/* blocco titolo + sottotitolo, sempre su una riga intera in cima */
+.blog-header > div,
+.todos-header,
+.shop-main .shop-header {
+  order: -1;
+  flex: 0 0 100%;
+  margin-bottom: 8px;
+}
+
+.blog-header h2,
+.todos-header h2,
+.shop-header h2 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  text-align: left;
+}
+
+.blog-header p,
+.todos-header .section-title,
+.shop-header .section-title {
+  margin: 6px 0 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #6b7280;
+}
+
+.todos-header .section-title::after,
+.shop-header .section-title::after {
+  content: none;
+}
+
+/* filtri sulla stessa riga */
+app-sort-select,
+app-categoryselect,
+app-limit-selector {
+  order: 1;
+  flex: 1 1 200px;
+  min-width: 0;
+  max-width: 280px;
+}
+
+/* controlli dei filtri: select e campo di ricerca */
+app-sort-select select,
+app-categoryselect select,
+app-limit-selector select,
+app-searchbox .search-box {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+app-sort-select select,
+app-categoryselect select,
+app-limit-selector select {
+  display: block;
+  color: #1f2937;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+app-sort-select select:hover,
+app-categoryselect select:hover,
+app-limit-selector select:hover,
+app-searchbox .search-box:hover {
+  border-color: #22a06b;
+}
+
+app-sort-select select:focus,
+app-categoryselect select:focus,
+app-limit-selector select:focus,
+app-searchbox .search-box:focus-within {
+  outline: none;
+  border-color: #22a06b;
+  box-shadow: 0 0 0 3px rgba(34, 160, 107, 0.15);
+}
+
+/* card di blog, prodotti e todo */
+.blog-card,
+.prodotti-card,
+.todo {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.blog-card:hover,
+.prodotti-card:hover,
+.todo:hover {
+  transform: translateY(-5px);
+  border-color: #d1d5db;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* bottoni delle card: grigio di base, verde per le azioni */
+.blog-card button,
+.prodotti-card button,
+.todo button {
+  width: 100%;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  background: #f3f4f6;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.blog-card button:hover,
+.prodotti-card button:hover,
+.todo button:hover {
+  background: #e5e7eb;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+.blog-card button:active,
+.prodotti-card button:active,
+.todo button:active {
+  transform: translateY(0);
+}
+
+.prodotti-card .add-to-cart,
+.todo:not(.done) button {
+  background: #22a06b;
+  color: #ffffff;
+}
+
+.prodotti-card .add-to-cart:hover,
+.todo:not(.done) button:hover {
+  background: #198754;
+  box-shadow: 0 6px 15px rgba(34, 160, 107, 0.2);
+}
+
+@media (max-width: 600px) {
+  app-sort-select,
+  app-categoryselect,
+  app-limit-selector {
+    flex: 1 1 100%;
+    max-width: none;
+  }
+
+  .blog-card,
+  .prodotti-card,
+  .todo {
+    padding: 20px;
+    border-radius: 15px;
+  }
+}

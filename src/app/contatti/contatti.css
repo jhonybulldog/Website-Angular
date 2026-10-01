@@ -29,7 +29,6 @@
 .contact-item a {
     color: var(--primary-green);
     text-decoration: none;
-    transition: var(--transition-fast);
 }
 
 .contact-item a:hover {
@@ -52,12 +51,11 @@
 .form-group input,
 .form-group textarea {
     margin-top: 1rem;
-    padding: 1rem ;
+    padding: 1rem;
     border: 2px solid var(--medium-gray);
     border-radius: 9px;
     font-family: inherit;
     font-size: 1rem;
-    transition: var(--transition-fast);
     background: var(--white);
 }
 

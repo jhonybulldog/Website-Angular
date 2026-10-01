@@ -24,7 +24,6 @@
 .footer-links a {
     color: var(--white);
     text-decoration: none;
-    transition: var(--transition-fast);
 }
 
 .footer-links a:hover {

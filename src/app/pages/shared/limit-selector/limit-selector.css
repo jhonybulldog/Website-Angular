@@ -1,34 +1,6 @@
+/* aspetto del select condiviso in styles.css */
 :host {
   display: block;
-}
-
-.category-select {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0.75rem 1rem;
-  background: #ffffff;
-  color: #1f2937;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  font-family: inherit;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.category-select:hover {
-  border-color: #22a06b;
-}
-
-.category-select:focus {
-  outline: none;
-  border-color: #22a06b;
-  box-shadow: 0 0 0 3px rgba(34, 160, 107, 0.15);
 }
 
 .category-select:active {
@@ -39,10 +11,4 @@
   background: #ffffff;
   color: #1f2937;
   font-weight: 500;
-}
-
-@media (max-width: 600px) {
-  .category-select {
-    max-width: 100%;
-  }
 }

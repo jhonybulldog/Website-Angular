@@ -10,8 +10,7 @@ h2 {
   font-size: 1.5rem;
   font-weight: 700;
   color: #1a1a1a;
-  margin-top: 35px;
-  margin-bottom: 18px;
+  margin: 35px 0 18px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -79,9 +78,9 @@ form {
   margin-bottom: 20px;
 }
 
-input {
+input,
+select {
   width: 100%;
-  box-sizing: border-box;
   padding: 12px 16px;
   border: 1.5px solid #cbd5e1;
   border-radius: 8px;
@@ -98,18 +97,10 @@ input:focus {
 
 /* Stile per il menu a tendina Categoria (Select) */
 select {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 12px 40px 12px 16px;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  padding-right: 40px;
   font-weight: 500;
-  color: #1e293b;
   background-color: #ffffff;
-  outline: none;
   cursor: pointer;
-  transition: all 0.2s ease;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -149,15 +140,21 @@ select option {
 }
 
 /* Pulsanti Generici */
-button {
+button,
+.shop-link,
+.btn-edit {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+button {
   padding: 10px 18px;
   border: none;
-  border-radius: 8px;
   font-size: 0.9rem;
-  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   background-color: #2563eb;
@@ -178,19 +175,14 @@ button:disabled {
 }
 
 .shop-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   gap: 0.5rem;
   margin-left: 0.75rem;
   padding: 10px 18px;
   border: 1px solid #10b981;
-  border-radius: 8px;
   background: #ecfdf5;
   color: #047857;
   font-size: 0.9rem;
   font-weight: 700;
-  text-decoration: none;
   transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -234,19 +226,13 @@ button:disabled {
 
 /* Pulsante Modifica */
 .btn-edit {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   gap: 0.35rem;
   background-color: #f59e0b;
   color: #ffffff;
   padding: 8px 14px;
   border: 1px solid #f59e0b;
-  border-radius: 8px;
   font-size: 0.85rem;
-  font-weight: 600;
   margin-right: 8px;
-  text-decoration: none;
   line-height: 1.25;
   transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -276,9 +262,3 @@ button:disabled {
   font-weight: 500;
 }
 
-.success {
-  color: #10b981;
-  font-size: 0.9rem;
-  margin-top: 10px;
-  font-weight: 600;
-}

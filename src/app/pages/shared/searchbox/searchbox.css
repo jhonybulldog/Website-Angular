@@ -1,15 +1,7 @@
+/* bordo, sfondo e stati condivisi con i select in styles.css */
 .search-box {
   display: flex;
   align-items: center;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0.75rem 1rem;
-  background: #ffffff;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
 }
 
 .search-box input {
@@ -25,13 +17,4 @@
 
 .search-box input::placeholder {
   color: #6b7280;
-}
-
-.search-box:hover {
-  border-color: #22a06b;
-}
-
-.search-box:focus-within {
-  border-color: #22a06b;
-  box-shadow: 0 0 0 3px rgba(34, 160, 107, 0.15);
 }

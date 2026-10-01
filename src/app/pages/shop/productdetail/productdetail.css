@@ -213,7 +213,6 @@
   .product-image {
     height: min(72vh, 34rem);
     min-height: 23rem;
-    max-height: none;
     border-radius: 18px;
   }
 

@@ -1,50 +1,5 @@
-.blog-page {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 110px 20px 40px;
-  box-sizing: border-box;
-  --min-col: 300px;
-}
-
-/* l'header si "scioglie": titolo e filtri sono sulla stessa griglia flex */
+/* l'header si "scioglie": titolo e filtri stanno nel flex di .blog-page
+   (layout e stili condivisi in styles.css) */
 .blog-header {
   display: contents;
-}
-
-.blog-header > div {
-  order: -1;
-  flex: 0 0 100%;
-  margin-bottom: 8px;
-}
-
-.blog-header app-sort-select {
-  order: 1;
-  flex: 1 1 200px;
-  min-width: 0;
-  max-width: 280px;
-}
-
-.blog-header h2 {
-  margin: 0;
-  font-size: 32px;
-  font-weight: 700;
-  color: #1f2937;
-}
-
-.blog-header p {
-  margin: 6px 0 0;
-  font-size: 15px;
-  color: #6b7280;
-}
-
-@media (max-width: 600px) {
-  .blog-header app-sort-select {
-    flex: 1 1 100%;
-    max-width: none;
-  }
 }

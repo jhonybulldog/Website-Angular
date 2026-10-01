@@ -4,13 +4,6 @@
   display: contents;
 }
 
-app-limit-selector {
-  order: 1;
-  flex: 1 1 200px;
-  min-width: 0;
-  max-width: 280px;
-}
-
 app-searchbox {
   order: 0;
   flex: 0 0 100%;
@@ -31,11 +24,4 @@ app-searchbox {
 app-pagination {
   order: 4;
   flex: 0 0 100%;
-}
-
-@media (max-width: 600px) {
-  app-limit-selector {
-    flex: 1 1 100%;
-    max-width: none;
-  }
 }

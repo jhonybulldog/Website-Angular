@@ -31,7 +31,6 @@
 
 .dashboard-container h1::after {
   content: '';
-  display: block;
   width: 45px;
   height: 4px;
   background: linear-gradient(90deg, #10b981, #047857);
@@ -341,29 +340,12 @@ h2 {
   box-shadow: 0 8px 24px rgba(16, 185, 129, 0.1);
 }
 
-.categoria-preferenza strong {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #0f172a;
-  text-transform: capitalize;
-  letter-spacing: -0.01em;
-  line-height: 1.3;
-}
-
 /* Riga controlli: select + eventuale bottone rimuovi */
 .form-gruppo-controlli {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   width: 100%;
-}
-
-.form-gruppo-controlli label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #64748b;
-  letter-spacing: 0.05em;
 }
 
 .categoria-preferenza select {
@@ -496,8 +478,7 @@ h2 {
     flex-direction: column;
   }
 
-  .btn-add-categoria{
+  .btn-add-categoria {
     width: 100%;
-    text-align: center;
   }
 }

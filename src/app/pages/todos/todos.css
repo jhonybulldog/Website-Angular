@@ -1,112 +1,14 @@
-.todos-page {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 16px;
-  --min-col: 300px;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 110px 20px 40px;
-  box-sizing: border-box;
-}
-/* stesso titolo e sottotitolo di blog e shop */
-.todos-header {
-  order: -1;
-  flex: 0 0 100%;
-  margin-bottom: 8px;
-}
-
-.todos-header h2 {
-  margin: 0;
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: #1f2937;
-  text-align: left;
-}
-
-.todos-header h2.section-title {
-  margin: 6px 0 0;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 1.6;
-  color: #6b7280;
-}
-
-.todos-header h2.section-title::after {
-  content: none;
-}
-
+/* layout, titolo, card e bottoni condivisi in styles.css */
 .todo {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
   gap: 20px;
-  padding: 24px;
-  box-sizing: border-box;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 18px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
   color: #111827;
   font-size: 16px;
   font-weight: 600;
   line-height: 1.5;
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
-}
-
-.todo:hover {
-  transform: translateY(-5px);
-  border-color: #d1d5db;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-}
-
-.todo button {
-  width: 100%;
-  padding: 12px 18px;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  background: #22a06b;
-  color: #ffffff;
-}
-
-.todo button:hover {
-  background: #198754;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(34, 160, 107, 0.2);
-}
-
-.todo button:active {
-  transform: translateY(0);
 }
 
 .todo.done span {
   color: #9ca3af;
   text-decoration: line-through;
-}
-
-.todo.done button {
-  background: #f3f4f6;
-  color: #111827;
-}
-
-.todo.done button:hover {
-  background: #e5e7eb;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-}
-
-@media (max-width: 600px) {
-  .todo {
-    padding: 20px;
-    border-radius: 15px;
-  }
 }
