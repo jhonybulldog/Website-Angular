@@ -54,9 +54,18 @@ export class Prodotti {
         this.totaleProdotti.set(risposta.total);
       });
   }
+  
   caricaProdotto(id: number) {
   return this.http.get<ListaProdotti>(`${this.url}${id}`);
 }
+  aggiornaProdotto(id: number, price: number, description: string) {
+    let url = `${this.url}${id}`;
+    return this.http
+      .put<ListaProdotti>(url, {
+        price: price,
+        description: description,
+      });
+  }
   aggiungiProdotto(prodotto: ListaProdotti) {
     prodotto.id = this.nextid;
     this.nextid++;

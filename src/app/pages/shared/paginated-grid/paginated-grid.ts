@@ -1,5 +1,15 @@
 import { NgTemplateOutlet } from "@angular/common";
-import { Component, TemplateRef, computed, contentChild, effect, input, linkedSignal, output, signal } from "@angular/core";
+import {
+  Component,
+  TemplateRef,
+  computed,
+  contentChild,
+  effect,
+  input,
+  linkedSignal,
+  output,
+  signal,
+} from "@angular/core";
 import { LimitSelector } from "../limit-selector/limit-selector";
 import { Pagination } from "../pagination/pagination";
 import { Searchbox } from "../searchbox/searchbox";
@@ -13,7 +23,10 @@ import { Searchbox } from "../searchbox/searchbox";
 export class PaginatedGrid<T extends { id: number }> {
   items = input.required<T[]>();
   total = input.required<number>();
-  filters = input<unknown>();
+  filters = input<{
+    categoria?: string;
+    ordine?: { label: string; sortBy: string; order: string };
+  }>({});
   load = output<{ limit: number; skip: number; search: string }>();
   template = contentChild.required(TemplateRef);
   ricerca = signal("");
@@ -29,7 +42,11 @@ export class PaginatedGrid<T extends { id: number }> {
     effect(() => {
       this.filters();
       let skip = (this.pagina() - 1) * this.limit();
-      this.load.emit({ limit: this.limit(), skip: skip, search: this.ricerca() });
+      this.load.emit({
+        limit: this.limit(),
+        skip: skip,
+        search: this.ricerca(),
+      });
     });
   }
 }

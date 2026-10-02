@@ -9,7 +9,7 @@
 <app-paginated-grid
   [items]="posts()"
   [total]="totale()"
-  [filters]="[order()]"
+  [filters]="{ordine: order()}"
   (load)="carica($event)"
 >
   <ng-template let-post="items">

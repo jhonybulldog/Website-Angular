@@ -10,7 +10,7 @@
         [categorie]="categorie()"
         [(value)]="categoriaSelezionata"
       ></app-categoryselect>
-      <app-paginated-grid [items]="prodotti()" [total]="totale()" [filters]="[categoriaSelezionata(), order()]" (load)="carica($event)"
+      <app-paginated-grid [items]="prodotti()" [total]="totale()" [filters]="{categoria: categoriaSelezionata(),ordine: order()}" (load)="load($event)"
       >
         <ng-template let-product="items">
           <app-productcard [proddi]="product"></app-productcard>

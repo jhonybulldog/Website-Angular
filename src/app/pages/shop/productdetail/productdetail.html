@@ -8,15 +8,22 @@
     <p class="product-subtitles">{{ prodotto()!.description }}</p>
     <p class="product-proce">{{ prodotto()!.price }} €</p>
   </div>
-  <img
-    class="product-image"
-    [src]="prodotto()!.thumbnail"
-  />
-  <button class="add-to-cart btn btn-primary" (click)="aggiungicarrello(prodotto()!)">
+  <img class="product-image" [src]="prodotto()!.thumbnail" />
+  <button
+    class="add-to-cart btn btn-primary"
+    (click)="aggiungicarrello(prodotto()!)"
+  >
     Aggiungi al carrello
   </button>
   <a class="cart-fab" routerLink="/shop/cart">Carrello</a>
-
+  @if (loggedIn()) {
+  <div class="edit-product">
+    <h3>Modifica prodotto</h3>
+    <input #prezzo type="number" [value]="prodotto()!.price" />
+    <textarea #descrizione [value]="prodotto()!.description"></textarea>
+    <button (click)="salva(prezzo.value, descrizione.value)">Salva modifica</button>
+  </div>
+  }
   <app-minicart />
   } @else {
   <div class="product-not-found">

@@ -33,7 +33,7 @@ export class Shop implements OnInit {
     { label: "Voto più alto", sortBy: "rating", order: "desc"  },
     { label: "Voto più basso", sortBy: "rating", order: "asc" },
   ];
-    carica(e: { limit: number; skip: number; search: string }) {
+  load(e: { limit: number; skip: number; search: string }) {
     this.prodottiser.caricaProdotti(e.limit, e.skip, this.categoriaSelezionata(), e.search, this.order().order, this.order().sortBy);
   }
   ngOnInit() {

@@ -236,3 +236,31 @@
     transition: none;
   }
 }
+.edit-product {
+  display: grid;
+  gap: 10px;
+  max-width: 400px;
+  margin-top: 20px;
+}
+
+.edit-product input,
+.edit-product textarea {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-family: inherit;
+}
+
+.edit-product textarea {
+  min-height: 100px;
+}
+
+.edit-product button {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #22a06b;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
