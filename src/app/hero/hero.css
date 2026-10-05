@@ -1,39 +1,35 @@
 .hero {
-  padding: 120px 0 80px;
-  background: linear-gradient(135deg, var(--white) 0%, var(--light-green) 100%);
-  min-height: 100vh;
   display: flex;
   align-items: center;
+  min-height: 100vh;
+  padding: var(--page-top) 0 80px;
+  background: linear-gradient(135deg, var(--white) 0%, var(--green-100) 100%);
 }
 
+/* larghezza e margini in styles.css (.hero-container) */
 .hero-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
   align-items: center;
+  gap: 4rem;
 }
 
 .hero-subtitles {
-  font-size: 1.25rem;
-  color: var(--primary-green);
+  color: var(--green-700);
+  font-size: var(--text-lg);
   font-weight: 600;
-  margin-bottom: 1rem;
 }
 
 .hero-description {
-  font-size: 1.1rem;
-  line-height: 1.7;
   margin-bottom: 2rem;
-  color: var(--text-gray);
+  font-size: var(--text-md);
+  line-height: 1.7;
 }
 
 .hero-buttons {
   display: flex;
-  gap: 1rem;
   flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .hero-image {
@@ -52,5 +48,9 @@
   .hero-container {
     grid-template-columns: 1fr;
     text-align: center;
+  }
+
+  .hero-buttons {
+    justify-content: center;
   }
 }

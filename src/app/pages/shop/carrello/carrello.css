@@ -1,33 +1,27 @@
 :host {
   display: block;
   min-height: 100vh;
-  padding: clamp(5.5rem, 9vw, 7.5rem) clamp(1rem, 4vw, 2rem) 4rem;
+  padding: var(--page-top) clamp(1rem, 4vw, 2rem) 4rem;
   background:
     radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.13), transparent 32rem),
     radial-gradient(circle at 100% 100%, rgba(52, 211, 153, 0.1), transparent 30rem),
-    #f8fafc;
+    var(--gray-50);
 }
 
 .container {
   width: min(100%, 980px);
-  margin: 0 auto;
   padding: 0;
 }
 
 app-minicart {
   display: block;
-  position: static;
-}
-
-:host ::ng-deep .mini-cart-amazon {
-  position: static !important;
 }
 
 .section-title {
   margin: 0 0 clamp(2.5rem, 5vw, 4rem);
-  color: #102a23;
+  color: var(--green-950);
   font-size: clamp(2.25rem, 5vw, 3.75rem);
-  font-weight: 750;
+  font-weight: 700;
   letter-spacing: -0.045em;
   line-height: 1.05;
   text-align: left;
@@ -38,14 +32,11 @@ app-minicart {
   left: 0;
   width: 3.5rem;
   height: 0.3rem;
+  background: linear-gradient(90deg, var(--green-500), var(--green-400));
   transform: none;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #10b981, #6ee7b7);
 }
 
-/* =========================
-   SEZIONE E BOTTONE CHECKOUT
-   ========================= */
+/* ---------- Checkout (colori del bottone in styles.css) ---------- */
 .checkout {
   display: flex;
   justify-content: flex-end;
@@ -58,46 +49,26 @@ app-minicart {
   justify-content: center;
   gap: 0.75rem;
   padding: 1rem 2.25rem;
-  border: none;
-  border-radius: 0.85rem;
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: #ffffff;
-  font-size: 1.05rem;
-  font-weight: 750;
+  border-radius: var(--radius-md);
+  font-size: var(--text-md);
+  font-weight: 700;
   letter-spacing: 0.01em;
   text-decoration: none;
-  box-shadow: 0 10px 24px rgba(5, 150, 105, 0.28);
-  cursor: pointer;
-  transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
 }
 
 .btn-checkout .arrow {
-  font-size: 1.2rem;
-  transition: transform 200ms ease;
-}
-
-.btn-checkout:hover {
-  filter: brightness(1.05);
-  transform: translateY(-2px);
-  box-shadow: 0 14px 28px rgba(5, 150, 105, 0.35);
+  font-size: var(--text-lg);
+  transition: transform var(--transition);
 }
 
 .btn-checkout:hover .arrow {
   transform: translateX(4px);
 }
 
-.btn-checkout:active {
-  transform: translateY(0);
-  box-shadow: 0 6px 16px rgba(5, 150, 105, 0.22);
-}
-
-@media (max-width: 560px) {
+@media (max-width: 600px) {
   :host {
-    padding: 5.25rem 1rem 3rem;
-  }
-
-  .section-title {
-    margin-bottom: 2.5rem;
+    padding-inline: 1rem;
+    padding-bottom: 3rem;
   }
 
   .checkout {
@@ -107,12 +78,5 @@ app-minicart {
   .btn-checkout {
     width: 100%;
     padding: 0.95rem 1.5rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .btn-checkout,
-  .btn-checkout .arrow {
-    transition: none;
   }
 }

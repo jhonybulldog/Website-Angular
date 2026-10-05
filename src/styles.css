@@ -1,25 +1,92 @@
+/* =========================================================
+   DESIGN TOKENS
+   Tutti i valori del sito partono da qui: nei componenti
+   si usano solo queste variabili.
+   Breakpoint usati ovunque: 1024px, 768px, 600px, 480px.
+   ========================================================= */
 :root {
-  --primary-green: #10b981;
-  --dark-green: #047857;
-  --light-green: #d1fae5;
-  --accent-green: #34d399;
+  /* Verde (brand) */
+  --green-50: #ecfdf5;
+  --green-100: #d1fae5;
+  --green-200: #a7dfbe;
+  --green-400: #34d399;
+  --green-500: #10b981;
+  --green-600: #059669;
+  --green-700: #047857;
+  --green-800: #065f46;
+  --green-950: #102a23;
+
+  /* Neutri */
   --white: #ffffff;
-  --light-gray: #f8fafc;
-  --medium-gray: #e5e7eb;
-  --text-gray: #6b7280;
-  --dark-gray: #1f2937;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
 
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  /* Stati */
+  --red-50: #fef2f2;
+  --red-100: #fee2e2;
+  --red-300: #fca5a5;
+  --red-600: #dc2626;
+  --red-700: #b91c1c;
+  --amber-500: #f59e0b;
+  --amber-600: #d97706;
+  --rose-50: #fff1f2;
+  --rose-500: #f43f5e;
 
-  --transition-normal: all 0.3s ease;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-sm: 4px;
+  /* Testo */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: 2.5rem;
+  --text-4xl: 3rem;
+
+  /* Raggi */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+  --radius-full: 999px;
+
+  /* Ombre */
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 30px rgba(15, 23, 42, 0.1);
+  --shadow-xl: 0 24px 60px rgba(15, 23, 42, 0.12);
+  --shadow-primary: 0 10px 24px rgba(5, 150, 105, 0.25);
+  --shadow-primary-hover: 0 14px 28px rgba(5, 150, 105, 0.32);
+  --shadow-danger: 0 4px 12px rgba(220, 38, 38, 0.25);
+  --ring: 0 0 0 3px rgba(16, 185, 129, 0.15);
+
+  /* Pulsante principale: abbastanza scuro da avere testo bianco leggibile */
+  --gradient-primary: linear-gradient(135deg, var(--green-600), var(--green-700));
+
+  /* Animazioni */
+  --transition: 0.2s ease;
+  --transition-slow: 0.3s ease;
+
+  /* Layout */
+  --container: 1200px;
+  --page-top: clamp(5.5rem, 9vw, 7rem); /* spazio sotto la navbar fissa */
 }
 
-* {
+/* =========================================================
+   BASE
+   ========================================================= */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -30,104 +97,167 @@ html {
 }
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   line-height: 1.6;
-  color: var(--dark-gray);
+  color: var(--gray-800);
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
+button,
+input,
+select,
+textarea {
+  font: inherit;
 }
 
-.section-title {
-  text-align: center;
-  margin-bottom: 1rem;
-  position: relative;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 4px;
-  background: var(--primary-green);
-  border-radius: var(--radius-sm);
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.75rem 2rem;
-  border: none;
-  border-radius: var(--radius-lg);
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-  transition: var(--transition-normal);
-}
-
-.btn-primary {
-  background: var(--primary-green);
-  color: var(--white);
-  box-shadow: var(--shadow-md);
-}
-
-.btn-primary:hover {
-  background: var(--dark-green);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lg);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: var(--dark-gray);
-  border: 2px solid var(--primary-green);
-}
-
-.btn-secondary:hover {
-  background: var(--primary-green);
-  color: var(--white);
-}
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 600;
   line-height: 1.2;
   margin-bottom: 1rem;
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: var(--text-4xl);
   font-weight: 700;
 }
 
 h2 {
-  font-size: 2.5rem;
+  font-size: var(--text-3xl);
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: var(--text-xl);
 }
 
 p {
   margin-bottom: 1rem;
-  color: var(--text-gray);
+  color: var(--gray-500);
 }
 
-.highlight {
-  color: var(--primary-green);
-  position: relative;
+:focus-visible {
+  outline: 3px solid rgba(16, 185, 129, 0.4);
+  outline-offset: 2px;
 }
 
-section {
+/* sezioni della home */
+app-home-c section {
   padding: 5rem 0;
 }
 
-/* ===== Pagine elenco condivise: blog, shop, todos ===== */
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+.container,
+.nav-container,
+.hero-container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: 2rem;
+}
+
+.section-title {
+  position: relative;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: 60px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--green-500);
+  transform: translateX(-50%);
+}
+
+.highlight {
+  color: var(--green-600);
+}
+
+/* =========================================================
+   PULSANTI
+   ========================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition),
+    transform var(--transition), box-shadow var(--transition), filter var(--transition);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--gray-800);
+  border: 2px solid var(--green-600);
+}
+
+.btn-secondary:hover {
+  background: var(--green-700);
+  border-color: var(--green-700);
+  color: var(--white);
+}
+
+/* azione principale (verde): stessa resa in tutto il sito */
+.btn-primary,
+.add-to-cart,
+.prodotti-card .add-to-cart,
+.todo:not(.done) button,
+.btn-go-to-cart,
+.btn-checkout,
+.btn-continua,
+.btn-completa-ordine,
+.btn-calcola,
+.indirizzi form button,
+.indirizzo-intestato form button,
+app-admin button:not(.btn-delete),
+app-login button {
+  border: none;
+  background: var(--gradient-primary);
+  color: var(--white);
+  box-shadow: var(--shadow-primary);
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+}
+
+/* stati: :is() raccoglie la stessa lista senza ripeterla tre volte */
+:is(.btn-primary, .add-to-cart, .todo:not(.done) button, .btn-go-to-cart, .btn-checkout,
+  .btn-continua, .btn-completa-ordine, .btn-calcola, .indirizzi form button,
+  .indirizzo-intestato form button, app-admin button:not(.btn-delete), app-login button):hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary-hover);
+}
+
+:is(.btn-primary, .add-to-cart, .todo:not(.done) button, .btn-go-to-cart, .btn-checkout,
+  .btn-continua, .btn-completa-ordine, .btn-calcola, .indirizzi form button,
+  .indirizzo-intestato form button, app-admin button:not(.btn-delete), app-login button):active:not(:disabled) {
+  transform: translateY(0);
+}
+
+:is(.btn-primary, .add-to-cart, .todo:not(.done) button, .btn-go-to-cart, .btn-checkout,
+  .btn-continua, .btn-completa-ordine, .btn-calcola, .indirizzi form button,
+  .indirizzo-intestato form button, app-admin button:not(.btn-delete), app-login button):disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* =========================================================
+   PAGINE ELENCO CONDIVISE: blog, shop, todos
+   ========================================================= */
 .blog-page,
 .todos-page {
   display: flex;
@@ -135,9 +265,9 @@ section {
   align-items: center;
   gap: 16px;
   width: 100%;
-  max-width: 1200px;
+  max-width: var(--container);
   margin: 0 auto;
-  padding: 110px 20px 40px;
+  padding: var(--page-top) 20px 40px;
   --min-col: 300px;
 }
 
@@ -154,9 +284,9 @@ section {
 .todos-header h2,
 .shop-header h2 {
   margin: 0;
-  font-size: 32px;
+  font-size: var(--text-2xl);
   font-weight: 700;
-  color: #1f2937;
+  color: var(--gray-800);
   text-align: left;
 }
 
@@ -164,10 +294,10 @@ section {
 .todos-header .section-title,
 .shop-header .section-title {
   margin: 6px 0 0;
-  font-size: 15px;
+  font-size: var(--text-base);
   font-weight: 400;
   line-height: 1.6;
-  color: #6b7280;
+  color: var(--gray-500);
 }
 
 .todos-header .section-title::after,
@@ -192,19 +322,18 @@ app-limit-selector select,
 app-searchbox .search-box {
   width: 100%;
   padding: 0.75rem 1rem;
-  background: #ffffff;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 app-sort-select select,
 app-categoryselect select,
 app-limit-selector select {
   display: block;
-  color: #1f2937;
-  font-family: inherit;
-  font-size: 0.95rem;
+  color: var(--gray-800);
+  font-size: var(--text-base);
   font-weight: 600;
   cursor: pointer;
 }
@@ -213,7 +342,7 @@ app-sort-select select:hover,
 app-categoryselect select:hover,
 app-limit-selector select:hover,
 app-searchbox .search-box:hover {
-  border-color: #22a06b;
+  border-color: var(--green-500);
 }
 
 app-sort-select select:focus,
@@ -221,11 +350,13 @@ app-categoryselect select:focus,
 app-limit-selector select:focus,
 app-searchbox .search-box:focus-within {
   outline: none;
-  border-color: #22a06b;
-  box-shadow: 0 0 0 3px rgba(34, 160, 107, 0.15);
+  border-color: var(--green-500);
+  box-shadow: var(--ring);
 }
 
-/* card di blog, prodotti e todo */
+/* =========================================================
+   CARD: blog, prodotti, todo
+   ========================================================= */
 .blog-card,
 .prodotti-card,
 .todo {
@@ -233,43 +364,44 @@ app-searchbox .search-box:focus-within {
   display: flex;
   flex-direction: column;
   padding: 24px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 18px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
 
 .blog-card:hover,
 .prodotti-card:hover,
 .todo:hover {
   transform: translateY(-5px);
-  border-color: #d1d5db;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  border-color: var(--gray-300);
+  box-shadow: var(--shadow-lg);
 }
 
-/* bottoni delle card: grigio di base, verde per le azioni */
+/* bottoni delle card: grigi di base (quelli verdi sono sopra, in PULSANTI) */
 .blog-card button,
 .prodotti-card button,
 .todo button {
   width: 100%;
   padding: 12px 18px;
   border: none;
-  border-radius: 10px;
-  background: #f3f4f6;
-  color: #111827;
-  font-size: 14px;
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+  color: var(--gray-900);
+  font-size: var(--text-sm);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color var(--transition), transform var(--transition),
+    box-shadow var(--transition), filter var(--transition);
 }
 
 .blog-card button:hover,
 .prodotti-card button:hover,
 .todo button:hover {
-  background: #e5e7eb;
+  background: var(--gray-200);
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
 }
 
 .blog-card button:active,
@@ -278,18 +410,44 @@ app-searchbox .search-box:focus-within {
   transform: translateY(0);
 }
 
-.prodotti-card .add-to-cart,
-.todo:not(.done) button {
-  background: #22a06b;
-  color: #ffffff;
-}
-
+/* i bottoni verdi delle card restano verdi anche in hover */
 .prodotti-card .add-to-cart:hover,
 .todo:not(.done) button:hover {
-  background: #198754;
-  box-shadow: 0 6px 15px rgba(34, 160, 107, 0.2);
+  background: var(--gradient-primary);
 }
 
+/* bottone preferiti (cuore): card prodotto e dettaglio prodotto.
+   "button." serve a vincere su ".prodotti-card button" */
+button.favorite-btn {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 2px; /* il simbolo del cuore sta un po' in basso: lo ricentro */
+  border: 1px solid rgba(244, 63, 94, 0.2);
+  border-radius: var(--radius-full);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  color: var(--rose-500);
+  font-family: system-ui, sans-serif;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform var(--transition), background-color var(--transition), box-shadow var(--transition);
+}
+
+button.favorite-btn:hover {
+  background: var(--rose-50);
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(244, 63, 94, 0.25);
+}
+
+button.favorite-btn:active {
+  transform: scale(0.9);
+}
+
+/* =========================================================
+   RESPONSIVE E ACCESSIBILITÀ
+   ========================================================= */
 @media (max-width: 600px) {
   app-sort-select,
   app-categoryselect,
@@ -302,6 +460,17 @@ app-searchbox .search-box:focus-within {
   .prodotti-card,
   .todo {
     padding: 20px;
-    border-radius: 15px;
+    border-radius: var(--radius-lg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

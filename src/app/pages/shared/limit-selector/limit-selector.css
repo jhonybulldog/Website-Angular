@@ -8,7 +8,7 @@
 }
 
 .category-select option {
-  background: #ffffff;
-  color: #1f2937;
+  background: var(--white);
+  color: var(--gray-800);
   font-weight: 500;
 }

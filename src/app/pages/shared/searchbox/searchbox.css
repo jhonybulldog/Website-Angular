@@ -9,12 +9,11 @@
   border: none;
   outline: none;
   background: transparent;
-  color: #1f2937;
-  font-family: inherit;
-  font-size: 0.95rem;
+  color: var(--gray-800);
+  font-size: var(--text-base);
   font-weight: 500;
 }
 
 .search-box input::placeholder {
-  color: #6b7280;
+  color: var(--gray-500);
 }

@@ -1,64 +1,129 @@
+/* larghezza in styles.css (.container); qui solo lo spazio sotto la navbar */
+.container {
+  padding-block: var(--page-top) 3rem;
+}
+
 .section-header {
   margin-bottom: 30px;
   text-align: center;
 }
 
 .section-header h1 {
-  font-size: 2.5rem;
-  color: var(--dark-green);
   margin-bottom: 10px;
+  color: var(--green-700);
+  font-size: var(--text-3xl);
 }
 
 .section-header p {
-  font-size: 1.1rem;
-  color: var(--text-gray);
   max-width: 700px;
   margin: 0 auto;
+  font-size: var(--text-md);
 }
 
+/* ---------- Card con ricerca + tabella ---------- */
 .table-container {
-  background-color: var(--white);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--medium-gray);
   margin-bottom: 30px;
+  overflow: hidden;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-md);
+}
+
+/* la ricerca sta dentro la card: fa da barra superiore */
+.search-section {
+  padding: 25px;
+  border-bottom: 1px solid var(--gray-200);
+  background: var(--gray-50);
+}
+
+.search-label {
+  display: block;
+  margin-bottom: 15px;
+  color: var(--green-700);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+.search-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 15px;
+}
+
+.type-selector {
+  flex: 1;
+  min-width: min(100%, 250px);
+}
+
+.search-input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  color: var(--gray-800);
+  font-size: var(--text-base);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--green-500);
+  box-shadow: var(--ring);
+}
+
+.clear-search {
+  padding: 0 20px;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  color: var(--gray-700);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+.clear-search:hover {
+  background: var(--gray-100);
 }
 
 .table-header {
-  background-color: var(--dark-green);
-  color: var(--white);
   padding: 20px;
+  background: var(--green-700);
+  color: var(--white);
   text-align: center;
 }
 
 .table-header h2 {
-  font-size: 1.8rem;
+  margin: 0;
+  font-size: var(--text-2xl);
 }
 
+/* ---------- Tabella ---------- */
 .results-table {
   width: 100%;
   border-collapse: collapse;
 }
 
 .results-table thead {
-  background-color: var(--light-green);
-  border-bottom: 2px solid var(--medium-gray);
+  border-bottom: 2px solid var(--gray-200);
+  background: var(--green-100);
 }
 
 .results-table th {
   padding: 18px 12px;
-  text-align: left;
+  color: var(--green-700);
+  font-size: var(--text-base);
   font-weight: 600;
-  color: var(--dark-green);
-  font-size: 1rem;
+  text-align: left;
   white-space: nowrap;
 }
 
 .results-table td {
   padding: 14px 12px;
-  border-bottom: 1px solid var(--medium-gray);
-  color: var(--dark-gray);
+  border-bottom: 1px solid var(--gray-200);
   vertical-align: top;
 }
 
@@ -67,22 +132,23 @@
 }
 
 .results-table tbody tr:hover {
-  background-color: var(--light-gray);
+  background: var(--gray-50);
 }
 
+/* il colore di sfondo arriva dall'HTML, per tipo */
 .type-badge {
   display: inline-block;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
   margin: 2px;
-  color: white;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  color: var(--white);
+  font-size: var(--text-sm);
+  font-weight: 600;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive */
-@media (max-width: 1200px) {
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
   .results-table {
     display: block;
     overflow-x: auto;
@@ -96,77 +162,20 @@
 
 @media (max-width: 768px) {
   .section-header h1 {
-    font-size: 2rem;
+    font-size: var(--text-2xl);
   }
 }
 
 @media (max-width: 480px) {
   .results-table th,
   .results-table td {
-    padding: 12px 8px;
-    font-size: 0.9rem;
     min-width: 120px;
+    padding: 12px 8px;
+    font-size: var(--text-sm);
   }
 
   .type-badge {
     padding: 4px 8px;
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
   }
-}
-.search-section {
-  background-color: var(--white);
-  border-radius: var(--radius-lg);
-  padding: 25px;
-  box-shadow: var(--shadow-md);
-  margin-bottom: 30px;
-  border: 1px solid var(--medium-gray);
-}
-
-.search-label {
-  display: block;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--dark-green);
-  margin-bottom: 15px;
-}
-
-.search-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  align-items: center;
-}
-
-.type-selector {
-  flex: 1;
-  min-width: 250px;
-}
-
-.search-input {
-  width: 100%;
-  padding: 16px 20px;
-  border: 2px solid var(--medium-gray);
-  border-radius: var(--radius-sm);
-  font-size: 1rem;
-  background-color: var(--white);
-  color: var(--dark-gray);
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: var(--primary-green);
-}
-
-.clear-search {
-  background-color: var(--light-gray);
-  border: 2px solid var(--medium-gray);
-  color: var(--text-gray);
-  padding: 10px 20px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.clear-search:hover {
-  background-color: var(--medium-gray);
 }

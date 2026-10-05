@@ -1,81 +1,90 @@
-/* ===== CHECKOUT CONTAINER ===== */
 .checkout-container {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 6rem 1.25rem 3rem;
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--page-top) 1.25rem 3rem;
 }
 
 .checkout-container h1 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #102a23;
   margin: 0;
   padding-bottom: 0.5rem;
-  border-bottom: 3px solid #10b981;
+  border-bottom: 3px solid var(--green-500);
+  color: var(--green-950);
+  font-size: var(--text-2xl);
+  font-weight: 700;
 }
 
-/* ===== CARD DELLE SEZIONI ===== */
-.riepilogo-ordine {
-  background: #ecfdf5;
-  border: 1px solid #a7dfbe;
-  border-radius: 14px;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
+/* =========================================================
+   SEZIONI (riepilogo, pagamento, indirizzi, intestatario)
+   ========================================================= */
+.riepilogo-ordine,
 .metodo-pagamento,
-.indirizzi {
-  background: #fff;
-  border: 1px solid #d1fae5;
-  border-radius: 14px;
-  padding: 1.5rem;
+.indirizzi,
+.indirizzo-intestato {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  box-shadow: 0 2px 12px rgba(16, 185, 129, 0.08);
+  padding: 1.5rem;
+  border: 1px solid var(--green-100);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+
+.riepilogo-ordine {
+  gap: 0.6rem;
+  border-color: var(--green-200);
+  background: var(--green-50);
+  box-shadow: none;
+}
+
+.indirizzo-intestato {
+  gap: 1rem;
+  margin-top: 1.5rem;
+  border: 2px solid var(--green-500);
+  box-shadow: var(--shadow-md);
 }
 
 .riepilogo-ordine h2,
 .metodo-pagamento h2,
 .indirizzi h2,
 .indirizzo-intestato h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #047857;
   margin: 0;
+  color: var(--green-700);
+  font-size: var(--text-md);
+  font-weight: 700;
 }
 
 .riepilogo-ordine h2 {
   margin-bottom: 0.5rem;
 }
 
-/* ===== RIEPILOGO ORDINE ===== */
+/* ---------- Riepilogo ---------- */
 .riepilogo-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.95rem;
-  color: #374151;
+  color: var(--gray-700);
+  font-size: var(--text-base);
 }
 
 .riepilogo-divider {
-  border: none;
-  border-top: 1.5px solid #a7dfbe;
   margin: 0.4rem 0;
+  border: none;
+  border-top: 1.5px solid var(--green-200);
 }
 
 .riepilogo-totale {
-  font-size: 1.05rem;
+  color: var(--green-700);
+  font-size: var(--text-md);
   font-weight: 700;
-  color: #047857;
 }
 
-/* ===== RADIO GROUP ===== */
+/* =========================================================
+   METODO DI PAGAMENTO
+   ========================================================= */
 .radio-group {
   display: flex;
   flex-direction: column;
@@ -86,155 +95,55 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  cursor: pointer;
-  font-size: 0.95rem;
-  color: #102a23;
-  font-weight: 500;
   padding: 0.65rem 1rem;
-  border: 1.5px solid #d1fae5;
-  border-radius: 10px;
-  transition: border-color 0.2s, background 0.2s;
+  border: 1.5px solid var(--green-100);
+  border-radius: var(--radius-md);
+  color: var(--green-950);
+  font-size: var(--text-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--transition), background-color var(--transition);
 }
 
-.radio-label:has(input:checked) {
-  border-color: #10b981;
-  background: #ecfdf5;
-}
-
+/* il radio vero è nascosto alla vista ma resta raggiungibile da tastiera */
 .radio-label input[type="radio"] {
-  display: none;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .radio-custom {
+  flex-shrink: 0;
   width: 18px;
   height: 18px;
-  border-radius: 50%;
-  border: 2px solid #a7dfbe;
-  background: #fff;
-  flex-shrink: 0;
-  transition: border-color 0.2s, background 0.2s;
-  position: relative;
+  border: 2px solid var(--green-200);
+  border-radius: var(--radius-full);
+  background: var(--white);
+  transition: border-color var(--transition), background-color var(--transition);
+}
+
+.radio-label:has(input:checked) {
+  border-color: var(--green-500);
+  background: var(--green-50);
 }
 
 .radio-label:has(input:checked) .radio-custom {
-  border-color: #10b981;
-  background: #10b981;
-  box-shadow: inset 0 0 0 3px #fff;
+  border-color: var(--green-500);
+  background: var(--green-500);
+  box-shadow: inset 0 0 0 3px var(--white);
 }
 
-/* ===== BOTTONI VERDI (continua, salva indirizzo, conferma intestatario) ===== */
-.btn-continua,
-.indirizzi form button,
-.indirizzo-intestato form button {
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: #fff;
-  font-size: 0.95rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: opacity 0.2s, transform 0.15s;
+.radio-label:has(input:focus-visible) {
+  outline: 3px solid rgba(16, 185, 129, 0.4);
+  outline-offset: 2px;
 }
 
-.btn-continua:hover:not(:disabled),
-.indirizzi form button:hover:not(:disabled),
-.indirizzo-intestato form button:hover:not(:disabled) {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-.btn-continua:disabled,
-.indirizzi form button:disabled,
-.indirizzo-intestato form button:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-.btn-continua {
-  align-self: flex-start;
-  padding: 0.65rem 1.75rem;
-  letter-spacing: 0.02em;
-}
-
-.indirizzi form button {
-  grid-column: 1 / -1;
-  justify-self: start;
-  padding: 0.7rem 1.75rem;
-  letter-spacing: 0.02em;
-}
-
-.indirizzi form button:disabled {
-  opacity: 0.4;
-}
-
-.indirizzo-intestato form button {
-  padding: 0.65rem 1.5rem;
-}
-
-/* ===== INPUT ===== */
-.form-group input,
-.indirizzi form input,
-.indirizzo-intestato form input {
-  padding: 0.65rem 0.9rem;
-  border: 1.5px solid #d1fae5;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  color: #102a23;
-  background: #f9fafb;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.form-group input:focus,
-.indirizzi form input:focus,
-.indirizzo-intestato form input:focus {
-  border-color: #10b981;
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
-}
-
-.indirizzi form input {
-  width: 100%;
-  padding: 0.62rem 0.9rem;
-  font-size: 0.9rem;
-}
-
-.indirizzo-intestato form input {
-  flex: 1;
-  border-color: #a7dfbe;
-}
-
-.indirizzo-intestato form input:focus {
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-}
-
-/* ===== BOX INFORMATIVI ===== */
-.paypal-info,
-.indirizzi > p,
-.indirizzo-intestato p {
-  font-size: 0.9rem;
-  color: #047857;
-  background: #ecfdf5;
-  border: 1px solid #a7dfbe;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  margin: 0;
-}
-
-/* nessun indirizzo salvato */
-.indirizzi > p {
-  color: #6b7280;
-  background: #f9fafb;
-  border-style: dashed;
-}
-
-/* ===== CARTA FORM ===== */
 .carta-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  border-top: 1.5px solid #d1fae5;
   padding-top: 1.25rem;
+  border-top: 1.5px solid var(--green-100);
 }
 
 .form-group {
@@ -243,43 +152,117 @@
   gap: 0.35rem;
 }
 
-/* ===== MESSAGGIO SUCCESSO ===== */
-.success-msg {
-  font-size: 0.92rem;
+/* =========================================================
+   CAMPI DI TESTO
+   ========================================================= */
+.form-group input,
+.indirizzi form input,
+.indirizzo-intestato form input {
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  outline: none;
+  background: var(--gray-50);
+  color: var(--green-950);
+  font-size: var(--text-base);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form-group input:focus,
+.indirizzi form input:focus,
+.indirizzo-intestato form input:focus {
+  border-color: var(--green-500);
+  background: var(--white);
+  box-shadow: var(--ring);
+}
+
+.indirizzi form input {
+  width: 100%;
+}
+
+.indirizzo-intestato form input {
+  flex: 1;
+}
+
+/* =========================================================
+   BOTTONI VERDI (colori e stati in styles.css)
+   ========================================================= */
+.btn-continua,
+.indirizzi form button,
+.indirizzo-intestato form button {
+  padding: 0.65rem 1.75rem;
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
   font-weight: 600;
-  color: #047857;
-  background: #ecfdf5;
-  border: 1.5px solid #10b981;
-  border-radius: 8px;
-  padding: 0.65rem 1rem;
+  letter-spacing: 0.02em;
+}
+
+.btn-continua {
+  align-self: flex-start;
+}
+
+.indirizzi form button {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+/* =========================================================
+   BOX INFORMATIVI E MESSAGGI
+   ========================================================= */
+.paypal-info,
+.indirizzi > p,
+.indirizzo-intestato p,
+.success-msg {
   margin: 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--green-200);
+  border-radius: var(--radius-md);
+  background: var(--green-50);
+  color: var(--green-700);
+  font-size: var(--text-sm);
+}
+
+/* nessun indirizzo salvato */
+.indirizzi > p {
+  border-style: dashed;
+  background: var(--gray-50);
+  color: var(--gray-500);
+}
+
+.indirizzo-intestato p {
+  color: var(--green-950);
+}
+
+.success-msg {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  border-color: var(--green-500);
+  font-weight: 600;
 }
 
 .success-msg::before {
   content: "✓";
-  font-size: 1rem;
-  font-weight: 900;
-  color: #10b981;
+  color: var(--green-600);
+  font-weight: 800;
 }
 
-/* ===== ERROR ===== */
 .error {
-  font-size: 0.82rem;
-  color: #dc2626;
   margin: 0;
+  color: var(--red-600);
+  font-size: var(--text-sm);
 }
 
-/* ===== INDIRIZZI DI SPEDIZIONE ===== */
+/* =========================================================
+   INDIRIZZI SALVATI
+   ========================================================= */
 .indirizzi h3 {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #059669;
   margin: 0;
   padding-top: 0.5rem;
-  border-top: 1.5px solid #d1fae5;
+  border-top: 1.5px solid var(--green-100);
+  color: var(--green-700);
+  font-size: var(--text-base);
+  font-weight: 700;
 }
 
 .indirizzi-lista {
@@ -289,48 +272,84 @@
 }
 
 .indirizzo {
-  border: 1.5px solid #d1fae5;
-  border-radius: 10px;
   padding: 1rem 1.1rem;
+  border: 1.5px solid var(--green-100);
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  transition: border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
 }
 
 .indirizzo:has(input:checked) {
-  border-color: #10b981;
-  background: #ecfdf5;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  border-color: var(--green-500);
+  background: var(--green-50);
+  box-shadow: var(--ring);
 }
 
 .indirizzo label {
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  cursor: pointer;
   margin-bottom: 0.4rem;
+  cursor: pointer;
 }
 
 .indirizzo label input[type="radio"] {
-  accent-color: #10b981;
   width: 16px;
   height: 16px;
+  accent-color: var(--green-600);
   cursor: pointer;
 }
 
 .indirizzo label strong {
-  font-size: 0.95rem;
+  color: var(--green-950);
+  font-size: var(--text-base);
   font-weight: 700;
-  color: #102a23;
 }
 
 .indirizzo p {
-  font-size: 0.875rem;
-  color: #374151;
   margin: 0.15rem 0 0 1.65rem;
+  color: var(--gray-700);
+  font-size: var(--text-sm);
   line-height: 1.5;
 }
 
-/* Form aggiungi nuovo indirizzo */
+/* Modifica / Elimina */
+.indirizzo button {
+  margin: 0.6rem 0.5rem 0 0;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.indirizzo button:first-of-type {
+  border-color: var(--green-200);
+  background: var(--green-50);
+  color: var(--green-700);
+}
+
+.indirizzo button:first-of-type:hover {
+  border-color: var(--green-700);
+  background: var(--green-700);
+  color: var(--white);
+}
+
+.indirizzo button:last-of-type {
+  border-color: var(--red-300);
+  background: var(--red-100);
+  color: var(--red-700);
+}
+
+.indirizzo button:last-of-type:hover {
+  border-color: var(--red-600);
+  background: var(--red-600);
+  color: var(--white);
+}
+
+/* Form nuovo indirizzo */
 .indirizzi form {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -342,139 +361,71 @@
   grid-column: 1 / -1;
 }
 
-/* Pulsanti Modifica / Elimina dell'indirizzo */
-.indirizzo button {
-  padding: 0.35rem 0.75rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  margin: 0.6rem 0.5rem 0 0;
-  transition: all 150ms ease;
-}
-
-.indirizzo button[type="button"]:first-of-type {
-  background-color: #ecfdf5;
-  color: #047857;
-  border: 1px solid #a7dfbe;
-}
-
-.indirizzo button[type="button"]:first-of-type:hover {
-  background-color: #10b981;
-  color: #ffffff;
-  border-color: #10b981;
-}
-
-.indirizzo button[type="button"]:last-of-type {
-  background-color: #fee2e2;
-  color: #ef4444;
-  border: 1px solid #fca5a5;
-}
-
-.indirizzo button[type="button"]:last-of-type:hover {
-  background-color: #ef4444;
-  color: #ffffff;
-  border-color: #ef4444;
-}
-
-/* ===== INDIRIZZO INTESTATO CARD ===== */
-.indirizzo-intestato {
-  background: #ffffff;
-  border: 2px solid #10b981;
-  border-radius: 14px;
-  padding: 1.5rem;
-  margin-top: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.12);
-}
-
-.indirizzo-intestato p {
-  font-size: 0.92rem;
-  color: #102a23;
-  padding: 0.65rem 0.9rem;
-}
-
 .indirizzo-intestato form {
   display: flex;
-  gap: 0.75rem;
   align-items: center;
+  gap: 0.75rem;
 }
 
-/* ===== BOTTONE COMPLETA ORDINE ===== */
+/* =========================================================
+   COMPLETA ORDINE (colori in styles.css)
+   ========================================================= */
 .btn-completa-ordine {
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  padding: 1.1rem 2rem;
+  width: 100%;
   margin-top: 1.5rem;
-  background: linear-gradient(135deg, #10b981, #047857);
-  color: #ffffff;
-  border: none;
-  border-radius: 14px;
-  font-size: 1.15rem;
+  padding: 1.1rem 2rem;
+  border-radius: var(--radius-lg);
+  font-size: var(--text-md);
   font-weight: 800;
   letter-spacing: 0.02em;
-  cursor: pointer;
-  box-shadow: 0 10px 25px rgba(4, 120, 87, 0.28);
-  transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
 }
 
-.btn-completa-ordine:hover:not(:disabled) {
-  filter: brightness(1.06);
-  transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(4, 120, 87, 0.35);
-}
-
-.btn-completa-ordine:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 6px 16px rgba(4, 120, 87, 0.22);
-}
-
-.btn-completa-ordine:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-/* ===== ORDINE CONFERMATO ===== */
+/* =========================================================
+   ORDINE CONFERMATO
+   ========================================================= */
 .ordine-confermato {
-  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
-  border: 2px solid #10b981;
-  border-radius: 16px;
-  padding: 2rem 1.5rem;
   margin-top: 1.75rem;
+  padding: 2rem 1.5rem;
+  border: 2px solid var(--green-500);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--green-50), var(--green-100));
+  box-shadow: var(--shadow-primary);
   text-align: center;
-  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
-  animation: slideInFade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: comparsa-ordine 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .ordine-confermato h2 {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #047857;
   margin: 0 0 0.5rem;
+  color: var(--green-700);
+  font-size: var(--text-xl);
+  font-weight: 800;
 }
 
 .ordine-confermato p {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #065f46;
   margin: 0;
+  color: var(--green-800);
+  font-size: var(--text-md);
+  font-weight: 600;
 }
 
-@keyframes slideInFade {
+@keyframes comparsa-ordine {
   from {
     opacity: 0;
     transform: translateY(12px);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+  .indirizzi form {
+    grid-template-columns: 1fr;
+  }
+
+  .indirizzo-intestato form {
+    flex-direction: column;
+    align-items: stretch;
   }
 }

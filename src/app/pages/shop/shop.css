@@ -1,20 +1,18 @@
 .shop-page {
   min-height: 100vh;
-  padding-top: 90px;
+  padding-top: var(--page-top);
 }
 
 .container {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px 20px 40px;
+  padding: 0 20px 40px;
 }
 
 .shop-layout {
   display: grid;
   grid-template-columns: 1fr minmax(260px, 300px);
-  gap: 2rem;
   align-items: start;
+  gap: 2rem;
 }
 
 /* titolo, filtri e card condivisi in styles.css */
@@ -29,7 +27,7 @@
 
 app-minicart {
   position: sticky;
-  top: 6rem;
+  top: var(--page-top);
 }
 
 @media (max-width: 1024px) {
@@ -39,11 +37,5 @@ app-minicart {
 
   app-minicart {
     position: static;
-  }
-}
-
-@media (max-width: 600px) {
-  .shop-page {
-    padding-top: 75px;
   }
 }

@@ -1,9 +1,8 @@
 :host {
   display: block;
   min-height: 100vh;
-  /* spazio in alto per la navbar fissa */
-  padding: 6.5rem clamp(1rem, 4vw, 3rem) 4rem;
-  background: #f8fafc;
+  padding: var(--page-top) clamp(1rem, 4vw, 3rem) 4rem;
+  background: var(--gray-50);
 }
 
 .container {
@@ -15,7 +14,6 @@
     "image actions cart";
   gap: 1.5rem 2.5rem;
   max-width: 1300px;
-  margin: 0 auto;
   padding: 0;
 }
 
@@ -26,9 +24,9 @@
   aspect-ratio: 1;
   padding: 1.5rem;
   object-fit: contain;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
 }
 
 /* ---------- Info ---------- */
@@ -39,7 +37,7 @@
 .nav-back-link {
   display: inline-block;
   margin-bottom: 1.25rem;
-  color: #047857;
+  color: var(--green-700);
   font-weight: 600;
   text-decoration: none;
 }
@@ -50,26 +48,24 @@
 
 .product-title {
   margin: 0 0 0.75rem;
-  color: #102a23;
+  color: var(--green-950);
   font-size: clamp(1.75rem, 3vw, 2.5rem);
   line-height: 1.15;
 }
 
 .product-subtitles {
   margin: 0 0 1.25rem;
-  color: #5b6d66;
-  font-size: 1.05rem;
-  line-height: 1.6;
+  font-size: var(--text-md);
 }
 
 .product-proce {
   margin: 0;
-  color: #047857;
-  font-size: 2rem;
+  color: var(--green-700);
+  font-size: var(--text-2xl);
   font-weight: 800;
 }
 
-/* ---------- Pulsanti ---------- */
+/* ---------- Pulsanti (colori in styles.css) ---------- */
 .product-actions {
   grid-area: actions;
   align-self: start;
@@ -80,61 +76,16 @@
 .add-to-cart {
   flex: 1;
   padding: 1rem;
-  border: 0;
-  border-radius: 10px;
-  background: #10b981;
-  color: #fff;
-  font: inherit;
+  border-radius: var(--radius-md);
   font-weight: 700;
   text-align: center;
   text-decoration: none;
-  cursor: pointer;
-  transition: background 0.2s ease;
 }
 
-.add-to-cart:hover {
-  background: #059669;
-}
-
-/* cuore preferiti: stesso stile della card prodotto */
 .favorite-btn {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
   width: 54px;
   height: 54px;
-  padding: 0 0 2px; /* il simbolo del cuore sta un po' in basso: lo ricentro */
-  border: 1px solid rgba(225, 29, 72, 0.15);
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
-  color: #f43f5e;
-  font-family: system-ui, sans-serif;
-  font-size: 26px;
-  line-height: 1;
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-}
-
-.favorite-btn:hover {
-  background: #fff1f2;
-  transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(244, 63, 94, 0.25);
-}
-
-.favorite-btn:active {
-  transform: scale(0.9);
-}
-
-.add-to-cart:focus-visible {
-  outline: 3px solid rgba(16, 185, 129, 0.4);
-  outline-offset: 2px;
-}
-
-.favorite-btn:focus-visible {
-  outline: 3px solid rgba(244, 63, 94, 0.35);
-  outline-offset: 2px;
+  font-size: var(--text-xl);
 }
 
 /* ---------- Modifica (solo admin) ---------- */
@@ -142,23 +93,30 @@
   display: grid;
   gap: 0.75rem;
   padding: 1.25rem;
-  border: 1px dashed #a7dfbe;
-  border-radius: 12px;
-  background: #fff;
+  border: 1px dashed var(--green-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
 }
 
 .edit-product h3 {
   margin: 0;
-  color: #102a23;
-  font-size: 1.1rem;
+  color: var(--green-950);
+  font-size: var(--text-md);
 }
 
 .edit-product input,
 .edit-product textarea {
   padding: 0.65rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font: inherit;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.edit-product input:focus,
+.edit-product textarea:focus {
+  outline: none;
+  border-color: var(--green-500);
+  box-shadow: var(--ring);
 }
 
 .edit-product textarea {
@@ -169,16 +127,16 @@
 .edit-product button {
   padding: 0.75rem;
   border: 0;
-  border-radius: 8px;
-  background: #102a23;
-  color: #fff;
-  font: inherit;
+  border-radius: var(--radius-md);
+  background: var(--green-950);
+  color: var(--white);
   font-weight: 600;
   cursor: pointer;
+  transition: background-color var(--transition);
 }
 
 .edit-product button:hover {
-  background: #047857;
+  background: var(--green-700);
 }
 
 /* ---------- Carrello + modifica ---------- */
@@ -189,7 +147,7 @@
   flex-direction: column;
   gap: 1rem;
   position: sticky;
-  top: 6.5rem;
+  top: var(--page-top);
 }
 
 .cart-fab {
@@ -197,7 +155,7 @@
 }
 
 /* ---------- Tablet ---------- */
-@media (max-width: 1100px) {
+@media (max-width: 1024px) {
   .container {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     grid-template-areas:
