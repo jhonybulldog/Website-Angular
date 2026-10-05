@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import { LoginService, User } from "./login/login.service";
 import { delay } from "rxjs";
-import { Prodotti, ListaProdotti } from "../shop/prodotti.service";
+import { Prodotti, ProductDetails } from "../shop/prodotti.service";
 import { RouterLink } from "@angular/router";
 import { validate } from "@angular/forms/signals";
 
@@ -30,7 +30,7 @@ export class Admin implements OnInit {
   categoriaSelezionata = signal<string>("");
 
   prodotti = this.prodottiService.prod;
-  prodottoDaModificare: ListaProdotti | null = null;
+  prodottoDaModificare: ProductDetails | null = null;
   creaform = new FormGroup({
     username: new FormControl("", [Validators.required]),
     password: new FormControl("", [Validators.required]),
@@ -180,7 +180,7 @@ export class Admin implements OnInit {
   aggiungiProdotto() {
     if (this.productform.valid) {
       console.log(this.productform.value);
-      const nuovoProdotto: ListaProdotti = {
+      const nuovoProdotto: ProductDetails = {
         id: 0,
         title: this.productform.value.title!,
         description: this.productform.value.description!,
@@ -198,7 +198,7 @@ export class Admin implements OnInit {
     this.prodottiService.eliminaProdotto(id);
   }
 
-  modificaProdotti(prodotto: ListaProdotti) {
+  modificaProdotti(prodotto: ProductDetails) {
     this.prodottoDaModificare = prodotto;
 
     this.productform.patchValue({
@@ -212,7 +212,7 @@ export class Admin implements OnInit {
 
   salvaModifica() {
     if (this.productform.valid && this.prodottoDaModificare !== null) {
-      const prodottoModificato: ListaProdotti = {
+      const prodottoModificato: ProductDetails = {
         id: this.prodottoDaModificare.id,
         title: this.productform.value.title!,
         description: this.productform.value.description!,

@@ -1,8 +1,8 @@
 import { Injectable, signal } from "@angular/core";
-import { ListaProdotti } from "../prodotti.service";
+import { ProductDetails } from "../prodotti.service";
 
 export interface ProdottiCarrello {
-  prodotto: ListaProdotti;
+  prodotto: ProductDetails;
   quantita: number;
 }
 
@@ -13,7 +13,7 @@ export class CartService {
   carrello = signal<ProdottiCarrello[]>([]);
 
   
-aggiungiCarrello(prodotto: ListaProdotti) {
+aggiungiCarrello(prodotto: ProductDetails) {
   this.carrello.update((carrello) => {
     const prodottoEsistente = carrello.find(
       (item) => item.prodotto.id === prodotto.id

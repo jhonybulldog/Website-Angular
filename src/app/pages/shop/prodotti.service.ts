@@ -1,6 +1,6 @@
 import { Injectable, signal, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-export interface ListaProdotti {
+export interface ProductDetails {
   id: number;
   title: string;
   description: string;
@@ -19,7 +19,7 @@ export interface Category {
 export class Prodotti {
   private nextid = 1;
   private http = inject(HttpClient);
-  prod = signal<ListaProdotti[]>([]);
+  prod = signal<ProductDetails[]>([]);
   categorianuove = signal<string[]>([]);
   categorie = signal<Category[]>([]);
   totaleProdotti = signal(0);
@@ -40,7 +40,7 @@ export class Prodotti {
       url = `${this.url}category/${categoria}`;
     }
     this.http
-      .get<{ products: ListaProdotti[]; total: number }>(url, {
+      .get<{ products: ProductDetails[]; total: number }>(url, {
         params: {
           limit: limit,
           skip: skip,
@@ -56,17 +56,17 @@ export class Prodotti {
   }
   
   caricaProdotto(id: number) {
-  return this.http.get<ListaProdotti>(`${this.url}${id}`);
+  return this.http.get<ProductDetails>(`${this.url}${id}`);
 }
   aggiornaProdotto(id: number, price: number, description: string) {
     let url = `${this.url}${id}`;
     return this.http
-      .put<ListaProdotti>(url, {
+      .put<ProductDetails>(url, {
         price: price,
         description: description,
       });
   }
-  aggiungiProdotto(prodotto: ListaProdotti) {
+  aggiungiProdotto(prodotto: ProductDetails) {
     prodotto.id = this.nextid;
     this.nextid++;
     this.prod.set([...this.prod(), prodotto]);
@@ -76,7 +76,7 @@ export class Prodotti {
     this.prod.set(this.prod().filter((prodotto) => prodotto.id !== id));
   }
 
-  modificaProdotto(prodottoModificato: ListaProdotti) {
+  modificaProdotto(prodottoModificato: ProductDetails) {
     this.prod.update((lista) =>
       lista.map((p) =>
         p.id === prodottoModificato.id ? prodottoModificato : p,

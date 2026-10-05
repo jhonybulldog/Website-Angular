@@ -52,8 +52,6 @@
       }
     </section>
 
-
-
     <section class="preferenze-categorie">
       <div class="intestazione-toggle" (click)="preferenzeserv.alternaForm()">
         <h2>Preferenze categorie</h2>
@@ -66,12 +64,14 @@
       <div class="contenuto-form">
         <form [formGroup]="form" (change)="salvaTutto()">
           <div class="lista-categorie" formArrayName="preferenze">
-            @for (riga of preferenzeFormArray.controls; track $index; let i = $index) {
+            @for (riga of preferenzeFormArray.controls; track $index; let i =
+            $index) {
             <div [formGroupName]="i" class="categoria-preferenza">
               <div class="form-gruppo-controlli">
                 <select formControlName="categoria">
                   <option value="">Seleziona categoria</option>
-                  @for (categoria of categorieDisponibili(i); track categoria.slug) {
+                  @for (categoria of categorieDisponibili(i); track
+                  categoria.slug) {
                   <option [value]="categoria.slug">{{ categoria.name }}</option>
                   }
                 </select>
@@ -109,6 +109,42 @@
         </form>
       </div>
       }
+    </section>
+    <section class="preferiti">
+      <h2>Prodotti preferiti</h2>
+
+      @if (favorites$ | async; as favorites) { @if (favorites.length > 0) {
+      <table class="tabella-preferiti">
+        <thead>
+          <tr>
+            <th>Immagine</th>
+            <th>Prodotto</th>
+            <th>Prezzo</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (product of favorites; track product.id) {
+          <tr>
+            <td><img [src]="product.thumbnail" [alt]="product.title" /></td>
+            <td>
+              <a [routerLink]="['/shop', product.id]"
+                >{{ product.title }}</a
+              >
+            </td>
+            <td>{{ product.price.toFixed(2) }} €</td>
+            <td>
+              <button type="button" (click)="removeFavorite(product)">
+                Rimuovi
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      } @else {
+      <p>Non hai ancora prodotti preferiti.</p>
+      } }
     </section>
   </div>
 </div>

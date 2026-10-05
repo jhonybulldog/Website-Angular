@@ -1,13 +1,15 @@
 import { Component, inject, OnInit } from "@angular/core";
 import { OrdiniService } from "../ordini.service";
 import { Prodotti } from "../prodotti.service";
-import { DatePipe } from "@angular/common";
+import { DatePipe, AsyncPipe } from "@angular/common";
 import { PreferenzeService } from "../preferenze.service";
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { LoginService } from "../../admin/login/login.service";
-
+import { ProductFavorite } from "../product-favorite";
+import { ProductDetails } from "../prodotti.service";
+import { RouterLink } from "@angular/router";
 @Component({
-  imports: [DatePipe, ReactiveFormsModule],
+  imports: [DatePipe, ReactiveFormsModule, AsyncPipe, RouterLink],
   selector: "app-dashboard",
   styleUrl: "./dashboard.css",
   templateUrl: "./dashboard.html",
@@ -19,6 +21,10 @@ export class Dashboard implements OnInit {
   private loginser = inject(LoginService);
   private prodottiService = inject(Prodotti);
   private fb = inject(FormBuilder);
+  private favoritesService = inject(ProductFavorite);
+
+
+  favorites$ = this.favoritesService.favorites2$;
 
   nomeUtente = this.loginser.usernameLoggato;
 
@@ -40,7 +46,9 @@ form = this.fb.group({
       preferenza: [preferenza, Validators.required],
     });
   }
-
+  removeFavorite(product: ProductDetails) {
+    this.favoritesService.toggle(product);
+  }
   aggiungiRiga() {
     this.preferenzeFormArray.push(this.creaRiga());
   }

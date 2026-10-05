@@ -1,12 +1,13 @@
 import { Component, inject, OnInit, signal } from "@angular/core";
 import { ActivatedRoute, RouterLink } from "@angular/router";
-import { ListaProdotti, Prodotti } from "../prodotti.service";
+import { ProductDetails, Prodotti } from "../prodotti.service";
 import { CartService } from "../carrello/cart.service";
 import { Minicart } from "../minicart/minicart";
 import { LoginService } from "../../admin/login/login.service";
-
+import { ProductFavorite } from "../product-favorite";
+import { AsyncPipe } from "@angular/common";
 @Component({
-  imports: [RouterLink, Minicart],
+  imports: [RouterLink, Minicart, AsyncPipe],
   standalone: true,
   selector: "app-productdetail",
   styleUrl: "./productdetail.css",
@@ -17,26 +18,35 @@ export class Productdetail implements OnInit {
   private prodottiser = inject(Prodotti);
   private carrello = inject(CartService);
   private logginser = inject(LoginService);
+  private favoritesService = inject(ProductFavorite);
+  private productId = Number(this.route.snapshot.paramMap.get("id"));
+  isFavorite$ = this.favoritesService.isfavorite$(this.productId);
   cartprodotti = this.carrello.carrello;
-  idprodotto: string | null = null;
-  prodotto = signal<ListaProdotti | undefined>(undefined);
+  prodotto = signal<ProductDetails>({
+    id: this.productId,
+    title: "",
+    description: "",
+    price: 0,
+    thumbnail: "",
+    category: "",
+  });
   loggedIn = this.logginser.loggedIn;
-  aggiungicarrello(prodotto: ListaProdotti) {
+  aggiungicarrello(prodotto: ProductDetails) {
     this.carrello.aggiungiCarrello(prodotto);
   }
   salva(prezzo: string, descrizione: string) {
-    const id = this.prodotto()!.id;
+    const id = this.prodotto().id;
     this.prodottiser
       .aggiornaProdotto(id, Number(prezzo), descrizione)
       .subscribe((prodotto) => {
         this.prodotto.set(prodotto);
       });
   }
+  toggleFavorite() {
+    this.favoritesService.toggle(this.prodotto());
+  }
   ngOnInit(): void {
-    this.idprodotto = this.route.snapshot.paramMap.get("id");
-    const id = Number(this.idprodotto);
-
-    this.prodottiser.caricaProdotto(id).subscribe((prodotto) => {
+    this.prodottiser.caricaProdotto(this.productId).subscribe((prodotto) => {
       this.prodotto.set(prodotto);
     });
   }

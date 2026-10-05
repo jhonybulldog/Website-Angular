@@ -1,5 +1,10 @@
 <div class="container">
   <div class="prodotti-card">
+    @if(loggedIn()){
+    <button class="favorite-btn" (click)="toggleFavorite()">
+      {{ (isfavorite$ | async) ? "♥" : "♡" }}
+    </button>
+    }
     <div class="prodotti-image">
       <img [src]="proddi().thumbnail" alt="{{proddi().title}}" />
     </div>
