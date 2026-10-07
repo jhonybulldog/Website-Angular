@@ -2,7 +2,7 @@
   min-height: 100vh;
   padding: var(--page-top) 20px 64px;
   background:
-    radial-gradient(circle at 12% 8%, rgba(16, 185, 129, 0.12), transparent 28rem),
+    radial-gradient(circle at 12% 8%, var(--glow), transparent 28rem),
     linear-gradient(180deg, var(--gray-50) 0%, var(--gray-100) 100%);
 }
 
@@ -13,7 +13,7 @@
   overflow: hidden;
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-2xl);
-  background: rgba(255, 255, 255, 0.94);
+  background: var(--glass);
   box-shadow: var(--shadow-xl);
 }
 

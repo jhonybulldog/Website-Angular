@@ -15,14 +15,10 @@
   gap: 2rem;
 }
 
-/* titolo, filtri e card condivisi in styles.css */
+/* flex di titolo e filtri, card condivise in styles.css */
 .shop-main {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 16px;
-  min-width: 0;
   --min-col: 200px;
+  min-width: 0;
 }
 
 app-minicart {

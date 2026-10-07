@@ -19,11 +19,9 @@
   gap: 2rem;
 }
 
+/* bordo, sfondo e ombra in styles.css (pannelli) */
 .stat-item {
   padding: 2rem;
-  border-radius: var(--radius-lg);
-  background: var(--white);
-  box-shadow: var(--shadow-md);
   text-align: center;
   transition: transform var(--transition-slow), box-shadow var(--transition-slow);
 }

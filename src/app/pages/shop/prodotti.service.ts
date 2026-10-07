@@ -7,6 +7,7 @@ export interface ProductDetails {
   price: number;
   thumbnail: string;
   category: string;
+  rating?: number;
 }
 export interface Category {
   slug: string;

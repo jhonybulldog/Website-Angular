@@ -3,6 +3,8 @@
    Tutti i valori del sito partono da qui: nei componenti
    si usano solo queste variabili.
    Breakpoint usati ovunque: 1024px, 768px, 600px, 480px.
+   In questo file gli stati (:hover, ::after, @media...) sono
+   annidati dentro il loro blocco con "&" (CSS nesting).
    ========================================================= */
 :root {
   /* Verde (brand) */
@@ -67,10 +69,15 @@
   --shadow-primary: 0 10px 24px rgba(5, 150, 105, 0.25);
   --shadow-primary-hover: 0 14px 28px rgba(5, 150, 105, 0.32);
   --shadow-danger: 0 4px 12px rgba(220, 38, 38, 0.25);
-  --ring: 0 0 0 3px rgba(16, 185, 129, 0.15);
 
-  /* Pulsante principale: abbastanza scuro da avere testo bianco leggibile */
-  --gradient-primary: linear-gradient(135deg, var(--green-600), var(--green-700));
+  /* Focus */
+  --ring: 0 0 0 3px rgba(16, 185, 129, 0.15);
+  --focus-outline: 3px solid rgba(16, 185, 129, 0.4);
+
+  /* Superfici */
+  --gradient-primary: linear-gradient(135deg, var(--green-600), var(--green-700)); /* testo bianco leggibile */
+  --glass: rgba(255, 255, 255, 0.9); /* sfondo semitrasparente: navbar, minicart, paginazione */
+  --glow: rgba(16, 185, 129, 0.12); /* alone verde negli sfondi delle pagine */
 
   /* Animazioni */
   --transition: 0.2s ease;
@@ -139,7 +146,7 @@ p {
 }
 
 :focus-visible {
-  outline: 3px solid rgba(16, 185, 129, 0.4);
+  outline: var(--focus-outline);
   outline-offset: 2px;
 }
 
@@ -149,8 +156,61 @@ app-home-c section {
 }
 
 /* =========================================================
+   CAMPI: input, select, textarea e casella di ricerca
+   :where() tiene la specificità a zero: ogni componente può
+   cambiare padding, sfondo e larghezza senza fare a gara.
+   ========================================================= */
+:where(input:not([type="radio"], [type="checkbox"]), select, textarea, .search-box) {
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  background-color: var(--white);
+  color: var(--gray-800);
+  transition: border-color var(--transition), box-shadow var(--transition);
+
+  &::placeholder {
+    color: var(--gray-500);
+  }
+
+  &:hover {
+    border-color: var(--green-500);
+  }
+
+  /* :focus-within vale sia per il campo sia per il contenitore della ricerca */
+  &:focus-within {
+    border-color: var(--green-500);
+    box-shadow: var(--ring);
+  }
+
+  /* bordo verde + alone bastano: niente outline doppio di :focus-visible */
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+/* messaggi di errore dei form */
+.error,
+.field-error {
+  margin: 0;
+  color: var(--red-600);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+/* =========================================================
    LAYOUT
    ========================================================= */
+/* il main riempie lo spazio libero: il footer resta in fondo
+   anche nelle pagine con poco contenuto */
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+app-root > main {
+  flex: 1;
+}
+
 .container,
 .nav-container,
 .hero-container {
@@ -163,18 +223,18 @@ app-home-c section {
   position: relative;
   margin-bottom: 1rem;
   text-align: center;
-}
 
-.section-title::after {
-  content: "";
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  width: 60px;
-  height: 4px;
-  border-radius: var(--radius-full);
-  background: var(--green-500);
-  transform: translateX(-50%);
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    width: 60px;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background: var(--green-500);
+    transform: translateX(-50%);
+  }
 }
 
 .highlight {
@@ -194,81 +254,179 @@ app-home-c section {
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--transition), color var(--transition),
+  transition: background-color var(--transition), border-color var(--transition), color var(--transition),
     transform var(--transition), box-shadow var(--transition), filter var(--transition);
 }
 
 .btn-secondary {
+  border: 2px solid var(--green-600);
   background: transparent;
   color: var(--gray-800);
-  border: 2px solid var(--green-600);
+
+  &:hover {
+    border-color: var(--green-700);
+    background: var(--green-700);
+    color: var(--white);
+  }
 }
 
-.btn-secondary:hover {
-  background: var(--green-700);
-  border-color: var(--green-700);
-  color: var(--white);
-}
-
-/* azione principale (verde): stessa resa in tutto il sito */
-.btn-primary,
-.add-to-cart,
-.prodotti-card .add-to-cart,
-.todo:not(.done) button,
-.btn-go-to-cart,
-.btn-checkout,
-.btn-continua,
-.btn-completa-ordine,
-.btn-calcola,
-.indirizzi form button,
-.indirizzo-intestato form button,
-app-admin button:not(.btn-delete),
-app-login button {
+/* azione principale (verde): stessa resa in tutto il sito.
+   :is() dà a tutta la lista la specificità di ".todo:not(.done) button",
+   abbastanza alta da vincere sui bottoni grigi delle card. */
+:is(
+    .btn-primary,
+    .add-to-cart,
+    .todo:not(.done) button,
+    .btn-go-to-cart,
+    .btn-checkout,
+    .btn-continua,
+    .btn-completa-ordine,
+    .btn-calcola,
+    :is(.indirizzi, .indirizzo-intestato) form button,
+    :is(app-admin, app-login) button:not(.btn-delete)
+  ) {
   border: none;
   background: var(--gradient-primary);
   color: var(--white);
   box-shadow: var(--shadow-primary);
   cursor: pointer;
   transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
-}
 
-/* stati: :is() raccoglie la stessa lista senza ripeterla tre volte */
-:is(.btn-primary, .add-to-cart, .todo:not(.done) button, .btn-go-to-cart, .btn-checkout,
-  .btn-continua, .btn-completa-ordine, .btn-calcola, .indirizzi form button,
-  .indirizzo-intestato form button, app-admin button:not(.btn-delete), app-login button):hover:not(:disabled) {
-  filter: brightness(1.08);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-primary-hover);
-}
+  &:hover:not(:disabled) {
+    background: var(--gradient-primary); /* copre il grigio dell'hover dei bottoni delle card */
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-primary-hover);
+  }
 
-:is(.btn-primary, .add-to-cart, .todo:not(.done) button, .btn-go-to-cart, .btn-checkout,
-  .btn-continua, .btn-completa-ordine, .btn-calcola, .indirizzi form button,
-  .indirizzo-intestato form button, app-admin button:not(.btn-delete), app-login button):active:not(:disabled) {
-  transform: translateY(0);
-}
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
 
-:is(.btn-primary, .add-to-cart, .todo:not(.done) button, .btn-go-to-cart, .btn-checkout,
-  .btn-continua, .btn-completa-ordine, .btn-calcola, .indirizzi form button,
-  .indirizzo-intestato form button, app-admin button:not(.btn-delete), app-login button):disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  box-shadow: none;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
 }
 
 /* =========================================================
-   PAGINE ELENCO CONDIVISE: blog, shop, todos
+   CARD (blog, prodotti, todo) E PANNELLI
    ========================================================= */
+.blog-card,
+.prodotti-card,
+.todo {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 24px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  background: var(--white);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+
+  &:hover {
+    border-color: var(--gray-300);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-5px);
+  }
+
+  @media (max-width: 600px) {
+    padding: 20px;
+    border-radius: var(--radius-lg);
+  }
+}
+
+/* pannelli bianchi: home, login, admin, dex.
+   Raggio e ombra si possono cambiare nel componente. */
+.stat-item,
+.skill-category,
+.project-card,
+.portfolio-cta,
+.login-container,
+app-dex .table-container,
+app-admin :is(form, table) {
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-md);
+}
+
+/* bottoni delle card: grigi (quelli verdi stanno in PULSANTI) */
+:is(.blog-card, .prodotti-card, .todo) button {
+  width: 100%;
+  padding: 12px 18px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+  color: var(--gray-900);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition), transform var(--transition),
+    box-shadow var(--transition), filter var(--transition);
+
+  &:hover {
+    background: var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* cuore dei preferiti (card prodotto e dettaglio prodotto).
+   "button." serve a vincere sui bottoni grigi delle card */
+button.favorite-btn {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 2px; /* il simbolo del cuore sta un po' in basso: lo ricentro */
+  border: 1px solid rgba(244, 63, 94, 0.2);
+  border-radius: var(--radius-full);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  color: var(--rose-500);
+  font-family: system-ui, sans-serif;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform var(--transition), background-color var(--transition), box-shadow var(--transition);
+
+  &:hover {
+    background: var(--rose-50);
+    box-shadow: 0 6px 16px rgba(244, 63, 94, 0.25);
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+/* =========================================================
+   PAGINE ELENCO: blog, shop, todos
+   ========================================================= */
+/* titolo, filtri e griglia nello stesso flex */
 .blog-page,
-.todos-page {
+.todos-page,
+.shop-main {
+  --min-col: 300px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 16px;
+}
+
+.blog-page,
+.todos-page {
   width: 100%;
   max-width: var(--container);
   margin: 0 auto;
   padding: var(--page-top) 20px 40px;
-  --min-col: 300px;
 }
 
 /* blocco titolo + sottotitolo, sempre su una riga intera in cima */
@@ -286,7 +444,6 @@ app-login button {
   margin: 0;
   font-size: var(--text-2xl);
   font-weight: 700;
-  color: var(--gray-800);
   text-align: left;
 }
 
@@ -294,18 +451,17 @@ app-login button {
 .todos-header .section-title,
 .shop-header .section-title {
   margin: 6px 0 0;
+  color: var(--gray-500);
   font-size: var(--text-base);
   font-weight: 400;
   line-height: 1.6;
-  color: var(--gray-500);
+
+  &::after {
+    content: none;
+  }
 }
 
-.todos-header .section-title::after,
-.shop-header .section-title::after {
-  content: none;
-}
-
-/* filtri sulla stessa riga */
+/* filtri sulla stessa riga del titolo */
 app-sort-select,
 app-categoryselect,
 app-limit-selector {
@@ -313,157 +469,109 @@ app-limit-selector {
   flex: 1 1 200px;
   min-width: 0;
   max-width: 280px;
+
+  @media (max-width: 600px) {
+    flex-basis: 100%;
+    max-width: none;
+  }
 }
 
-/* controlli dei filtri: select e campo di ricerca */
+/* select dei filtri (anche nelle statistiche) e casella di ricerca:
+   bordo e focus arrivano da CAMPI */
+.category-select,
 app-sort-select select,
-app-categoryselect select,
-app-limit-selector select,
 app-searchbox .search-box {
   width: 100%;
   padding: 0.75rem 1rem;
-  background: var(--white);
-  border: 1px solid var(--gray-300);
-  border-radius: var(--radius-md);
-  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
-app-sort-select select,
-app-categoryselect select,
-app-limit-selector select {
+.category-select,
+app-sort-select select {
   display: block;
-  color: var(--gray-800);
-  font-size: var(--text-base);
   font-weight: 600;
   cursor: pointer;
-}
 
-app-sort-select select:hover,
-app-categoryselect select:hover,
-app-limit-selector select:hover,
-app-searchbox .search-box:hover {
-  border-color: var(--green-500);
-}
-
-app-sort-select select:focus,
-app-categoryselect select:focus,
-app-limit-selector select:focus,
-app-searchbox .search-box:focus-within {
-  outline: none;
-  border-color: var(--green-500);
-  box-shadow: var(--ring);
+  & option {
+    background: var(--white);
+    color: var(--gray-800);
+    font-weight: 500;
+  }
 }
 
 /* =========================================================
-   CARD: blog, prodotti, todo
+   PAGINE UTENTE: dashboard e statistiche
    ========================================================= */
-.blog-card,
-.prodotti-card,
-.todo {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  background: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-md);
-  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+app-dashboard .container,
+.stats-page {
+  max-width: 1100px;
+  margin: var(--page-top) auto 60px;
+  padding: 0 clamp(1rem, 4vw, 2rem);
 }
 
-.blog-card:hover,
-.prodotti-card:hover,
-.todo:hover {
-  transform: translateY(-5px);
-  border-color: var(--gray-300);
-  box-shadow: var(--shadow-lg);
-}
-
-/* bottoni delle card: grigi di base (quelli verdi sono sopra, in PULSANTI) */
-.blog-card button,
-.prodotti-card button,
-.todo button {
-  width: 100%;
-  padding: 12px 18px;
-  border: none;
-  border-radius: var(--radius-md);
-  background: var(--gray-100);
+:is(app-dashboard, app-stats) h1 {
+  margin: 0;
   color: var(--gray-900);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color var(--transition), transform var(--transition),
-    box-shadow var(--transition), filter var(--transition);
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 45px;
+    height: 4px;
+    margin-top: 0.5rem;
+    border-radius: var(--radius-full);
+    background: linear-gradient(90deg, var(--green-500), var(--green-700));
+  }
 }
 
-.blog-card button:hover,
-.prodotti-card button:hover,
-.todo button:hover {
-  background: var(--gray-200);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
-}
-
-.blog-card button:active,
-.prodotti-card button:active,
-.todo button:active {
-  transform: translateY(0);
-}
-
-/* i bottoni verdi delle card restano verdi anche in hover */
-.prodotti-card .add-to-cart:hover,
-.todo:not(.done) button:hover {
-  background: var(--gradient-primary);
-}
-
-/* bottone preferiti (cuore): card prodotto e dettaglio prodotto.
-   "button." serve a vincere su ".prodotti-card button" */
-button.favorite-btn {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  padding: 0 0 2px; /* il simbolo del cuore sta un po' in basso: lo ricentro */
-  border: 1px solid rgba(244, 63, 94, 0.2);
-  border-radius: var(--radius-full);
+/* bottoni "outline": il colore lo decide la classe del bottone (currentColor) */
+:is(app-dashboard, app-stats) button {
+  padding: 0.6rem 1.1rem;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-md);
   background: var(--white);
-  box-shadow: var(--shadow-sm);
-  color: var(--rose-500);
-  font-family: system-ui, sans-serif;
-  line-height: 1;
+  font-size: var(--text-sm);
+  font-weight: 700;
   cursor: pointer;
-  transition: transform var(--transition), background-color var(--transition), box-shadow var(--transition);
+  transition: background-color var(--transition), transform var(--transition);
+
+  &:hover {
+    transform: translateY(-1px);
+  }
 }
 
-button.favorite-btn:hover {
-  background: var(--rose-50);
-  transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(244, 63, 94, 0.25);
+.btn-add,
+.btn-add-categoria {
+  color: var(--green-700);
+
+  &:hover {
+    background: var(--green-50);
+  }
 }
 
-button.favorite-btn:active {
-  transform: scale(0.9);
+.btn-remove,
+.btn-rimuovi-categoria,
+.tabella-preferiti button {
+  color: var(--red-600);
+
+  &:hover {
+    background: var(--red-50);
+  }
+}
+
+/* "✕" quadrato accanto al select */
+.btn-remove,
+.btn-rimuovi-categoria {
+  flex-shrink: 0;
+  width: 2.5rem;
+  padding: 0;
 }
 
 /* =========================================================
-   RESPONSIVE E ACCESSIBILITÀ
+   ACCESSIBILITÀ
    ========================================================= */
-@media (max-width: 600px) {
-  app-sort-select,
-  app-categoryselect,
-  app-limit-selector {
-    flex: 1 1 100%;
-    max-width: none;
-  }
-
-  .blog-card,
-  .prodotti-card,
-  .todo {
-    padding: 20px;
-    border-radius: var(--radius-lg);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

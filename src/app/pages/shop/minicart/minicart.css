@@ -5,7 +5,7 @@
   padding: 1.35rem;
   border: 1px solid var(--green-200);
   border-radius: var(--radius-xl);
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--glass);
   box-shadow: var(--shadow-lg);
   backdrop-filter: blur(8px);
 }

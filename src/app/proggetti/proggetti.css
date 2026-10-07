@@ -9,16 +9,12 @@
   margin-bottom: 50px;
 }
 
-/* ---------- Card progetto ---------- */
+/* ---------- Card progetto (bordo, sfondo e ombra in styles.css) ---------- */
 .project-card {
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius-lg);
-  background: var(--white);
-  box-shadow: var(--shadow-md);
   transition: transform var(--transition-slow), box-shadow var(--transition-slow);
 }
 
@@ -142,9 +138,6 @@
 .portfolio-cta {
   margin-top: 30px;
   padding: 40px;
-  border-radius: var(--radius-lg);
-  background: var(--white);
-  box-shadow: var(--shadow-md);
   text-align: center;
 }
 

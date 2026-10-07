@@ -2,13 +2,3 @@
 :host {
   display: block;
 }
-
-.category-select:active {
-  transform: translateY(1px);
-}
-
-.category-select option {
-  background: var(--white);
-  color: var(--gray-800);
-  font-weight: 500;
-}

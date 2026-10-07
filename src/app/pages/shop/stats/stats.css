@@ -1,0 +1,87 @@
+/* contenitore, h1, select e bottoni (aggiungi / rimuovi) in styles.css */
+
+/* titolo a sinistra e "Aggiungi grafico" a destra sulla stessa riga:
+   il form si "scioglie" e i suoi figli entrano nel flex della pagina */
+.stats-page {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem 1rem;
+}
+
+form {
+  display: contents;
+}
+
+.btn-add {
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+}
+
+/* griglia delle card */
+.charts {
+  flex: 0 0 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 460px), 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.chart-card {
+  padding: 1.5rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.chart-card:hover {
+  border-color: var(--green-500);
+  box-shadow: var(--shadow-md);
+}
+
+.chart-head {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--gray-200);
+}
+
+.chart-head select {
+  flex: 1;
+}
+
+/* barre */
+.bar-row {
+  display: grid;
+  grid-template-columns: 9rem 1fr 6rem;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-size: var(--text-sm);
+}
+
+.bar-label {
+  overflow: hidden;
+  color: var(--gray-700);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.bar {
+  height: 0.75rem;
+  min-width: 3px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--green-500), var(--green-700));
+  transition: width 0.4s ease;
+}
+
+.bar-value {
+  color: var(--gray-900);
+  font-weight: 700;
+  text-align: right;
+}

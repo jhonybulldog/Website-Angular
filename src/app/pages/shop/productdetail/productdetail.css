@@ -104,19 +104,10 @@
   font-size: var(--text-md);
 }
 
+/* bordo e focus in styles.css (CAMPI) */
 .edit-product input,
 .edit-product textarea {
   padding: 0.65rem;
-  border: 1px solid var(--gray-300);
-  border-radius: var(--radius-md);
-  transition: border-color var(--transition), box-shadow var(--transition);
-}
-
-.edit-product input:focus,
-.edit-product textarea:focus {
-  outline: none;
-  border-color: var(--green-500);
-  box-shadow: var(--ring);
 }
 
 .edit-product textarea {

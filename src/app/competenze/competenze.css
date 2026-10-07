@@ -5,12 +5,9 @@
   margin-top: 3rem;
 }
 
+/* bordo, sfondo e ombra in styles.css (pannelli) */
 .skill-category {
   padding: 2rem;
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius-lg);
-  background: var(--white);
-  box-shadow: var(--shadow-md);
 }
 
 .skill-category h3 {

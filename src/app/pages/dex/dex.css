@@ -21,13 +21,10 @@
 }
 
 /* ---------- Card con ricerca + tabella ---------- */
+/* bordo, sfondo e ombra in styles.css (pannelli) */
 .table-container {
   margin-bottom: 30px;
   overflow: hidden;
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius-lg);
-  background: var(--white);
-  box-shadow: var(--shadow-md);
 }
 
 /* la ricerca sta dentro la card: fa da barra superiore */
@@ -57,21 +54,11 @@
   min-width: min(100%, 250px);
 }
 
+/* bordo e focus in styles.css (CAMPI) */
 .search-input {
   width: 100%;
   padding: 16px 20px;
-  border: 1px solid var(--gray-300);
-  border-radius: var(--radius-md);
-  background: var(--white);
-  color: var(--gray-800);
   font-size: var(--text-base);
-  transition: border-color var(--transition), box-shadow var(--transition);
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: var(--green-500);
-  box-shadow: var(--ring);
 }
 
 .clear-search {

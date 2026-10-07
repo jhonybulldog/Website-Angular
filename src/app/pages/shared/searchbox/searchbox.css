@@ -1,4 +1,5 @@
-/* bordo, sfondo e stati condivisi con i select in styles.css */
+/* bordo, sfondo e stati del contenitore in styles.css (CAMPI):
+   l'input interno resta "nudo", senza bordo né alone suo */
 .search-box {
   display: flex;
   align-items: center;
@@ -7,13 +8,8 @@
 .search-box input {
   width: 100%;
   border: none;
-  outline: none;
   background: transparent;
-  color: var(--gray-800);
+  box-shadow: none;
   font-size: var(--text-base);
   font-weight: 500;
-}
-
-.search-box input::placeholder {
-  color: var(--gray-500);
 }

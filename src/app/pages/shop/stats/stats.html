@@ -1,0 +1,36 @@
+<div class="stats-page">
+  <h1>Statistiche</h1>
+
+  <form [formGroup]="form">
+    <button type="button" class="btn-add" (click)="addcharts()">+ Aggiungi grafico</button>
+
+    <div class="charts" formArrayName="charts">
+      @for (chart of chartsformarray.controls; track $index; let i = $index) {
+        <div class="chart-card" [formGroupName]="i">
+          <div class="chart-head">
+            <select class="category-select" formControlName="metric">
+              @for (metric of metricoptions; track metric.label) {
+                <option [ngValue]="metric">{{ metric.label }}</option>
+              }
+            </select>
+            <button type="button" class="btn-remove" (click)="removecharts(i)">✕</button>
+          </div>
+
+          @if (chart.controls.metric.value?.data$ | async; as items) {
+            @for (item of items; track item.label) {
+              <div class="bar-row">
+                <span class="bar-label">{{ item.label }}</span>
+                <div class="bar" [style.width.%]="item.percent"></div>
+                <span class="bar-value">{{ item.value | number: '1.2-2' }}</span>
+              </div>
+            }
+          }
+
+          @if (chart.controls.metric.value?.charts$ | async; as chartData) {
+            <canvas baseChart [type]="'line'" [data]="chartData"></canvas>
+          }
+        </div>
+      }
+    </div>
+  </form>
+</div>
