@@ -21,14 +21,16 @@
   <a class="cart-fab" routerLink="/shop/cart">Carrello</a>
   <div class="product-sidebar">
     <app-minicart />
-    <div class="edit-product">
+    <button class="freccia" [class.chiuso]="this.ac()" (click)="aprichiudi()">clicca qui per aprire il menu di modifica del prodotto</button>
+      @if(this.ac()){
+    <div class="edit-duct">
       <h3>Modifica prodotto</h3>
       <input #prezzo type="number" [value]="prodotto().price" />
       <textarea #descrizione [value]="prodotto().description"></textarea>
       <button (click)="salva(prezzo.value, descrizione.value)">
         Salva modifica
       </button>
-    </div>
+    </div>}
   </div>
   } @else {
   <div class="product-actions">

@@ -31,9 +31,6 @@ export class Stats implements OnInit {
     ),
   );
 
-  avgtotal$ = combineLatest([this.orders$, this.categories$]).pipe(
-    map(([orders, categories]) => this.avgorder(orders, categories, "tsold")),
-  );
 
   avgpiece$ = combineLatest([this.orders$, this.categories$]).pipe(
     map(([orders, categories]) => this.avgorder(orders, categories, "psold")),
@@ -41,8 +38,7 @@ export class Stats implements OnInit {
   metricoptions = [
     { label: "rating medio", shop$: this.avgRating$ },
     { label: "prezzo medio", shop$: this.avgPrice$ },
-    { label: "totale speso", order$: this.avgtotal$ },
-    { label: "pezzo acquistati", order$: this.avgpiece$ },
+    { label: "pezzi acquistati", order$: this.avgpiece$ },
   ];
 
   chartoptions: ChartConfiguration["options"] = {
@@ -97,6 +93,15 @@ export class Stats implements OnInit {
       datasets: [{ data: totals.map((item) => item.value) }],
     };
   }
+  totalSpent$ = this.orders$.pipe(
+  map((orders) => {
+    let total = 0;
+    for (const order of orders) {
+      total += order.totale;
+    }
+    return total;
+  }),
+);
   ngOnInit() {
     this.productser.caricaProdotti(200, 0);
     this.productser.caricaCategorie();

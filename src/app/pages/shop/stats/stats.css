@@ -85,3 +85,21 @@ form {
   font-weight: 700;
   text-align: right;
 }
+
+/* ---------- Totale speso ---------- */
+/* l'unica card con l'h3 diretto (niente grafico): resta una card come le altre,
+   col totale al centro dello spazio che nelle altre occupa il grafico */
+.chart-card:has(> h3) {
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.chart-card > h3 {
+  margin: 0;
+  color: var(--green-700);
+  font-size: clamp(var(--text-lg), 4vw, var(--text-2xl));
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
