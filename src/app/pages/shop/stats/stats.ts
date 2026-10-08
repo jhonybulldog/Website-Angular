@@ -1,19 +1,18 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { ReactiveFormsModule, FormBuilder } from "@angular/forms";
 import { Prodotti, ProductDetails, Category } from "../prodotti.service";
 import { toObservable } from "@angular/core/rxjs-interop";
 import { map, combineLatest } from "rxjs";
-import { AsyncPipe, DecimalPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { ordine, OrdiniService } from "../ordini.service";
-import { BaseChartDirective } from "ng2-charts";
+import { BaseChartDirective, NgChartsConfiguration } from "ng2-charts";
+import { ChartConfiguration } from "chart.js";
 @Component({
-  imports: [ReactiveFormsModule, AsyncPipe, DecimalPipe, BaseChartDirective],
+  imports: [AsyncPipe, BaseChartDirective],
   selector: "app-stats",
   styleUrl: "./stats.css",
   templateUrl: "./stats.html",
 })
 export class Stats implements OnInit {
-  private fb = inject(FormBuilder);
   private productser = inject(Prodotti);
   private ordiniser = inject(OrdiniService);
   categories$ = toObservable(this.productser.categorie);
@@ -40,34 +39,17 @@ export class Stats implements OnInit {
     map(([orders, categories]) => this.avgorder(orders, categories, "psold")),
   );
   metricoptions = [
-    { label: "seleziona metrica" },
-    { label: "rating medio", data$: this.avgRating$ },
-    { label: "prezzo medio", data$: this.avgPrice$ },
-    { label: "totale speso", charts$: this.avgtotal$ },
-    { label: "pezzo acquistati", charts$: this.avgpiece$ },
+    { label: "rating medio", shop$: this.avgRating$ },
+    { label: "prezzo medio", shop$: this.avgPrice$ },
+    { label: "totale speso", order$: this.avgtotal$ },
+    { label: "pezzo acquistati", order$: this.avgpiece$ },
   ];
-  get chartsformarray() {
-    return this.form.controls.charts;
+
+  chartoptions: ChartConfiguration["options"] = {
+    scales: {
+      y: {min: 0},
+    }
   }
-
-  private createChart() {
-    return this.fb.group({
-      metric: [this.metricoptions[0]],
-    });
-  }
-
-  form = this.fb.group({
-    charts: this.fb.array<ReturnType<typeof this.createChart>>([]),
-  });
-
-  addcharts() {
-    this.chartsformarray.push(this.createChart());
-  }
-
-  removecharts(index: number) {
-    this.chartsformarray.removeAt(index);
-  }
-
   private average(
     products: ProductDetails[],
     categories: Category[],
@@ -82,13 +64,10 @@ export class Stats implements OnInit {
         count: list.length,
       };
     });
-    const max = Math.max(...items.map((item) => item.value));
-    return items
-      .map((item) => ({
-        ...item,
-        percent: max > 0 ? (item.value / max) * 100 : 0,
-      }))
-      .sort((a, b) => b.value - a.value);
+    return {
+      labels: items.map((items) => items.label),
+      datasets: [{ data: items.map((items) => items.value) }],
+    };
   }
 
   private avgorder(

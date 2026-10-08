@@ -339,14 +339,15 @@ app-root > main {
 }
 
 /* pannelli bianchi: home, login, admin, dex.
-   Raggio e ombra si possono cambiare nel componente. */
+   Le tabelle dentro .table-container scorrono: il pannello va sul contenitore,
+   così l'ombra non viene tagliata. Raggio e ombra si possono cambiare nel componente. */
 .stat-item,
 .skill-category,
 .project-card,
 .portfolio-cta,
 .login-container,
 app-dex .table-container,
-app-admin :is(form, table) {
+app-admin :is(form, .container > table, .table-container) {
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-lg);
   background: var(--white);

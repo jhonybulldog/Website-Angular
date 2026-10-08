@@ -9,7 +9,7 @@ export const routes: Routes = [
   {path: 'calc', loadComponent: () => import('./pages/subnetcalc/subnetcalc').then(m => m.Subnetcalc) },
   { path: 'shop' , loadComponent: () => import('./pages/shop/shop').then(m => m.Shop)},
   {path: 'shop/cart', loadComponent: () => import('./pages/shop/carrello/carrello').then(m => m.Carrello)},
-     {path: 'shop/stats', loadComponent: () => import('./pages/shop/stats/stats').then(m => m.Stats)},
+  {path: 'shop/stats', canActivate: [authGuard],loadComponent: () => import('./pages/shop/stats/stats').then(m => m.Stats)},
   {path: 'shop/:id', loadComponent: () => import('./pages/shop/productdetail/productdetail').then(m => m.Productdetail)},
   {path: 'checkout',loadComponent: () => import('./pages/shop/checkout/checkout').then(m => m.Checkout)},
   {path: 'dashboard', canActivate: [authGuard],loadComponent: () => import('./pages/shop/dashboard/dashboard').then(m => m.Dashboard)},
