@@ -2,12 +2,12 @@ import { Component, inject, OnInit } from "@angular/core";
 import { Prodotti, ProductDetails, Category } from "../prodotti.service";
 import { toObservable } from "@angular/core/rxjs-interop";
 import { map, combineLatest } from "rxjs";
-import { AsyncPipe } from "@angular/common";
+import { AsyncPipe , DecimalPipe} from "@angular/common";
 import { ordine, OrdiniService } from "../ordini.service";
-import { BaseChartDirective, NgChartsConfiguration } from "ng2-charts";
+import { BaseChartDirective } from "ng2-charts";
 import { ChartConfiguration } from "chart.js";
 @Component({
-  imports: [AsyncPipe, BaseChartDirective],
+  imports: [AsyncPipe, BaseChartDirective, DecimalPipe],
   selector: "app-stats",
   styleUrl: "./stats.css",
   templateUrl: "./stats.html",
@@ -41,11 +41,16 @@ export class Stats implements OnInit {
     { label: "pezzi acquistati", order$: this.avgpiece$ },
   ];
 
-  chartoptions: ChartConfiguration["options"] = {
-    scales: {
-      y: {min: 0},
+chartoptions: ChartConfiguration['options'] = {
+  scales: {
+    y: {
+      min: 0,
+      ticks: {
+        precision: 0
+      }
     }
   }
+};
   private average(
     products: ProductDetails[],
     categories: Category[],

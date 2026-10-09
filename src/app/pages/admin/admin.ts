@@ -52,6 +52,7 @@ export class Admin implements OnInit {
     price: new FormControl(0, [Validators.required]),
     thumbnail: new FormControl("", [Validators.required]),
     category: new FormControl("", [Validators.required]),
+    rating: new FormControl(0, [Validators.required])
   });
 
   categoryform = new FormGroup({
@@ -187,6 +188,7 @@ export class Admin implements OnInit {
         price: this.productform.value.price!,
         thumbnail: this.productform.value.thumbnail!,
         category: this.productform.value.category!,
+        rating: this.productform.value.rating!,
       };
       this.prodottiService.aggiungiProdotto(nuovoProdotto);
       console.log(this.prodottiService.prod());
@@ -219,6 +221,7 @@ export class Admin implements OnInit {
         price: this.productform.value.price!,
         thumbnail: this.productform.value.thumbnail!,
         category: this.productform.value.category!,
+        rating: this.productform.value.rating!,
       };
 
       this.prodottiService.modificaProdotto(prodottoModificato);

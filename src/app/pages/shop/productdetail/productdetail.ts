@@ -33,6 +33,7 @@ export class Productdetail implements OnInit {
     price: 0,
     thumbnail: "",
     category: "",
+    rating: 0,
   });
   loggedIn = this.logginser.loggedIn;
   aggiungicarrello(prodotto: ProductDetails) {
