@@ -1,0 +1,75 @@
+/* L'host sparisce: dentro .shop-layout e la griglia del dettaglio prodotto
+   altrimenti diventa una cella vuota (e nello shop spinge il minicart sotto).
+   Il toast è fixed, quindi non entra comunque nella griglia. */
+:host {
+  display: contents;
+}
+
+/* ---------- Toast ---------- */
+/* fisso in basso al centro. Lo centro con left/right a 0 + margin auto e non
+   con transform, così transform resta libero per l'animazione */
+.toast {
+  position: fixed;
+  right: 0;
+  bottom: 24px;
+  left: 0;
+  z-index: 999; /* sotto la navbar (1000) e il suo menu mobile */
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: fit-content;
+  max-width: calc(100% - 32px);
+  margin-inline: auto;
+  padding: 0.5rem 1.25rem 0.5rem 0.5rem;
+  border: 1px solid var(--green-800);
+  border-radius: var(--radius-full);
+  background: var(--green-950);
+  box-shadow: var(--shadow-xl);
+  color: var(--white);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: 1.4;
+  pointer-events: none; /* non blocca i click su quello che c'è sotto */
+  animation: toast-in var(--transition-slow);
+}
+
+/* spunta nel cerchio verde (stesso verde dei bottoni principali) */
+.toast::before {
+  content: "✓";
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-full);
+  background: var(--gradient-primary);
+  font-family: system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 700;
+  line-height: 1;
+  animation: toast-spunta var(--transition-slow) 0.15s both;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+}
+
+/* la spunta "salta fuori" appena il toast è entrato */
+@keyframes toast-spunta {
+  from {
+    transform: scale(0);
+  }
+
+  70% {
+    transform: scale(1.2);
+  }
+}
+
+@media (max-width: 600px) {
+  .toast {
+    bottom: 16px;
+  }
+}

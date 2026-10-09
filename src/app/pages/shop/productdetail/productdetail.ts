@@ -6,8 +6,10 @@ import { Minicart } from "../minicart/minicart";
 import { LoginService } from "../../admin/login/login.service";
 import { ProductFavorite } from "../product-favorite";
 import { AsyncPipe } from "@angular/common";
+import { Notification } from "../notification/notification";
+import { NotificationService } from "../notification/notification-service";
 @Component({
-  imports: [RouterLink, Minicart, AsyncPipe],
+  imports: [RouterLink, Minicart, AsyncPipe, Notification],
   standalone: true,
   selector: "app-productdetail",
   styleUrl: "./productdetail.css",
@@ -19,6 +21,7 @@ export class Productdetail implements OnInit {
   private carrello = inject(CartService);
   private logginser = inject(LoginService);
   private favoritesService = inject(ProductFavorite);
+  private notificationser = inject(NotificationService);
   private productId = Number(this.route.snapshot.paramMap.get("id"));
   isFavorite$ = this.favoritesService.isfavorite$(this.productId);
   cartprodotti = this.carrello.carrello;
@@ -46,6 +49,7 @@ export class Productdetail implements OnInit {
       .subscribe((prodotto) => {
         this.prodotto.set(prodotto);
       });
+        this.notificationser.show(`prodotto modificato`);
   }
 
   toggleFavorite() {

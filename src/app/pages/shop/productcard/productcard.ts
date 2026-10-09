@@ -12,13 +12,14 @@ import { Observable } from "rxjs";
   styleUrl: "./productcard.css",
   templateUrl: "./productcard.html",
 })
-export class Productcard implements OnInit{
+export class Productcard implements OnInit {
   private carrello = inject(CartService);
   proddi = input.required<ProductDetails>();
   private logginser = inject(LoginService);
   loggedIn = this.logginser.loggedIn;
-  favoritesService = inject(ProductFavorite)
+  favoritesService = inject(ProductFavorite);
   isfavorite$!: Observable<boolean>;
+
   aggiungicarrello(prodotto: ProductDetails) {
     this.carrello.aggiungiCarrello(prodotto);
   }
@@ -26,9 +27,11 @@ export class Productcard implements OnInit{
     this.favoritesService.toggle(this.proddi());
   }
   nelCarrello = computed(() =>
-    this.carrello.carrello().some((prodotto) => prodotto.prodotto.id === this.proddi().id),
+    this.carrello
+      .carrello()
+      .some((prodotto) => prodotto.prodotto.id === this.proddi().id),
   );
   ngOnInit() {
-  this.isfavorite$ = this.favoritesService.isfavorite$(this.proddi().id);
-}
+    this.isfavorite$ = this.favoritesService.isfavorite$(this.proddi().id);
+  }
 }

@@ -5,6 +5,7 @@ import { Categoryselect } from "./categoryselect/categoryselect";
 import { Productcard } from "./productcard/productcard";
 import { PaginatedGrid } from "../shared/paginated-grid/paginated-grid";
 import { SortSelect } from "../shared/sort-select/sort-select";
+import { Notification } from "./notification/notification";
 
 @Component({
   imports: [
@@ -12,7 +13,8 @@ import { SortSelect } from "../shared/sort-select/sort-select";
     Categoryselect,
     PaginatedGrid,
     Productcard,
-    SortSelect
+    SortSelect,
+    Notification
 ],
   selector: "app-shop",
   styleUrl: "./shop.css",
