@@ -13,15 +13,18 @@
       <p>{{proddi().price}} €</p>
     </div>
     @if(compareActive$ | async){
-      <button (click)="toggleCompare()">{{(isCompare$ | async) ?  "rimuovi": "compara"}}</button>
+      <button (click)="toggleCompare()">{{(isCompare$ | async ) ?  "rimuovi": "compara"}}</button>
     }
     @if (nelCarrello()) { <span class="nel-carrello">Nel carrello</span> }
     <button [routerLink]="['/shop', proddi().id]">visualizza</button>
+    @if(loggedIn()){
     <button
       class="add-to-cart btn btn-primary"
       (click)="aggiungicarrello(proddi())"
     >
       Aggiungi al carrello
-    </button>
+    </button>}@else{
+      <button class="add-to-cart", [routerLink]="['/login']">Accedi per acquistare</button>
+    }
   </div>
 </div>

@@ -61,6 +61,12 @@
   margin-bottom: 0.5rem;
 }
 
+/* separa il form nuovo indirizzo dalla lista degli indirizzi salvati */
+.indirizzi h2 {
+  padding-top: 1.25rem;
+  border-top: 1.5px solid var(--green-100);
+}
+
 /* ---------- Riepilogo ---------- */
 .riepilogo-row {
   display: flex;
@@ -156,7 +162,6 @@
    CAMPI DI TESTO (bordo e focus in styles.css)
    ========================================================= */
 .form-group input,
-.indirizzi form input,
 .indirizzo-intestato form input {
   padding: 0.65rem 0.9rem;
   background: var(--gray-50);
@@ -165,12 +170,12 @@
 }
 
 .form-group input:focus,
-.indirizzi form input:focus,
 .indirizzo-intestato form input:focus {
   background: var(--white);
 }
 
-.indirizzi form input {
+/* width 100% evita che l'input sfondi le colonne strette (CAP, provincia) */
+.form-indirizzo input {
   width: 100%;
 }
 
@@ -182,7 +187,7 @@
    BOTTONI VERDI (colori e stati in styles.css)
    ========================================================= */
 .btn-continua,
-.indirizzi form button,
+.form-indirizzo button,
 .indirizzo-intestato form button {
   padding: 0.65rem 1.75rem;
   border-radius: var(--radius-md);
@@ -195,8 +200,8 @@
   align-self: flex-start;
 }
 
-.indirizzi form button {
-  grid-column: 1 / -1;
+.form-indirizzo button {
+  grid-area: azioni;
   justify-self: start;
 }
 
@@ -246,8 +251,6 @@
    ========================================================= */
 .indirizzi h3 {
   margin: 0;
-  padding-top: 0.5rem;
-  border-top: 1.5px solid var(--green-100);
   color: var(--green-700);
   font-size: var(--text-base);
   font-weight: 700;
@@ -337,16 +340,42 @@
   color: var(--white);
 }
 
-/* Form nuovo indirizzo */
-.indirizzi form {
+/* Form nuovo indirizzo: ogni campo ha la sua area fissa, così quando
+   compare un messaggio di errore la griglia non si riordina */
+.form-indirizzo {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-areas:
+    "nome  nome-cognome nome-cognome"
+    "via   via          via"
+    "citta cap          provincia"
+    "azioni azioni      azioni";
+  align-items: start;
   gap: 0.75rem;
 }
 
-.indirizzi form input:first-of-type,
-.indirizzi form input[placeholder="Via e numero civico"] {
-  grid-column: 1 / -1;
+.campo-nome {
+  grid-area: nome;
+}
+
+.campo-nome-cognome {
+  grid-area: nome-cognome;
+}
+
+.campo-via {
+  grid-area: via;
+}
+
+.campo-citta {
+  grid-area: citta;
+}
+
+.campo-cap {
+  grid-area: cap;
+}
+
+.campo-provincia {
+  grid-area: provincia;
 }
 
 .indirizzo-intestato form {
@@ -408,8 +437,15 @@
 }
 
 @media (max-width: 600px) {
-  .indirizzi form {
-    grid-template-columns: 1fr;
+  .form-indirizzo {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "nome         nome"
+      "nome-cognome nome-cognome"
+      "via          via"
+      "citta        citta"
+      "cap          provincia"
+      "azioni       azioni";
   }
 
   .indirizzo-intestato form {

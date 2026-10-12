@@ -7,6 +7,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { OrdiniService } from "../ordini.service";
+import { Router } from "@angular/router";
 interface Indirizzo {
   id: number;
   nome: string;
@@ -25,7 +26,7 @@ interface Indirizzo {
 })
 export class Checkout {
   private carrelloser = inject(CartService);
-
+  private route = inject(Router)
   metodoPagamento = signal("");
   prodotti = this.carrelloser.carrello;
   spedizione = signal(5);
@@ -238,5 +239,7 @@ export class Checkout {
     this.ordiniser.salvaOrdine(ordine);
     this.carrelloser.svuotacarrello();
     this.ordineConfermato.set(true);
+
+    this.route.navigate(["/dashboard"])
   }
 }

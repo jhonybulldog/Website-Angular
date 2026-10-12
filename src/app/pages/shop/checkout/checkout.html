@@ -92,6 +92,88 @@
   </section>
 
   <section class="indirizzi">
+    <h3>Aggiungi nuovo indirizzo</h3>
+
+    <form
+      class="form-indirizzo"
+      [formGroup]="indirizzoForm"
+      (ngSubmit)="aggiungiIndirizzo()"
+    >
+      <div class="form-group campo-nome">
+        <input
+          type="text"
+          formControlName="nome"
+          placeholder="Nome indirizzo (es. Casa)"
+        />
+        @if (indirizzoForm.get('nome')?.invalid &&
+        indirizzoForm.get('nome')?.touched) {
+        <p class="error">inserisci un nome valido</p>
+        }
+      </div>
+
+      <div class="form-group campo-nome-cognome">
+        <input
+          type="text"
+          formControlName="nomeCognome"
+          placeholder="Nome e cognome"
+        />
+        @if (indirizzoForm.get('nomeCognome')?.invalid &&
+        indirizzoForm.get('nomeCognome')?.touched) {
+        <p class="error">inserisci un nome e cognome valido</p>
+        }
+      </div>
+
+      <div class="form-group campo-via">
+        <input
+          type="text"
+          formControlName="via"
+          placeholder="Via e numero civico"
+        />
+        @if (indirizzoForm.get('via')?.invalid &&
+        indirizzoForm.get('via')?.touched) {
+        <p class="error">inserisci una via valida</p>
+        }
+      </div>
+
+      <div class="form-group campo-citta">
+        <input type="text" formControlName="citta" placeholder="Città" />
+        @if (indirizzoForm.get('citta')?.invalid &&
+        indirizzoForm.get('citta')?.touched) {
+        <p class="error">inserisci una citta valida</p>
+        }
+      </div>
+
+      <div class="form-group campo-cap">
+        <input type="text" formControlName="cap" placeholder="CAP" />
+        @if (indirizzoForm.get('cap')?.invalid &&
+        indirizzoForm.get('cap')?.touched) {
+        <p class="error">inserisci un cap valido</p>
+        }
+      </div>
+
+      <div class="form-group campo-provincia">
+        <input type="text" formControlName="provincia" placeholder="Provincia" />
+        @if (indirizzoForm.get('provincia')?.invalid &&
+        indirizzoForm.get('provincia')?.touched) {
+        <p class="error">inserisci una provincia valida</p>
+        }
+      </div>
+
+      @if (indirizzoDaModificare === null) {
+      <button type="submit" [disabled]="indirizzoForm.invalid">
+        Salva indirizzo
+      </button>
+      } @else {
+      <button
+        type="button"
+        [disabled]="indirizzoForm.invalid"
+        (click)="salvaModificaIndirizzo()"
+      >
+        Salva modifica
+      </button>
+      }
+    </form>
+
     <h2>Indirizzo di spedizione</h2>
 
     @if (indirizzi().length > 0) {
@@ -129,47 +211,6 @@
     } @else {
     <p>Non hai ancora indirizzi salvati.</p>
     }
-
-    <h3>Aggiungi nuovo indirizzo</h3>
-
-    <form [formGroup]="indirizzoForm" (ngSubmit)="aggiungiIndirizzo()">
-      <input
-        type="text"
-        formControlName="nome"
-        placeholder="Nome indirizzo (es. Casa)"
-      />
-
-      <input
-        type="text"
-        formControlName="nomeCognome"
-        placeholder="Nome e cognome"
-      />
-
-      <input
-        type="text"
-        formControlName="via"
-        placeholder="Via e numero civico"
-      />
-
-      <input type="text" formControlName="citta" placeholder="Città" />
-
-      <input type="number" formControlName="cap" placeholder="CAP" />
-
-      <input type="text" formControlName="provincia" placeholder="Provincia" />
-      @if (indirizzoDaModificare === null) {
-      <button type="submit" [disabled]="indirizzoForm.invalid">
-        Salva indirizzo
-      </button>
-      } @else {
-      <button
-        type="button"
-        [disabled]="indirizzoForm.invalid"
-        (click)="salvaModificaIndirizzo()"
-      >
-        Salva modifica
-      </button>
-      }
-    </form>
   </section>
   @for (item of indirizziInAttesa(); track item.indirizzo.id) {
   <div class="indirizzo-intestato">
@@ -200,7 +241,9 @@
   </p>
   }
 
-  <button class="btn-completa-ordine" (click)="completaordine()">
+  <button
+    class="btn-completa-ordine"
+    (click)="completaordine()"  >
     Completa ordine
   </button>
   @if (ordineConfermato()) {

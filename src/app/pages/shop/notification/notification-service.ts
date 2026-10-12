@@ -8,5 +8,6 @@ export class NotificationService {
 
     show(text: string){
         this.message.next(text);
-        timer(2000).subscribe(() => this.message.next(""));    }
+        timer(2000).subscribe(() => this.message.next(""));
+      }
 }
