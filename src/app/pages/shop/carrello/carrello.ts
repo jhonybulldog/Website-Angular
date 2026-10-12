@@ -21,14 +21,14 @@ export class Carrello {
 }, 0));
 
   rimuoviCarello(indice: number) {
-    this.carelloser.rimuoviCarello(indice);
+    this.carelloser.remove(indice);
   }
 
   aumentaquantita(id: number){
-    this.carelloser.aumentacarrello(id);
+    this.carelloser.increase(id);
   }
 
   diminuiscicarrell(id: number){
-    this.carelloser.diminuiscicarrello(id);
+    this.carelloser.decrease(id);
   }
 }

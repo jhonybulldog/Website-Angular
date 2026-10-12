@@ -1,33 +1,29 @@
-import { Component, inject, computed, input } from "@angular/core";
+import { Component, inject, input } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { CartService } from "../carrello/cart.service";
+import { AsyncPipe, DecimalPipe } from "@angular/common";
 
 @Component({
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, AsyncPipe, DecimalPipe],
   selector: "app-minicart",
   styleUrl: "./minicart.css",
   templateUrl: "./minicart.html",
 })
 export class Minicart {
   private carrello = inject(CartService);
-  cartprodotti = this.carrello.carrello;
+  cart$ = this.carrello.cart$;
   mostraBottoneVaiAlCarrello = input<boolean>(true);
-  rimuoviCarello(indice: number) {
-    this.carrello.rimuoviCarello(indice);
+
+  rimuoviCarello(id: number) {
+    this.carrello.remove(id);
   }
 
   aumentaquantita(id: number) {
-    this.carrello.aumentacarrello(id);
+    this.carrello.increase(id);
   }
 
   diminuiscicarrell(id: number) {
-    this.carrello.diminuiscicarrello(id);
+    this.carrello.decrease(id);
   }
-  
-      totale =  computed(() => this.cartprodotti().reduce((totale, prodotto) => {
-    return totale + prodotto.prodotto.price * prodotto.quantita;
-    
-}, 0));
-
 }

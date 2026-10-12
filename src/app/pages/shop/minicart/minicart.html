@@ -3,50 +3,52 @@
     <h3>Il tuo carrello</h3>
   </div>
 
-  <div class="mini-cart-body">
-    @for (carrello of cartprodotti(); track carrello.prodotto.id) {
-      <div class="mini-cart-item">
-        <div class="item-info">
-          <span class="item-title">{{carrello.prodotto.title}}</span>
+  @if (cart$ | async; as cart) {
+    <div class="mini-cart-body">
+      @for (product of cart.products; track product.id) {
+        <div class="mini-cart-item">
+          <div class="item-info">
+            <span class="item-title">{{ product.title }}</span>
 
-          <div class="item-controls">
-            <div class="quantity-picker">
-              <button
-                class="quantity-control quantity-control--decrease"
-                type="button"
-                aria-label="Diminuisci quantità"
-                (click)="diminuiscicarrell(carrello.prodotto.id)"
-              >
-                <span aria-hidden="true">−</span>
-              </button>
-              <span class="item-qty">{{carrello.quantita}}</span>
-              <button
-                class="quantity-control quantity-control--increase"
-                type="button"
-                aria-label="Aumenta quantità"
-                (click)="aumentaquantita(carrello.prodotto.id)"
-              >
-                <span aria-hidden="true">+</span>
+            <div class="item-controls">
+              <div class="quantity-picker">
+                <button
+                  class="quantity-control quantity-control--decrease"
+                  type="button"
+                  aria-label="Diminuisci quantità"
+                  (click)="diminuiscicarrell(product.id)"
+                >
+                  <span aria-hidden="true">−</span>
+                </button>
+                <span class="item-qty">{{ product.quantity }}</span>
+                <button
+                  class="quantity-control quantity-control--increase"
+                  type="button"
+                  aria-label="Aumenta quantità"
+                  (click)="aumentaquantita(product.id)"
+                >
+                  <span aria-hidden="true">+</span>
+                </button>
+              </div>
+
+              <button class="btn-delete" type="button" (click)="rimuoviCarello($index)">
+                Rimuovi
               </button>
             </div>
-
-            <button class="btn-delete" type="button" (click)="rimuoviCarello($index)">
-              Rimuovi
-            </button>
           </div>
+          <span class="item-price">{{ product.total | number: "1.2-2" }} €</span>
         </div>
-        <span class="item-price">{{(carrello.prodotto.price * carrello.quantita).toFixed(2)}} €</span>
+      }
+    </div>
+
+    @if (cart.products.length === 0) {
+      <p class="totale totale--empty">Il carrello è vuoto</p>
+    } @else {
+      <div class="totale">
+        <span class="totale-label">Totale:</span>
+        <span class="totale-amount">{{ cart.total | number: "1.2-2" }} €</span>
       </div>
     }
-  </div>
-
-  @if (totale() == 0) {
-    <p class="totale totale--empty">Il carrello è vuoto</p>
-  } @else {
-    <div class="totale">
-      <span class="totale-label">Totale:</span>
-      <span class="totale-amount">{{ totale().toFixed(2) }} €</span>
-    </div>
   }
 
   @if (mostraBottoneVaiAlCarrello()) {

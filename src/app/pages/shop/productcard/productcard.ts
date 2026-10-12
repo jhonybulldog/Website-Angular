@@ -24,7 +24,7 @@ export class Productcard implements OnInit {
   isfavorite$!: Observable<boolean>;
   isCompare$!: Observable<boolean>;
   aggiungicarrello(prodotto: ProductDetails) {
-    this.carrello.aggiungiCarrello(prodotto);
+this.carrello.addToCart(prodotto.id);
   }
   toggleFavorite() {
     this.favoritesService.toggle(this.proddi());

@@ -36,7 +36,7 @@ export class Productdetail implements OnInit {
   });
   loggedIn = this.logginser.loggedIn;
   aggiungicarrello(prodotto: ProductDetails) {
-    this.carrello.aggiungiCarrello(prodotto);
+this.carrello.addToCart(prodotto.id);
   }
     aprichiudi() {
     this.ac.update((aperto) => !aperto);
