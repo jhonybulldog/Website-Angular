@@ -1,0 +1,7 @@
+<button type="button" class="btn btn-secondary" (click)="toggle()">
+  {{ (active$ | async) ? "annulla" : "confronta i prodotti" }}
+</button>
+
+@if(isCanCompare$ | async){
+  <a routerLink="/shop/compare">confronta</a>
+}

@@ -1,4 +1,4 @@
-import { Component, Injectable, inject } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { BehaviorSubject, map, Observable } from "rxjs";
 import { ProductDetails } from "./prodotti.service";
 import { NotificationService } from "./notification/notification-service";

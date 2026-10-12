@@ -1,0 +1,19 @@
+<div class="container">
+  <h2>Confronto prodotti</h2>
+
+  <div class="compare-grid">
+    @for (product of products$ | async; track product.id) {
+      <div class="compare-column">
+        <img [src]="product.thumbnail" [alt]="product.title" />
+        <h3>{{ product.title }}</h3>
+        <p>Prezzo: {{ product.price }} €</p>
+        <p>Voto: {{ product.rating }}</p>
+        <p>Categoria: {{ product.category }}</p>
+      </div>
+    } @empty {
+      <p>Nessun prodotto da confrontare.</p>
+    }
+  </div>
+
+  <a routerLink="/shop"> torna allo shop</a>
+</div>

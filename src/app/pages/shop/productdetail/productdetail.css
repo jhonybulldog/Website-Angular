@@ -34,16 +34,10 @@
   grid-area: info;
 }
 
+/* colore e hover condivisi in styles.css */
 .nav-back-link {
   display: inline-block;
   margin-bottom: 1.25rem;
-  color: var(--green-700);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.nav-back-link:hover {
-  text-decoration: underline;
 }
 
 .product-title {

@@ -12,7 +12,9 @@
       <h3>{{proddi().title}}</h3>
       <p>{{proddi().price}} €</p>
     </div>
-
+    @if(compareActive$ | async){
+      <button (click)="toggleCompare()">{{(isCompare$ | async) ?  "rimuovi": "compara"}}</button>
+    }
     @if (nelCarrello()) { <span class="nel-carrello">Nel carrello</span> }
     <button [routerLink]="['/shop', proddi().id]">visualizza</button>
     <button

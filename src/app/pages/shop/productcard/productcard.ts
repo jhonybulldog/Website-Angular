@@ -6,6 +6,7 @@ import { LoginService } from "../../admin/login/login.service";
 import { ProductFavorite } from "../product-favorite";
 import { AsyncPipe } from "@angular/common";
 import { Observable } from "rxjs";
+import { CompareService } from "../compare-service";
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: "app-productcard",
@@ -13,13 +14,15 @@ import { Observable } from "rxjs";
   templateUrl: "./productcard.html",
 })
 export class Productcard implements OnInit {
-  private carrello = inject(CartService);
   proddi = input.required<ProductDetails>();
+  private carrello = inject(CartService);
   private logginser = inject(LoginService);
+  private compareSer = inject(CompareService);
+  private favoritesService = inject(ProductFavorite);
   loggedIn = this.logginser.loggedIn;
-  favoritesService = inject(ProductFavorite);
+  compareActive$ = this.compareSer.active$;
   isfavorite$!: Observable<boolean>;
-
+  isCompare$!: Observable<boolean>;
   aggiungicarrello(prodotto: ProductDetails) {
     this.carrello.aggiungiCarrello(prodotto);
   }
@@ -31,7 +34,12 @@ export class Productcard implements OnInit {
       .carrello()
       .some((prodotto) => prodotto.prodotto.id === this.proddi().id),
   );
+
+  toggleCompare() {
+    this.compareSer.toggle(this.proddi());
+  }
   ngOnInit() {
     this.isfavorite$ = this.favoritesService.isfavorite$(this.proddi().id);
+    this.isCompare$ = this.compareSer.isCompare$(this.proddi().id);
   }
 }

@@ -5,8 +5,7 @@ import { Categoryselect } from "./categoryselect/categoryselect";
 import { Productcard } from "./productcard/productcard";
 import { PaginatedGrid } from "../shared/paginated-grid/paginated-grid";
 import { SortSelect } from "../shared/sort-select/sort-select";
-import { Notification } from "./notification/notification";
-
+import { CompareB } from "./compare-b/compare-b";
 @Component({
   imports: [
     Minicart,
@@ -14,7 +13,7 @@ import { Notification } from "./notification/notification";
     PaginatedGrid,
     Productcard,
     SortSelect,
-    Notification
+    CompareB
 ],
   selector: "app-shop",
   styleUrl: "./shop.css",
@@ -22,7 +21,6 @@ import { Notification } from "./notification/notification";
 })
 export class Shop implements OnInit {
   private prodottiser = inject(Prodotti);
-
   prodotti = this.prodottiser.prod;
   categoriaSelezionata = signal<string>("");
   categorie = computed(() => this.prodottiser.categorie());
@@ -38,6 +36,7 @@ export class Shop implements OnInit {
   load(e: { limit: number; skip: number; search: string }) {
     this.prodottiser.caricaProdotti(e.limit, e.skip, this.categoriaSelezionata(), e.search, this.order().order, this.order().sortBy);
   }
+
   ngOnInit() {
     if (this.categorie().length === 0) {
       this.prodottiser.caricaCategorie();

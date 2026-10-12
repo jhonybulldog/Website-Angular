@@ -6,10 +6,9 @@ import { Minicart } from "../minicart/minicart";
 import { LoginService } from "../../admin/login/login.service";
 import { ProductFavorite } from "../product-favorite";
 import { AsyncPipe } from "@angular/common";
-import { Notification } from "../notification/notification";
 import { NotificationService } from "../notification/notification-service";
 @Component({
-  imports: [RouterLink, Minicart, AsyncPipe, Notification],
+  imports: [RouterLink, Minicart, AsyncPipe],
   standalone: true,
   selector: "app-productdetail",
   styleUrl: "./productdetail.css",
