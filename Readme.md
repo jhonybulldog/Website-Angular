@@ -1,4 +1,4 @@
-# Jhonnyfolio
+# Jhonnyfolio   ```   ``` 
 
 > Portfolio personale costruito con Angular, con area amministrativa, backend REST, e-commerce con carrello, checkout e dashboard utente, Dex Pokémon e calcolatore di subnetting IPv4.
 

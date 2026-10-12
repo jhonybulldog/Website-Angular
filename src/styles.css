@@ -241,6 +241,18 @@ app-root > main {
   color: var(--green-600);
 }
 
+/* link "← Torna allo shop": dettaglio prodotto e confronto */
+.nav-back-link,
+app-compare .container > a {
+  color: var(--green-700);
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 /* =========================================================
    PULSANTI
    ========================================================= */
@@ -282,6 +294,7 @@ app-root > main {
     .btn-continua,
     .btn-completa-ordine,
     .btn-calcola,
+    app-compare-b a,
     :is(.indirizzi, .indirizzo-intestato) form button,
     :is(app-admin, app-login) button:not(.btn-delete)
   ) {
@@ -441,7 +454,8 @@ button.favorite-btn {
 
 .blog-header h2,
 .todos-header h2,
-.shop-header h2 {
+.shop-header h2,
+app-compare h2 {
   margin: 0;
   font-size: var(--text-2xl);
   font-weight: 700;
@@ -465,7 +479,8 @@ button.favorite-btn {
 /* filtri sulla stessa riga del titolo */
 app-sort-select,
 app-categoryselect,
-app-limit-selector {
+app-limit-selector,
+app-compare-b {
   order: 1;
   flex: 1 1 200px;
   min-width: 0;
