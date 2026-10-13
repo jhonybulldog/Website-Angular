@@ -1,6 +1,12 @@
+/* .active ha due significati, a seconda dell'elemento:
+   - su .nav-link e .user-menu-wrapper → pagina corrente (routerLinkActive)
+   - su .hamburger, .nav-menu, .user-menu → menu aperto (menuOpen / menuUtenteOpen) */
+
+/* ---------- Barra ---------- */
 .header {
   position: fixed;
   top: 0;
+  left: 0;
   z-index: 1000;
   width: 100%;
   background: var(--glass);
@@ -26,21 +32,17 @@
   font-weight: 700;
 }
 
-.logo h2 a {
+.logo a {
   color: inherit;
   text-decoration: none;
 }
 
-/* ---------- Menu desktop ---------- */
-.nav-menu,
-.user-menu {
-  display: flex;
-  list-style: none;
-}
-
+/* ---------- Link ---------- */
 .nav-menu {
+  display: flex;
   align-items: center;
   gap: 2rem;
+  list-style: none;
 }
 
 .nav-link {
@@ -54,11 +56,7 @@
   transition: color var(--transition), background-color var(--transition);
 }
 
-.nav-link:hover {
-  color: var(--green-700);
-  background: var(--green-100);
-}
-
+/* linea sotto il link: larga 0, si apre dal centro */
 .nav-link::after {
   content: "";
   position: absolute;
@@ -71,16 +69,29 @@
   transition: width var(--transition-slow);
 }
 
-.nav-link:hover::after {
+/* hover e pagina corrente si vedono uguali: pillola verde + linea */
+.nav-link:hover,
+.nav-link.active {
+  color: var(--green-700);
+  background: var(--green-100);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
   width: 80%;
 }
 
-/* ---------- Hamburger ---------- */
+/* ---------- Hamburger: 3 barre che diventano una X ---------- */
+/* su desktop si vede solo quello del menu utente */
 .hamburger {
   display: none;
   flex-direction: column;
   padding: 0.5rem;
   cursor: pointer;
+}
+
+.hamburger-utente {
+  display: flex;
 }
 
 .bar {
@@ -104,26 +115,27 @@
   transform: rotate(-45deg) translate(7px, -6px);
 }
 
-/* ---------- Mini menu utente (solo desktop) ---------- */
+/* ---------- Menu utente (solo desktop) ---------- */
 .user-menu-wrapper {
   position: relative;
 }
 
-.hamburger-utente {
-  display: flex;
+/* la pagina corrente è dentro il menu chiuso: si accende l'icona */
+.user-menu-wrapper.active .hamburger-utente {
+  border-radius: var(--radius-full);
+  background: var(--green-100);
 }
 
-/* menu chiuso / aperto: stesso effetto per menu utente e menu mobile */
-.user-menu,
-.nav-menu {
-  --menu-transition: transform var(--transition-slow), opacity var(--transition-slow),
-    visibility var(--transition-slow);
+.user-menu-wrapper.active .bar {
+  background: var(--green-700);
 }
 
+/* chiuso: invisibile e un po' più in alto; .active lo fa scendere */
 .user-menu {
   position: absolute;
   top: calc(100% + 0.5rem);
   right: 0;
+  display: flex;
   flex-direction: column;
   gap: 0.25rem;
   min-width: 200px;
@@ -132,45 +144,51 @@
   border-radius: var(--radius-lg);
   background: var(--white);
   box-shadow: var(--shadow-lg);
+  list-style: none;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
-  transition: var(--menu-transition);
-}
-
-.user-menu.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+  transition: opacity var(--transition-slow), visibility var(--transition-slow),
+    transform var(--transition-slow);
 }
 
 .user-menu .nav-link {
   padding: 0.6rem 1rem;
-  text-align: left;
 }
 
-/* voci extra dentro il menu principale: visibili solo su mobile */
+/* aperto: vale anche per il menu principale su mobile (vedi @media) */
+.user-menu.active,
+.nav-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+/* voci del menu utente ripetute nel menu principale: solo su mobile */
 .mobile-only,
 .mobile-only-divider {
   display: none;
 }
 
+/* ---------- Mobile ---------- */
 @media (max-width: 768px) {
-  .hamburger:not(.hamburger-utente) {
-    display: flex;
-  }
-
-  /* su mobile il mini menu desktop sparisce del tutto */
-  .desktop-only {
-    display: none;
-  }
-
   .nav-container {
     padding-inline: 1rem;
   }
 
+  /* niente menu utente: le sue voci sono già nel menu principale */
+  .desktop-only {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  /* il menu principale diventa una tendina sotto la barra
+     (.header è fixed, quindi fa da riferimento per top: 100%) */
   .nav-menu {
-    position: fixed;
+    position: absolute;
     top: 100%;
     left: 0;
     flex-direction: column;
@@ -181,16 +199,10 @@
     opacity: 0;
     visibility: hidden;
     transform: translateY(-100%);
-    transition: var(--menu-transition);
+    transition: opacity var(--transition-slow), visibility var(--transition-slow),
+      transform var(--transition-slow);
   }
 
-  .nav-menu.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-
-  /* le voci extra diventano visibili solo qui, dentro il menu unico */
   .mobile-only,
   .mobile-only-divider {
     display: block;

@@ -1,6 +1,7 @@
 import { Component, inject, signal } from "@angular/core";
-import { Cart, CartService , CartProduct} from "../carrello/cart.service";
+import { Cart, CartService } from "../carrello/cart.service";
 import {
+  Form,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -28,7 +29,7 @@ interface Indirizzo {
 })
 export class Checkout {
   private carrelloser = inject(CartService);
-  private route = inject(Router)
+  private route = inject(Router);
   cart$ = this.carrelloser.cart$;
   metodoPagamento = signal("");
   prodotti = this.carrelloser.carrello;
@@ -54,29 +55,45 @@ export class Checkout {
   erroreMetodoPagamento = signal(false);
   erroreCartaNonConfermata = signal(false);
 
-  indirizzoIntestatoForm = new FormGroup({
-    intestatario: new FormControl("", [Validators.required]),
+  indirizzoIntestatoForm = new FormGroup<{ intestatario: FormControl<string> }>(
+    {
+      intestatario: new FormControl("", {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+    },
+  );
+
+  metodoPagamentoForm = new FormGroup<{ metodo: FormControl<string> }>({
+    metodo: new FormControl("", {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
-  metodoPagamentoForm = new FormGroup({
-    metodo: new FormControl("", [Validators.required]),
-  });
-
-  cartaform = new FormGroup({
-    dati: new FormControl("", [
-      Validators.required,
-      Validators.maxLength(16),
-      Validators.minLength(16),
-    ]),
-    cvv: new FormControl("", [
-      Validators.required,
-      Validators.maxLength(3),
-      Validators.minLength(3),
-    ]),
+  cartaform = new FormGroup<{
+    dati: FormControl<string>;
+    cvv: FormControl<string>;
+  }>({
+    dati: new FormControl("", {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.maxLength(16),
+        Validators.minLength(16),
+      ],
+    }),
+    cvv: new FormControl("", {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.maxLength(3),
+        Validators.minLength(3),
+      ],
+    }),
   });
 
   orderTotal$ = this.cart$.pipe(map((cart) => cart.total + this.spedizione()));
-
 
   selezionaPagamento() {
     this.metodoPagamento.set(this.metodoPagamentoForm.value.metodo!);
@@ -89,13 +106,20 @@ export class Checkout {
     }
   }
 
-  indirizzoForm = new FormGroup({
-    nome: new FormControl("", [Validators.required]),
-    nomeCognome: new FormControl("", [Validators.required]),
-    via: new FormControl("", [Validators.required]),
-    citta: new FormControl("", [Validators.required]),
-    cap: new FormControl("", [Validators.required]),
-    provincia: new FormControl("", [Validators.required]),
+  indirizzoForm = new FormGroup<{
+    nome: FormControl<string>;
+    nomeCognome: FormControl<string>;
+    via: FormControl<string>;
+    citta: FormControl<string>;
+    cap: FormControl<number>;
+    provincia: FormControl<string>;
+  }>({
+    nome: new FormControl("",{nonNullable:true, validators: [Validators.required]}),
+    nomeCognome: new FormControl("", {nonNullable:true, validators: [Validators.required]}),
+    via: new FormControl("",{nonNullable:true, validators: [Validators.required]}),
+    citta: new FormControl("", {nonNullable:true, validators: [Validators.required]}),
+    cap: new FormControl(0, {nonNullable:true, validators: [Validators.required]}),
+    provincia: new FormControl("", {nonNullable:true, validators: [Validators.required]}),
   });
 
   selezionaIndirizzo(id: number) {
@@ -110,7 +134,7 @@ export class Checkout {
         nomeCognome: this.indirizzoForm.value.nomeCognome!,
         via: this.indirizzoForm.value.via!,
         citta: this.indirizzoForm.value.citta!,
-        cap: Number(this.indirizzoForm.value.cap!),
+        cap: this.indirizzoForm.value.cap!,
         provincia: this.indirizzoForm.value.provincia!,
       };
 
@@ -120,8 +144,8 @@ export class Checkout {
         ...lista,
         {
           indirizzo: nuovoIndirizzo,
-          form: new FormGroup({
-            intestatario: new FormControl("", [Validators.required]),
+          form: new FormGroup<{intestatario: FormControl<string>}>({
+            intestatario: new FormControl("", {nonNullable:true, validators: [Validators.required]}),
           }),
         },
       ]);
@@ -139,7 +163,7 @@ export class Checkout {
       nomeCognome: indirizzo.nomeCognome,
       via: indirizzo.via,
       citta: indirizzo.citta,
-      cap: String(indirizzo.cap),
+      cap: indirizzo.cap,
       provincia: indirizzo.provincia,
     });
   }
@@ -152,7 +176,7 @@ export class Checkout {
         nomeCognome: this.indirizzoForm.value.nomeCognome!,
         via: this.indirizzoForm.value.via!,
         citta: this.indirizzoForm.value.citta!,
-        cap: Number(this.indirizzoForm.value.cap!),
+        cap: this.indirizzoForm.value.cap!,
         provincia: this.indirizzoForm.value.provincia!,
       };
 
@@ -236,6 +260,6 @@ export class Checkout {
     this.carrelloser.svuotacarrello();
     this.ordineConfermato.set(true);
 
-    this.route.navigate(["/dashboard"])
+    this.route.navigate(["/dashboard"]);
   }
 }

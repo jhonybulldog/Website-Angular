@@ -41,8 +41,8 @@
         </label>
       </div>
 
-      @if (metodoPagamentoForm.get('metodo')?.invalid &&
-      metodoPagamentoForm.get('metodo')?.touched) {
+      @if (metodoPagamentoForm.controls.metodo.invalid &&
+      metodoPagamentoForm.controls.metodo.touched) {
       <p class="error">Seleziona un metodo di pagamento</p>
       }
     </form>
@@ -64,7 +64,7 @@
           placeholder="Inserisci i dati della carta"
           formControlName="dati"
         />
-        @if (cartaform.get('dati')?.invalid && cartaform.get('dati')?.touched) {
+        @if (cartaform.controls.dati.invalid && cartaform.controls.dati.touched) {
         <p class="error">Il numero carta deve avere 16 cifre</p>
         }
       </div>
@@ -76,7 +76,7 @@
           placeholder="Inserisci il CVV"
           formControlName="cvv"
         />
-        @if (cartaform.get('cvv')?.invalid && cartaform.get('cvv')?.touched) {
+        @if (cartaform.controls.cvv.invalid && cartaform.controls.cvv.touched) {
         <p class="error">Il CVV deve avere 3 o 4 cifre</p>
         }
       </div>
@@ -106,8 +106,8 @@
           formControlName="nome"
           placeholder="Nome indirizzo (es. Casa)"
         />
-        @if (indirizzoForm.get('nome')?.invalid &&
-        indirizzoForm.get('nome')?.touched) {
+        @if (indirizzoForm.controls.nome.invalid &&
+        indirizzoForm.controls.nome.touched) {
         <p class="error">inserisci un nome valido</p>
         }
       </div>
@@ -118,8 +118,8 @@
           formControlName="nomeCognome"
           placeholder="Nome e cognome"
         />
-        @if (indirizzoForm.get('nomeCognome')?.invalid &&
-        indirizzoForm.get('nomeCognome')?.touched) {
+        @if (indirizzoForm.controls.nomeCognome.invalid &&
+        indirizzoForm.controls.nomeCognome.touched) {
         <p class="error">inserisci un nome e cognome valido</p>
         }
       </div>
@@ -130,32 +130,32 @@
           formControlName="via"
           placeholder="Via e numero civico"
         />
-        @if (indirizzoForm.get('via')?.invalid &&
-        indirizzoForm.get('via')?.touched) {
+        @if (indirizzoForm.controls.via.invalid &&
+        indirizzoForm.controls.via.touched) {
         <p class="error">inserisci una via valida</p>
         }
       </div>
 
       <div class="form-group campo-citta">
         <input type="text" formControlName="citta" placeholder="Città" />
-        @if (indirizzoForm.get('citta')?.invalid &&
-        indirizzoForm.get('citta')?.touched) {
+        @if (indirizzoForm.controls.citta.invalid &&
+        indirizzoForm.controls.citta.touched) {
         <p class="error">inserisci una citta valida</p>
         }
       </div>
 
       <div class="form-group campo-cap">
         <input type="number" formControlName="cap" placeholder="CAP" />
-        @if (indirizzoForm.get('cap')?.invalid &&
-        indirizzoForm.get('cap')?.touched) {
+        @if (indirizzoForm.controls.cap.invalid &&
+        indirizzoForm.controls.cap.touched) {
         <p class="error">inserisci un cap valido</p>
         }
       </div>
 
       <div class="form-group campo-provincia">
         <input type="text" formControlName="provincia" placeholder="Provincia" />
-        @if (indirizzoForm.get('provincia')?.invalid &&
-        indirizzoForm.get('provincia')?.touched) {
+        @if (indirizzoForm.controls.provincia.invalid &&
+        indirizzoForm.controls.provincia.touched) {
         <p class="error">inserisci una provincia valida</p>
         }
       </div>

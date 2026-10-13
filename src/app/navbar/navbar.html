@@ -11,27 +11,27 @@
         <li><a class="nav-link" href="#Competenze">Competenze</a></li>
         <li><a class="nav-link" href="#Progetti">Proggetti</a></li>
         <li><a class="nav-link" href="#Contatti">Contatti</a></li>
-        <li><a class="nav-link" routerLink="/shop">E-commerce</a></li>
-        <li><a class="nav-link" routerLink="/blog">Blog</a></li>
-        <li><a class="nav-link" routerLink="/todos">Todos</a></li>
+        <li><a class="nav-link" routerLink="/shop" routerLinkActive="active">E-commerce</a></li>
+        <li><a class="nav-link" routerLink="/blog" routerLinkActive="active">Blog</a></li>
+        <li><a class="nav-link" routerLink="/todos" routerLinkActive="active">Todos</a></li>
         <li class="mobile-only-divider"></li>
 
         @if (isLoggedIn()) {
         <li class="mobile-only">
-          <a routerLink="/dashboard" class="nav-link">Dashboard Utente</a>
+          <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">Dashboard Utente</a>
         </li>
         <li class="mobile-only">
-          <a routerLink="/admin" class="nav-link">Area Admin</a>
+          <a routerLink="/admin" routerLinkActive="active" class="nav-link">Area Admin</a>
         </li>
         <li class="mobile-only">
-          <a routerLink="/shop/stats" class="nav-link">statistica shop</a>
+          <a routerLink="/shop/stats" routerLinkActive="active" class="nav-link">statistica shop</a>
         </li>
         <li class="mobile-only">
           <a (click)="logout()" class="nav-link">Logout</a>
         </li>
         } @else {
         <li class="mobile-only">
-          <a routerLink="/admin" class="nav-link">Login</a>
+          <a routerLink="/admin" routerLinkActive="active" class="nav-link">Login</a>
         </li>
         }
       </ul>
@@ -42,7 +42,7 @@
         <span class="bar"></span>
       </div>
 
-      <div class="user-menu-wrapper desktop-only">
+      <div class="user-menu-wrapper desktop-only" routerLinkActive="active">
         <div
           class="hamburger hamburger-utente"
           [class.active]="menuUtenteOpen()"
@@ -60,15 +60,15 @@
         >
           @if (isLoggedIn()) {
           <li>
-            <a routerLink="/dashboard" class="nav-link">Dashboard Utente</a>
+            <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">Dashboard Utente</a>
           </li>
           <li>
-            <a routerLink="/shop/stats" class="nav-link">statistica shop</a>
+            <a routerLink="/shop/stats" routerLinkActive="active" class="nav-link">statistica shop</a>
           </li>
-          <li><a routerLink="/admin" class="nav-link">Area Admin</a></li>
+          <li><a routerLink="/admin" routerLinkActive="active" class="nav-link">Area Admin</a></li>
           <li><a (click)="logout()" class="nav-link">Logout</a></li>
           } @else {
-          <li><a routerLink="/admin" class="nav-link">Login</a></li>
+          <li><a routerLink="/admin" routerLinkActive="active" class="nav-link">Login</a></li>
           }
         </ul>
       </div>

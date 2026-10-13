@@ -7,6 +7,7 @@ import { LoginService } from "../../admin/login/login.service";
 import { ProductFavorite } from "../product-favorite";
 import { AsyncPipe } from "@angular/common";
 import { NotificationService } from "../notification/notification-service";
+import { map, switchMap } from "rxjs";
 @Component({
   imports: [RouterLink, Minicart, AsyncPipe],
   standalone: true,
@@ -21,12 +22,14 @@ export class Productdetail implements OnInit {
   private logginser = inject(LoginService);
   private favoritesService = inject(ProductFavorite);
   private notificationser = inject(NotificationService);
-  private productId = Number(this.route.snapshot.paramMap.get("id"));
-  isFavorite$ = this.favoritesService.isfavorite$(this.productId);
+  private productId$ = this.route.paramMap.pipe(map(params => Number(params.get("id"))))
+  isFavorite$ = this.productId$.pipe(
+     switchMap(id => this.favoritesService.isfavorite$(id))
+   );
   cartprodotti = this.carrello.carrello;
   ac = signal(false)
   prodotto = signal<ProductDetails>({
-    id: this.productId,
+    id: 0,
     title: "",
     description: "",
     price: 0,
@@ -55,9 +58,9 @@ this.carrello.addToCart(prodotto.id);
   toggleFavorite() {
     this.favoritesService.toggle(this.prodotto());
   }
-  ngOnInit(): void {
-    this.prodottiser.caricaProdotto(this.productId).subscribe((prodotto) => {
-      this.prodotto.set(prodotto);
-    });
-  }
+   ngOnInit(): void {
+     this.productId$
+       .pipe(switchMap(id => this.prodottiser.caricaProdotto(id)))
+       .subscribe(prodotto => this.prodotto.set(prodotto));
+   }
 }

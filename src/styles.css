@@ -211,43 +211,6 @@ app-root > main {
   flex: 1;
 }
 
-/* pagina corrente nella navbar: il router mette la pagina dentro <main>,
-   quindi basta guardare quale componente c'è lì. Sta qui e non in navbar.css
-   perché il CSS incapsulato della navbar non vede <main>.
-   Il link attivo resta come in hover (navbar.css): pillola verde + linea sotto.
-   Nella home le voci sono sezioni della stessa pagina: vince la sezione
-   nell'URL (#Contatti → :target), senza ancora nell'URL resta accesa "home" */
-app-root:has(> main > app-home-c):not(:has(:target)) app-navbar .nav-link[href="#home"],
-app-root:has(#home:target) app-navbar .nav-link[href="#home"],
-app-root:has(#about:target) app-navbar .nav-link[href="#about"],
-app-root:has(#Competenze:target) app-navbar .nav-link[href="#Competenze"],
-app-root:has(#Progetti:target) app-navbar .nav-link[href="#Progetti"],
-app-root:has(#Contatti:target) app-navbar .nav-link[href="#Contatti"],
-app-root:has(> main > :is(app-shop, app-carrello, app-compare, app-productdetail, app-checkout))
-  app-navbar .nav-link[href="/shop"],
-app-root:has(> main > :is(app-blog, app-blogdetail)) app-navbar .nav-link[href="/blog"],
-app-root:has(> main > app-todos) app-navbar .nav-link[href="/todos"],
-app-root:has(> main > app-dashboard) app-navbar .nav-link[href="/dashboard"],
-app-root:has(> main > app-stats) app-navbar .nav-link[href="/shop/stats"],
-app-root:has(> main > :is(app-admin, app-login)) app-navbar .nav-link[href="/admin"] {
-  color: var(--green-700);
-  background: var(--green-100);
-
-  &::after {
-    width: 80%;
-  }
-}
-
-/* le pagine utente stanno nel mini menu chiuso: si evidenzia l'icona */
-app-root:has(> main > :is(app-dashboard, app-stats, app-admin, app-login)) .hamburger-utente {
-  border-radius: var(--radius-full);
-  background: var(--green-100);
-
-  & .bar {
-    background: var(--green-700);
-  }
-}
-
 .container,
 .nav-container,
 .hero-container {
