@@ -5,6 +5,12 @@
         <h2>E-commerce Shop</h2>
         <h2 class="section-title">Ordina!</h2>
       </div>
+      @if(loading$ | async){
+        <div class="loading">
+          <span class="spinner"></span>
+          caricamento prodotti...
+        </div>
+      }
       <app-compare-b></app-compare-b>
       <app-sort-select (changed)="order.set($event)" [options]="optionorder"></app-sort-select>
       <app-categoryselect

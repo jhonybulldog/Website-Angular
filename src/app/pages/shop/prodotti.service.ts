@@ -1,5 +1,6 @@
 import { Injectable, signal, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { BehaviorSubject, delay, finalize } from "rxjs";
 export interface ProductDetails {
   id: number;
   title: string;
@@ -25,6 +26,9 @@ export class Prodotti {
   categorie = signal<Category[]>([]);
   totaleProdotti = signal(0);
   private url = "https://dummyjson.com/products/";
+  private loading = new BehaviorSubject<boolean>(false);
+  loading$ = this.loading.asObservable();
+
   caricaCategorie() {
     this.http
       .get<Category[]>("https://dummyjson.com/products/categories")
@@ -32,12 +36,21 @@ export class Prodotti {
         this.categorie.set(risposta);
       });
   }
-  caricaProdotti(limit: number, skip: number, categoria: string = "", research: string = "", order: string = "", sortBy: string = "") {
-
+  caricaProdotti(
+    limit: number,
+    skip: number,
+    categoria: string = "",
+    research: string = "",
+    order: string = "",
+    sortBy: string = "",
+  ) {
+    this.loading.next(true);
     let url = this.url;
-    if(research){
-      url = `${this.url}search`
-    }else if (categoria) {
+    
+
+    if (research) {
+      url = `${this.url}search`;
+    } else if (categoria) {
       url = `${this.url}category/${categoria}`;
     }
     this.http
@@ -46,26 +59,26 @@ export class Prodotti {
           limit: limit,
           skip: skip,
           q: research,
-          sortBy:sortBy,
+          sortBy: sortBy,
           order: order,
         },
-      })
+      }).pipe(delay(2000))
       .subscribe((risposta) => {
         this.prod.set(risposta.products);
         this.totaleProdotti.set(risposta.total);
+        this.loading.next(false);
       });
   }
-  
+
   caricaProdotto(id: number) {
-  return this.http.get<ProductDetails>(`${this.url}${id}`);
-}
+    return this.http.get<ProductDetails>(`${this.url}${id}`);
+  }
   aggiornaProdotto(id: number, price: number, description: string) {
     let url = `${this.url}${id}`;
-    return this.http
-      .put<ProductDetails>(url, {
-        price: price,
-        description: description,
-      });
+    return this.http.put<ProductDetails>(url, {
+      price: price,
+      description: description,
+    });
   }
   aggiungiProdotto(prodotto: ProductDetails) {
     prodotto.id = this.nextid;

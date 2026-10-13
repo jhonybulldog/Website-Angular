@@ -8,7 +8,7 @@
       @for (product of cart.products; track product.id) {
         <div class="mini-cart-item">
           <div class="item-info">
-            <span class="item-title">{{ product.title }}</span>
+            <a [routerLink]="['/shop', product.id]" class="item-title">{{ product.title }}</a>
 
             <div class="item-controls">
               <div class="quantity-picker">

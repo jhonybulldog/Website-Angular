@@ -5,7 +5,7 @@ import { DatePipe, AsyncPipe } from "@angular/common";
 import { PreferenzeService } from "../preferenze.service";
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { LoginService } from "../../admin/login/login.service";
-import { ProductFavorite } from "../product-favorite";
+import { FavoriteProduct, ProductFavorite } from "../product-favorite";
 import { ProductDetails } from "../prodotti.service";
 import { RouterLink } from "@angular/router";
 @Component({
@@ -46,7 +46,7 @@ form = this.fb.group({
       preferenza: [preferenza, Validators.required],
     });
   }
-  removeFavorite(product: ProductDetails) {
+  removeFavorite(product: FavoriteProduct) {
     this.favoritesService.toggle(product);
   }
   aggiungiRiga() {

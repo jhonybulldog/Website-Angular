@@ -7,12 +7,12 @@
     @if(cart$ | async ; as cart){
     <div class="riepilogo-row">
       <span>Articoli</span>
-      <span>{{ cart.total.toFixed(2) }} €</span>
+      <span>{{ cart.total | number}} €</span>
     </div>}
 
     <div class="riepilogo-row">
       <span>Spedizione</span>
-      <span>{{ spedizione().toFixed(2) }} €</span>
+      <span>{{ spedizione() | number }} €</span>
     </div>
 
     <hr class="riepilogo-divider" />
@@ -145,7 +145,7 @@
       </div>
 
       <div class="form-group campo-cap">
-        <input type="text" formControlName="cap" placeholder="CAP" />
+        <input type="number" formControlName="cap" placeholder="CAP" />
         @if (indirizzoForm.get('cap')?.invalid &&
         indirizzoForm.get('cap')?.touched) {
         <p class="error">inserisci un cap valido</p>

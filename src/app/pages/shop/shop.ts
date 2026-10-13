@@ -6,6 +6,7 @@ import { Productcard } from "./productcard/productcard";
 import { PaginatedGrid } from "../shared/paginated-grid/paginated-grid";
 import { SortSelect } from "../shared/sort-select/sort-select";
 import { CompareB } from "./compare-b/compare-b";
+import { AsyncPipe } from "@angular/common";
 @Component({
   imports: [
     Minicart,
@@ -13,7 +14,8 @@ import { CompareB } from "./compare-b/compare-b";
     PaginatedGrid,
     Productcard,
     SortSelect,
-    CompareB
+    CompareB,
+    AsyncPipe
 ],
   selector: "app-shop",
   styleUrl: "./shop.css",
@@ -26,6 +28,7 @@ export class Shop implements OnInit {
   categorie = computed(() => this.prodottiser.categorie());
   order = signal({label: "", sortBy: "", order: ""});
   totale = this.prodottiser.totaleProdotti;
+  loading$ = this.prodottiser.loading$;
   optionorder = [
     { label: "Ordina per..." , sortBy: "", order: ""},
     {  label: "Prezzo più basso" , sortBy: "price", order: "asc" },
