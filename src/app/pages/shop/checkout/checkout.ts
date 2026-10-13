@@ -1,5 +1,5 @@
-import { Component, inject, computed, signal } from "@angular/core";
-import { CartService } from "../carrello/cart.service";
+import { Component, inject, signal } from "@angular/core";
+import { Cart, CartService } from "../carrello/cart.service";
 import {
   FormControl,
   FormGroup,
@@ -8,6 +8,8 @@ import {
 } from "@angular/forms";
 import { OrdiniService } from "../ordini.service";
 import { Router } from "@angular/router";
+import { AsyncPipe, DecimalPipe } from "@angular/common";
+import { map } from "rxjs";
 interface Indirizzo {
   id: number;
   nome: string;
@@ -19,7 +21,7 @@ interface Indirizzo {
 }
 
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, AsyncPipe, DecimalPipe],
   selector: "app-checkout",
   styleUrl: "./checkout.css",
   templateUrl: "./checkout.html",
@@ -27,6 +29,7 @@ interface Indirizzo {
 export class Checkout {
   private carrelloser = inject(CartService);
   private route = inject(Router)
+  cart$ = this.carrelloser.cart$;
   metodoPagamento = signal("");
   prodotti = this.carrelloser.carrello;
   spedizione = signal(5);
@@ -72,15 +75,8 @@ export class Checkout {
     ]),
   });
 
-  totale = computed(() =>
-    this.prodotti().reduce((totale, prodotto) => {
-      return totale + prodotto.prodotto.price * prodotto.quantita;
-    }, 0),
-  );
+  orderTotal$ = this.cart$.pipe(map((cart) => cart.total + this.spedizione()));
 
-  totaleordine = computed(() => {
-    return this.totale() + this.spedizione();
-  });
 
   selezionaPagamento() {
     this.metodoPagamento.set(this.metodoPagamentoForm.value.metodo!);
@@ -204,7 +200,7 @@ export class Checkout {
     }
   }
 
-  completaordine() {
+  completaordine(cart: Cart) {
     this.metodoPagamentoForm.markAllAsTouched();
 
     const metodo = this.metodoPagamentoForm.value.metodo;
@@ -232,7 +228,7 @@ export class Checkout {
       id: Date.now(),
       data: new Date().toISOString(),
       prodotti: this.prodotti(),
-      totale: this.totaleordine(),
+      totale: cart.total + this.spedizione(),
       indirizzo: `${selezionato.via}, ${selezionato.cap} ${selezionato.citta} ${selezionato.provincia}`,
       metodoPagamento: metodo!,
     };

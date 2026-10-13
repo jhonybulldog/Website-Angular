@@ -4,7 +4,6 @@ import { CartService } from "../carrello/cart.service";
 import { AsyncPipe, DecimalPipe } from "@angular/common";
 
 @Component({
-  standalone: true,
   imports: [RouterLink, AsyncPipe, DecimalPipe],
   selector: "app-minicart",
   styleUrl: "./minicart.css",

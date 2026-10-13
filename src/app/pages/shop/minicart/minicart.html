@@ -16,6 +16,7 @@
                   class="quantity-control quantity-control--decrease"
                   type="button"
                   aria-label="Diminuisci quantità"
+                  [disabled]="product.quantity === 1"
                   (click)="diminuiscicarrell(product.id)"
                 >
                   <span aria-hidden="true">−</span>
@@ -31,7 +32,7 @@
                 </button>
               </div>
 
-              <button class="btn-delete" type="button" (click)="rimuoviCarello($index)">
+              <button class="btn-delete" type="button" (click)="rimuoviCarello(product.id)">
                 Rimuovi
               </button>
             </div>

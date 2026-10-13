@@ -99,19 +99,40 @@ app.post('/login', async (req, res) => {
   const user = stmt.get(username);
 
   if (!user) {
-    // Utente non trovato
-    return res.status(401).json({ error: 'Username o password errati.' });
+    // 3. Non è nel nostro database: proviamo con il login di DummyJSON
+    const risposta = await fetch('https://dummyjson.com/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: username, password: password }),
+    });
+
+    if (!risposta.ok) {
+      return res.status(401).json({ error: 'Username o password errati.' });
+    }
+
+    // 4. Credenziali giuste su DummyJSON: salviamo l'utente anche nel nostro database
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const nuovoUtente = db
+      .prepare('INSERT INTO users (username, password_hash) VALUES (?, ?)')
+      .run(username, passwordHash);
+
+    return res.json({
+      success: true,
+      message: 'Login effettuato con successo.',
+      id: nuovoUtente.lastInsertRowid
+    });
   }
 
-  // 3. Confrontiamo la password inviata con l'hash salvato
+  // 5. Utente del nostro database: confrontiamo la password con l'hash salvato
   const passwordCorretta = await bcrypt.compare(password, user.password_hash);
 
   if (!passwordCorretta) {
     return res.status(401).json({ error: 'Username o password errati.' });
   }
 
-  // 4. Tutto ok!
-  res.json({ success: true, message: 'Login effettuato con successo.' });
+  // 6. Tutto ok!
+  res.json({ success: true, message: 'Login effettuato con successo.', id: user.id });
 });
 
 app.listen(PORT, () => {

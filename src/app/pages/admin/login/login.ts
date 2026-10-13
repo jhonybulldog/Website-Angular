@@ -32,7 +32,7 @@ export class Login {
         (risposta) => {
           console.log("Login effettuato con successo");
 
-          this.loginService.setLoggedIn(username!);
+          this.loginService.setLoggedIn(username!, risposta.id);
 
           this.location.back();
         },

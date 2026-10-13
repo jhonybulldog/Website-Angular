@@ -1,5 +1,6 @@
 import { Injectable, inject, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { CartService } from "../../shop/carrello/cart.service";
 export interface User {
   id: number;
   username: string;
@@ -10,13 +11,14 @@ export interface User {
 })
 export class LoginService {
   private apiUrl = "http://localhost:3000";
+  private cartService = inject(CartService);
   usernameLoggato = signal<string | null>(localStorage.getItem("username"));
   constructor(private http: HttpClient) {}
 
   loggedIn = signal(localStorage.getItem("loggedIn") === "true");
 
   login(username: string, password: string) {
-    return this.http.post(`${this.apiUrl}/login`, {
+    return this.http.post<{ id: number }>(`${this.apiUrl}/login`, {
       username: username,
       password: password,
     });
@@ -44,18 +46,22 @@ export class LoginService {
     return this.loggedIn();
   }
 
-  setLoggedIn(username: string): void {
+  setLoggedIn(username: string, userId: number): void {
     localStorage.setItem("loggedIn", "true");
     localStorage.setItem("username", username);
+    localStorage.setItem("userId", String(userId));
     this.loggedIn.set(true);
     this.usernameLoggato.set(username);
+    this.cartService.loadCart();
   }
 
   logout(): void {
     localStorage.removeItem("loggedIn");
     localStorage.removeItem("username");
+    localStorage.removeItem("userId");
     this.loggedIn.set(false);
     this.usernameLoggato.set(null);
+    this.cartService.loadCart();
   }
 
   getutenti() {

@@ -2,13 +2,14 @@
   <h2 class="section-title">Carrello</h2>
   <app-minicart [mostraBottoneVaiAlCarrello]="false"></app-minicart>
 
-  @if (totale() > 0) {
+  @if (cart$ | async; as cart) {
+    @if(cart.total>0){
     <div class="checkout">
       <a class="btn-checkout" routerLink="/checkout">
         <span>Procedi al Checkout</span>
         <span class="arrow">→</span>
       </a>
     </div>
-  }
+  }}
 
 </div> 

@@ -4,10 +4,11 @@
   <section class="riepilogo-ordine">
     <h2>Riepilogo ordine</h2>
 
+    @if(cart$ | async ; as cart){
     <div class="riepilogo-row">
       <span>Articoli</span>
-      <span>{{ totale().toFixed(2) }} €</span>
-    </div>
+      <span>{{ cart.total.toFixed(2) }} €</span>
+    </div>}
 
     <div class="riepilogo-row">
       <span>Spedizione</span>
@@ -18,7 +19,7 @@
 
     <div class="riepilogo-row riepilogo-totale">
       <span>Totale ordine</span>
-      <span>{{ totaleordine().toFixed(2) }} €</span>
+<span>{{ orderTotal$ | async | number: "1.2-2" }} €</span>
     </div>
   </section>
 
@@ -240,12 +241,12 @@
     Devi confermare i dati della carta prima di completare l'ordine
   </p>
   }
-
+  @if(cart$ | async; as cart){
   <button
     class="btn-completa-ordine"
-    (click)="completaordine()"  >
+    (click)="completaordine(cart)"  >
     Completa ordine
-  </button>
+  </button>}
   @if (ordineConfermato()) {
   <div class="ordine-confermato">
     <h2>Ordine confermato!</h2>
