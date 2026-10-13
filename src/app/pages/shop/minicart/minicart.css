@@ -38,26 +38,30 @@
   scrollbar-color: var(--green-200) transparent;
 }
 
+/* griglia: titolo e prezzo sopra, controlli sotto a tutta larghezza.
+   Quando il prezzo si allarga (9,99 → 129,90 €) toglie spazio solo al
+   titolo, che va in "…", e mai ai bottoni − / + */
 .mini-cart-item {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.75rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "title    price"
+    "controls controls";
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
   padding: 0.75rem 0.85rem;
   border: 1px solid var(--green-100);
   border-radius: var(--radius-lg);
   background: var(--green-50);
 }
 
+/* il div sparisce come box: titolo e controlli diventano celle della griglia */
 .item-info {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 0.35rem;
-  min-width: 0;
+  display: contents;
 }
 
 .item-title {
+  grid-area: title;
   max-width: 160px;
   overflow: hidden;
   color: var(--green-950);
@@ -68,6 +72,7 @@
 }
 
 .item-controls {
+  grid-area: controls;
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -75,7 +80,7 @@
 }
 
 .item-price {
-  padding-top: 0.1rem;
+  grid-area: price;
   color: var(--green-700);
   font-size: var(--text-base);
   font-weight: 700;
@@ -83,8 +88,11 @@
 }
 
 /* ---------- Quantità (+ / -) ---------- */
+/* flex-shrink: 0 perché con overflow: hidden il flex può stringerlo fino a 0
+   e schiacciare i bottoni: era questo a deformarli */
 .quantity-picker {
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   overflow: hidden;
   border: 1px solid var(--green-200);
