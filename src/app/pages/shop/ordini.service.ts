@@ -1,10 +1,10 @@
 import { Injectable, signal } from "@angular/core";
-import { ProdottiCarrello } from "./carrello/cart.service";
+import { CartProduct, ProdottiCarrello } from "./carrello/cart.service";
 
 export interface ordine {
   id: number;
   data: string;
-  prodotti: ProdottiCarrello[];
+  prodotti: CartProduct[];
   totale: number;
   indirizzo: string;
   metodoPagamento: string;

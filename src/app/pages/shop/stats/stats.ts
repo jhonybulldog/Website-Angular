@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from "@angular/core";
 import { Prodotti, ProductDetails, Category } from "../prodotti.service";
 import { toObservable } from "@angular/core/rxjs-interop";
 import { map, combineLatest } from "rxjs";
-import { AsyncPipe , DecimalPipe} from "@angular/common";
+import { AsyncPipe, DecimalPipe } from "@angular/common";
 import { ordine, OrdiniService } from "../ordini.service";
 import { BaseChartDirective } from "ng2-charts";
 import { ChartConfiguration } from "chart.js";
@@ -31,9 +31,8 @@ export class Stats implements OnInit {
     ),
   );
 
-
-  avgpiece$ = combineLatest([this.orders$, this.categories$]).pipe(
-    map(([orders, categories]) => this.avgorder(orders, categories, "psold")),
+  avgpiece$ = combineLatest([this.orders$, this.categories$, this.products$]).pipe(
+    map(([orders, categories, products]) => this.avgorder(orders, categories, products, "psold")),
   );
   metricoptions = [
     { label: "rating medio", shop$: this.avgRating$ },
@@ -41,16 +40,16 @@ export class Stats implements OnInit {
     { label: "pezzi acquistati", order$: this.avgpiece$ },
   ];
 
-chartoptions: ChartConfiguration['options'] = {
-  scales: {
-    y: {
-      min: 0,
-      ticks: {
-        precision: 0
-      }
-    }
-  }
-};
+  chartoptions: ChartConfiguration["options"] = {
+    scales: {
+      y: {
+        min: 0,
+        ticks: {
+          precision: 0,
+        },
+      },
+    },
+  };
   private average(
     products: ProductDetails[],
     categories: Category[],
@@ -74,18 +73,20 @@ chartoptions: ChartConfiguration['options'] = {
   private avgorder(
     orders: ordine[],
     categories: Category[],
+    products: ProductDetails[],
     metric: "tsold" | "psold",
   ) {
     const items = orders.flatMap((order) => order.prodotti);
     const totals = categories.map((category) => {
-      const categoryItems = items.filter(
-        (item) => item.prodotto.category === category.slug,
-      );
+    const categoryItems = items.filter((item) => {
+        const product = products.find((p) => p.id === item.id);
+        return product?.category === category.slug;
+      });
       const total = categoryItems.reduce((sum, item) => {
         if (metric === "tsold") {
-          return sum + item.prodotto.price * item.quantita;
+          return sum + item.price * item.quantity;
         }
-        return sum + item.quantita;
+        return sum + item.quantity;
       }, 0);
       return {
         label: category.name,
@@ -99,14 +100,14 @@ chartoptions: ChartConfiguration['options'] = {
     };
   }
   totalSpent$ = this.orders$.pipe(
-  map((orders) => {
-    let total = 0;
-    for (const order of orders) {
-      total += order.totale;
-    }
-    return total;
-  }),
-);
+    map((orders) => {
+      let total = 0;
+      for (const order of orders) {
+        total += order.totale;
+      }
+      return total;
+    }),
+  );
   ngOnInit() {
     this.productser.caricaProdotti(200, 0);
     this.productser.caricaCategorie();

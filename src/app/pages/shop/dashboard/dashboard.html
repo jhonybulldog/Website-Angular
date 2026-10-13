@@ -36,14 +36,14 @@
         <p>Pagamento: {{ ordine.metodoPagamento }}</p>
 
         <div class="prodotti-ordine">
-          @for (item of ordine.prodotti; track item.prodotto.id) {
+          @for (item of ordine.prodotti; track item.id) {
           <div class="prodotto-acquistato">
-            <img [src]="item.prodotto.thumbnail" [alt]="item.prodotto.title" />
+            <img [src]="item.thumbnail" [alt]="item.title" />
 
             <div>
-              <strong>{{ item.prodotto.title }}</strong>
-              <p>Prezzo: {{ item.prodotto.price.toFixed(2) }} €</p>
-              <p>Quantità: {{ item.quantita }}</p>
+              <strong>{{ item.title }}</strong>
+              <p>Prezzo: {{ item.price.toFixed(2) }} €</p>
+              <p>Quantità: {{ item.quantity }}</p>
             </div>
           </div>
           }

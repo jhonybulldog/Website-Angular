@@ -1,5 +1,5 @@
 import { Component, inject, signal } from "@angular/core";
-import { Cart, CartService } from "../carrello/cart.service";
+import { Cart, CartService , CartProduct} from "../carrello/cart.service";
 import {
   FormControl,
   FormGroup,
@@ -227,7 +227,7 @@ export class Checkout {
     const ordine = {
       id: Date.now(),
       data: new Date().toISOString(),
-      prodotti: this.prodotti(),
+      prodotti: cart.products,
       totale: cart.total + this.spedizione(),
       indirizzo: `${selezionato.via}, ${selezionato.cap} ${selezionato.citta} ${selezionato.provincia}`,
       metodoPagamento: metodo!,

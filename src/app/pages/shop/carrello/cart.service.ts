@@ -30,8 +30,7 @@ export class CartService {
   carrello = signal<ProdottiCarrello[]>([]);
   private http = inject(HttpClient);
   private url = "https://dummyjson.com/carts/";
-  private emptyCart: Cart = { id: 0, total: 0, products: [] };
-  private cart = new BehaviorSubject<Cart>(this.emptyCart);
+  private cart = new BehaviorSubject<Cart>({ id: 0, total: 0, products: [] });
   cart$ = this.cart.asObservable();
 
   constructor() {
@@ -41,11 +40,10 @@ export class CartService {
   loadCart() {
     const userId = localStorage.getItem("userId");
 
-    if (!userId) {
-      this.cart.next(this.emptyCart);
-      return;
-    }
-
+  if (!userId) {
+    this.cart.next({ id: 0, total: 0, products: [] });
+    return;
+  }
     this.http.get<Cart>(this.url + userId).subscribe((risposta) => {
       this.cart.next(risposta);
     });
@@ -93,9 +91,6 @@ export class CartService {
     this.carrello.set([]);
   }
   
-    getCart(): Cart {
-    return this.cart.value;
-  }
 
 
 }
