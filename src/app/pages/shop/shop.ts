@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal, computed , effect} from "@angular/core";
-import { Prodotti } from "./prodotti.service";
+import { Category, Prodotti, ProductDetails } from "./prodotti.service";
 import { Minicart } from "./minicart/minicart";
 import { Categoryselect } from "./categoryselect/categoryselect";
 import { Productcard } from "./productcard/productcard";
@@ -23,11 +23,11 @@ import { AsyncPipe } from "@angular/common";
 })
 export class Shop implements OnInit {
   private prodottiser = inject(Prodotti);
-  prodotti = this.prodottiser.prod;
+  prod = signal<ProductDetails[]>([]);
   categoriaSelezionata = signal<string>("");
-  categorie = computed(() => this.prodottiser.categorie());
+  categorie = signal<Category[]>([]);;
   order = signal({label: "", sortBy: "", order: ""});
-  totale = this.prodottiser.totaleProdotti;
+  totale = signal(0);
   loading$ = this.prodottiser.loading$;
   optionorder = [
     { label: "Ordina per..." , sortBy: "", order: ""},
@@ -37,12 +37,18 @@ export class Shop implements OnInit {
     { label: "Voto più basso", sortBy: "rating", order: "asc" },
   ];
   load(e: { limit: number; skip: number; search: string }) {
-    this.prodottiser.caricaProdotti(e.limit, e.skip, this.categoriaSelezionata(), e.search, this.order().order, this.order().sortBy);
+    this.prodottiser.caricaProdotti(e.limit, e.skip, this.categoriaSelezionata(), e.search, this.order().order, this.order().sortBy)
+          .subscribe((risposta) => {
+            this.prod.set(risposta.products);
+            this.totale.set(risposta.total);
+          });;
   }
 
   ngOnInit() {
     if (this.categorie().length === 0) {
-      this.prodottiser.caricaCategorie();
+      this.prodottiser.caricaCategorie().subscribe((risposta) => {
+        this.categorie.set(risposta);
+      });
     }
   }
 }

@@ -7,9 +7,8 @@ import {
 } from "@angular/forms";
 import { LoginService, User } from "./login/login.service";
 import { delay } from "rxjs";
-import { Prodotti, ProductDetails } from "../shop/prodotti.service";
+import { Category, Prodotti, ProductDetails } from "../shop/prodotti.service";
 import { RouterLink } from "@angular/router";
-import { validate } from "@angular/forms/signals";
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
@@ -29,7 +28,7 @@ export class Admin implements OnInit {
   change = "";
   categoriaSelezionata = signal<string>("");
 
-  prodotti = this.prodottiService.prod;
+  prodotti = signal<ProductDetails[]>([]);
   prodottoDaModificare: ProductDetails | null = null;
   creaform = new FormGroup({
     username: new FormControl("", [Validators.required]),
@@ -144,12 +143,8 @@ export class Admin implements OnInit {
         },
       });
   }
-  categorie = computed(() => [
-    ...new Set([
-      ...this.prodottiService.categorie().map((categoria) => categoria.name),
-      ...this.prodottiService.categorianuove(),
-    ]),
-  ]);
+  categorie = signal<Category[]>([]);
+
 
   selezionacategoria(categoria: string) {
     this.categoriaSelezionata.set(categoria);
@@ -159,11 +154,15 @@ export class Admin implements OnInit {
   ngOnInit() {
     this.caricaUtenti();
 
-      this.prodottiService.caricaProdotti(200,0);
+      this.prodottiService.caricaProdotti(200,0).subscribe((risposta) => {
+            this.prodotti.set(risposta.products);
+          });;
   
 
     if (this.categorie().length === 0) {
-      this.prodottiService.caricaCategorie();
+      this.prodottiService.caricaCategorie().subscribe((risposta) => {
+        this.categorie.set(risposta);
+      });
     }
   }
   elimina(username: string) {
@@ -190,15 +189,19 @@ export class Admin implements OnInit {
         category: this.productform.value.category!,
         rating: this.productform.value.rating!,
       };
-      this.prodottiService.aggiungiProdotto(nuovoProdotto);
-      console.log(this.prodottiService.prod());
+      this.prodottiService.aggiungiProdotto(nuovoProdotto).subscribe((create)=> {
+        this.prodotti.update((list) => [...list, create])
+      });
+      console.log(this.prodotti());
       this.productform.reset();
     }
   }
 
-  eliminaprodott(id: number) {
-    this.prodottiService.eliminaProdotto(id);
-  }
+eliminaprodott(id: number) {
+  this.prodottiService.eliminaProdotto(id).subscribe(() => {
+    this.prodotti.update((list) => list.filter((prodotto) => prodotto.id !== id))
+  });
+}
 
   modificaProdotti(prodotto: ProductDetails) {
     this.prodottoDaModificare = prodotto;
@@ -212,25 +215,29 @@ export class Admin implements OnInit {
     });
   }
 
-  salvaModifica() {
-    if (this.productform.valid && this.prodottoDaModificare !== null) {
-      const prodottoModificato: ProductDetails = {
-        id: this.prodottoDaModificare.id,
-        title: this.productform.value.title!,
-        description: this.productform.value.description!,
-        price: this.productform.value.price!,
-        thumbnail: this.productform.value.thumbnail!,
-        category: this.productform.value.category!,
-        rating: this.productform.value.rating!,
-      };
+ salvaModifica() {
+  if (this.productform.valid && this.prodottoDaModificare !== null) {
+    const id = this.prodottoDaModificare.id;
+    const prodottoModificato = {
+      title: this.productform.value.title!,
+      description: this.productform.value.description!,
+      price: this.productform.value.price!,
+      thumbnail: this.productform.value.thumbnail!,
+      category: this.productform.value.category!,
+      rating: this.productform.value.rating!,
+    };
 
-      this.prodottiService.modificaProdotto(prodottoModificato);
-
-      this.prodottoDaModificare = null;
-      this.productform.reset();
-    }
+    this.prodottiService
+      .aggiornaProdotto(id, prodottoModificato)
+      .subscribe((aggiornato) => {
+        this.prodotti.update((list) =>
+          list.map((prodotto) => (prodotto.id === id ? aggiornato : prodotto)),
+        );
+        this.prodottoDaModificare = null;
+        this.productform.reset();
+      });
   }
-
+}
   aggiungicategory() {
     if (this.categoryform.valid) {
       const categorianuova = this.categoryform.value.name!;

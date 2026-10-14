@@ -1,6 +1,6 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, inject, OnInit, signal } from "@angular/core";
 import { OrdiniService } from "../ordini.service";
-import { Prodotti } from "../prodotti.service";
+import { Category, Prodotti } from "../prodotti.service";
 import { DatePipe, AsyncPipe } from "@angular/common";
 import { PreferenzeService } from "../preferenze.service";
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -22,6 +22,7 @@ export class Dashboard implements OnInit {
   private prodottiService = inject(Prodotti);
   private fb = inject(FormBuilder);
   private favoritesService = inject(ProductFavorite);
+  categorie = signal<Category[]>([]);;
 
 
   favorites$ = this.favoritesService.favorites2$;
@@ -62,9 +63,7 @@ form = this.fb.group({
       .filter((_, i) => i !== index)
       .map((ctrl) => ctrl.get("categoria")?.value);
 
-    return this.prodottiService
-      .categorie()
-      .filter((c) => !slugscelti.includes(c.slug));
+   return this.categorie().filter((c) => !slugscelti.includes(c.slug));
   }
 
   salvaTutto() {
@@ -89,7 +88,9 @@ form = this.fb.group({
   }
 
   ngOnInit() {
-    this.prodottiService.caricaCategorie();
+    this.prodottiService.caricaCategorie().subscribe((risposta) => {
+        this.categorie.set(risposta);
+      });;
     this.preferenzeSalvate();
   }
 }

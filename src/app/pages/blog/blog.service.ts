@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
 export interface Author {
@@ -46,12 +46,10 @@ export interface CommentsResponse {
 
 @Injectable()
 export class BlogService {
-  blogpost = signal<Post[]>([]);
   private http = inject(HttpClient);
   private url = "https://dummyjson.com/posts";
-  totaleblog = signal(0);
   caricablog(limit: number, skip: number, order: string = "", sortBy: string ="", research: string = "") {
-    this.http
+   return  this.http
       .get<PostsResponse>(this.url, {
         params: {
           limit: limit,
@@ -61,10 +59,6 @@ export class BlogService {
           q: research,
         },
       })
-      .subscribe((risposta) => {
-        this.blogpost.set(risposta.posts);
-        this.totaleblog.set(risposta.total);
-      });
   }
   caricaPost(id: number) {
     return this.http.get<Post>(`${this.url}/${id}`);

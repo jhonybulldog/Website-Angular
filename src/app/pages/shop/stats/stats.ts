@@ -12,11 +12,13 @@ import { ChartConfiguration } from "chart.js";
   styleUrl: "./stats.css",
   templateUrl: "./stats.html",
 })
-export class Stats implements OnInit {
+export class Stats{
   private productser = inject(Prodotti);
   private ordiniser = inject(OrdiniService);
-  categories$ = toObservable(this.productser.categorie);
-  products$ = toObservable(this.productser.prod);
+  categories$ = this.productser.caricaCategorie();
+  products$ = this.productser
+    .caricaProdotti(200, 0)
+    .pipe(map((risposta) => risposta.products));
   orders$ = toObservable(this.ordiniser.ordini);
 
   avgPrice$ = combineLatest([this.products$, this.categories$]).pipe(
@@ -31,8 +33,14 @@ export class Stats implements OnInit {
     ),
   );
 
-  avgpiece$ = combineLatest([this.orders$, this.categories$, this.products$]).pipe(
-    map(([orders, categories, products]) => this.avgorder(orders, categories, products, "psold")),
+  avgpiece$ = combineLatest([
+    this.orders$,
+    this.categories$,
+    this.products$,
+  ]).pipe(
+    map(([orders, categories, products]) =>
+      this.avgorder(orders, categories, products, "psold"),
+    ),
   );
   metricoptions = [
     { label: "rating medio", shop$: this.avgRating$ },
@@ -78,7 +86,7 @@ export class Stats implements OnInit {
   ) {
     const items = orders.flatMap((order) => order.prodotti);
     const totals = categories.map((category) => {
-    const categoryItems = items.filter((item) => {
+      const categoryItems = items.filter((item) => {
         const product = products.find((p) => p.id === item.id);
         return product?.category === category.slug;
       });
@@ -108,8 +116,4 @@ export class Stats implements OnInit {
       return total;
     }),
   );
-  ngOnInit() {
-    this.productser.caricaProdotti(200, 0);
-    this.productser.caricaCategorie();
-  }
 }

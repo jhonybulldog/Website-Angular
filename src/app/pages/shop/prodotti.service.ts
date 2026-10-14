@@ -19,22 +19,16 @@ export interface Category {
   providedIn: "root",
 })
 export class Prodotti {
-  private nextid = 1;
   private http = inject(HttpClient);
-  prod = signal<ProductDetails[]>([]);
+
   categorianuove = signal<string[]>([]);
-  categorie = signal<Category[]>([]);
-  totaleProdotti = signal(0);
   private url = "https://dummyjson.com/products/";
   private loading = new BehaviorSubject<boolean>(false);
   loading$ = this.loading.asObservable();
 
   caricaCategorie() {
-    this.http
-      .get<Category[]>("https://dummyjson.com/products/categories")
-      .subscribe((risposta) => {
-        this.categorie.set(risposta);
-      });
+   return this.http
+      .get<Category[]>("https://dummyjson.com/products/categories");
   }
   caricaProdotti(
     limit: number,
@@ -46,14 +40,12 @@ export class Prodotti {
   ) {
     this.loading.next(true);
     let url = this.url;
-    
-
     if (research) {
       url = `${this.url}search`;
     } else if (categoria) {
       url = `${this.url}category/${categoria}`;
     }
-    this.http
+    return this.http
       .get<{ products: ProductDetails[]; total: number }>(url, {
         params: {
           limit: limit,
@@ -62,42 +54,23 @@ export class Prodotti {
           sortBy: sortBy,
           order: order,
         },
-      }).pipe(delay(2000))
-      .subscribe((risposta) => {
-        this.prod.set(risposta.products);
-        this.totaleProdotti.set(risposta.total);
-        this.loading.next(false);
-      });
+      }).pipe(delay(1000), finalize(()=> this.loading.next(false)))
   }
 
-  caricaProdotto(id: number) {
+  productdetail(id: number) {
     return this.http.get<ProductDetails>(`${this.url}${id}`);
   }
-  aggiornaProdotto(id: number, price: number, description: string) {
-    let url = `${this.url}${id}`;
-    return this.http.put<ProductDetails>(url, {
-      price: price,
-      description: description,
-    });
-  }
-  aggiungiProdotto(prodotto: ProductDetails) {
-    prodotto.id = this.nextid;
-    this.nextid++;
-    this.prod.set([...this.prod(), prodotto]);
-  }
+aggiornaProdotto(id: number, modifiche: Partial<ProductDetails>) {
+  return this.http.put<ProductDetails>(`${this.url}${id}`, modifiche);
+}
 
-  eliminaProdotto(id: number) {
-    this.prod.set(this.prod().filter((prodotto) => prodotto.id !== id));
-  }
+  aggiungiProdotto(prodotto: Omit<ProductDetails, "id">) {
+  return this.http.post<ProductDetails>(`${this.url}add`, prodotto);
+}
 
-  modificaProdotto(prodottoModificato: ProductDetails) {
-    this.prod.update((lista) =>
-      lista.map((p) =>
-        p.id === prodottoModificato.id ? prodottoModificato : p,
-      ),
-    );
-  }
-
+eliminaProdotto(id: number) {
+  return this.http.delete<ProductDetails>(`${this.url}${id}`);
+}
   aggiungicategoria(categoria: string) {
     this.categorianuove.set([...this.categorianuove(), categoria]);
   }

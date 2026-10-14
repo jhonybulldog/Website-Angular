@@ -48,7 +48,7 @@ this.carrello.addToCart(prodotto.id);
   salva(prezzo: string, descrizione: string) {
     const id = this.prodotto().id;
     this.prodottiser
-      .aggiornaProdotto(id, Number(prezzo), descrizione)
+      .aggiornaProdotto(id, {price: Number(prezzo), description: descrizione})
       .subscribe((prodotto) => {
         this.prodotto.set(prodotto);
       });
@@ -60,7 +60,7 @@ this.carrello.addToCart(prodotto.id);
   }
    ngOnInit(): void {
      this.productId$
-       .pipe(switchMap(id => this.prodottiser.caricaProdotto(id)))
+       .pipe(switchMap(id => this.prodottiser.productdetail(id)))
        .subscribe(prodotto => this.prodotto.set(prodotto));
    }
 }
