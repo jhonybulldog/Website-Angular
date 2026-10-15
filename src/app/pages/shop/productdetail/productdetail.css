@@ -211,7 +211,26 @@
 .cart-fab {
   display: none;
 }
+.drop-zone {
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 2px dashed var(--green-200);
+  border-radius: var(--radius-md);
+  color: var(--green-700);
+  text-align: center;
+}
 
+.drop-zone img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.drop-zone p {
+  margin: 0;
+}
 /* ---------- Tablet ---------- */
 @media (max-width: 1024px) {
   .container {

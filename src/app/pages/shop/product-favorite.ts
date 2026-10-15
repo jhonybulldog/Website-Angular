@@ -22,7 +22,7 @@ export class ProductFavorite {
     const exists = current.some((p) => p.id === product.id);
     if (exists) {
       this.favorites.next(current.filter((p) => p.id !== product.id));
-      this.notificationser.show(`prodotto tolto dai preferiti`);
+      this.notificationser.show(`prodotto tolto dai preferiti`, false);
     } else {
       this.favorites.next([
         ...current,
@@ -33,7 +33,7 @@ export class ProductFavorite {
           thumbnail: product.thumbnail,
         },
       ]);
-      this.notificationser.show(`prodotto aggiunto  hai preferiti`);
+      this.notificationser.show(`prodotto aggiunto  hai preferiti`, false);
     }
     localStorage.setItem("favorites", JSON.stringify(this.favorites.value));
   }

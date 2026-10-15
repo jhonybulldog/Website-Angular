@@ -21,24 +21,33 @@
   <a class="cart-fab" routerLink="/shop/cart">Carrello</a>
   <div class="product-sidebar">
     <app-minicart />
-    <button class="freccia" [class.chiuso]="this.ac()" (click)="aprichiudi()">clicca qui per aprire il menu di modifica del prodotto</button>
-      @if(this.ac()){
+    <button class="freccia" [class.chiuso]="this.ac()" (click)="aprichiudi()">
+      clicca qui per aprire il menu di modifica del prodotto
+    </button>
+    @if(this.ac()){
     <div class="edit-duct">
       <h3>Modifica prodotto</h3>
       <input #prezzo type="number" [value]="prodotto().price" />
       <textarea #descrizione [value]="prodotto().description"></textarea>
-      <input #image type="text" [value]="prodotto().thumbnail">
-      <button (click)="salva(prezzo.value, descrizione.value, image.value)">
+      <div
+        class="drop-zone"
+        (dragover)="$event.preventDefault()"
+        (drop)="onDrop($event)"
+      >
+        <img #image [src]="newImage || prodotto().thumbnail" />
+        <p>Trascina qui la nuova immagine</p>
+      </div>
+      <button (click)="salva(prezzo.value, descrizione.value)">
         Salva modifica
       </button>
-    </div>}
+    </div>
+    }
   </div>
   } @else {
   <div class="product-actions">
     <a class="add-to-cart" routerLink="/login">Accedi per acquistare</a>
   </div>
-  }
-  } @else {
+  } } @else {
   <div class="product-not-found">
     <h2>Prodotto non trovato</h2>
     <p>Il prodotto che stai cercando non esiste.</p>

@@ -1,13 +1,20 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, timer } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, timer } from "rxjs";
 
-@Injectable({providedIn: "root"})
+export interface toast {
+  text: string;
+  iserror: boolean;
+}
+
+@Injectable({ providedIn: "root" })
 export class NotificationService {
-    private message = new BehaviorSubject<string>("");
-    message$ = this.message.asObservable();
+  private message = new BehaviorSubject<toast | null>(null);
+  message$ = this.message.asObservable();
 
-    show(text: string){
-        this.message.next(text);
-        timer(2000).subscribe(() => this.message.next(""));
-      }
+  show(text: string, iserror: boolean) {
+    this.message.next({ text, iserror });
+    timer(2000).subscribe(() =>
+      this.message.next( null ),
+    );
+  }
 }

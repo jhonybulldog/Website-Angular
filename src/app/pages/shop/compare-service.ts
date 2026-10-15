@@ -25,7 +25,7 @@ export class CompareService {
       console.log("prodotto rimosso")
     }else if(current.length >= 4){
       //se sono gia presenti 4 prodotti notifica
-           this.notificationSer.show("Puoi confrontare al massimo 4 prodotti");
+           this.notificationSer.show("Puoi confrontare al massimo 4 prodotti", true);
     }else {
       //aggiungi
       this.products.next([...current, product])
