@@ -7,7 +7,7 @@ import { LoginService } from "../../admin/login/login.service";
 import { ProductFavorite } from "../product-favorite";
 import { AsyncPipe } from "@angular/common";
 import { NotificationService } from "../notification/notification-service";
-import { map, switchMap } from "rxjs";
+import { catchError, EMPTY, empty, map, switchMap } from "rxjs";
 @Component({
   imports: [RouterLink, Minicart, AsyncPipe],
   standalone: true,
@@ -22,12 +22,14 @@ export class Productdetail implements OnInit {
   private logginser = inject(LoginService);
   private favoritesService = inject(ProductFavorite);
   private notificationser = inject(NotificationService);
-  private productId$ = this.route.paramMap.pipe(map(params => Number(params.get("id"))))
+  private productId$ = this.route.paramMap.pipe(
+    map((params) => Number(params.get("id"))),
+  );
   isFavorite$ = this.productId$.pipe(
-     switchMap(id => this.favoritesService.isfavorite$(id))
-   );
+    switchMap((id) => this.favoritesService.isfavorite$(id)),
+  );
   cartprodotti = this.carrello.carrello;
-  ac = signal(false)
+  ac = signal(false);
   prodotto = signal<ProductDetails>({
     id: 0,
     title: "",
@@ -39,28 +41,37 @@ export class Productdetail implements OnInit {
   });
   loggedIn = this.logginser.loggedIn;
   aggiungicarrello(prodotto: ProductDetails) {
-this.carrello.addToCart(prodotto.id);
+    this.carrello.addToCart(prodotto.id);
   }
-    aprichiudi() {
+  aprichiudi() {
     this.ac.update((aperto) => !aperto);
   }
 
-  salva(prezzo: string, descrizione: string) {
+  salva(prezzo: string, descrizione: string, image: string) {
     const id = this.prodotto().id;
     this.prodottiser
-      .aggiornaProdotto(id, {price: Number(prezzo), description: descrizione})
-      .subscribe((prodotto) => {
-        this.prodotto.set(prodotto);
+      .aggiornaProdotto(id, {
+        price: Number(prezzo),
+        description: descrizione,
+        thumbnail: image,
+      })
+      .subscribe({
+        next: (prodotto) => {
+          this.prodotto.set(prodotto);
+          this.notificationser.show("prodotto modificato");
+        },
+        error: () => {
+          this.notificationser.show("prodotto non modificato errore");
+        },
       });
-        this.notificationser.show(`prodotto modificato`);
   }
 
   toggleFavorite() {
     this.favoritesService.toggle(this.prodotto());
   }
-   ngOnInit(): void {
-     this.productId$
-       .pipe(switchMap(id => this.prodottiser.productdetail(id)))
-       .subscribe(prodotto => this.prodotto.set(prodotto));
-   }
+  ngOnInit(): void {
+    this.productId$
+      .pipe(switchMap((id) => this.prodottiser.productdetail(id)))
+      .subscribe((prodotto) => this.prodotto.set(prodotto));
+  }
 }

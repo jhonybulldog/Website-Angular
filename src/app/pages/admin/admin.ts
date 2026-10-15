@@ -156,7 +156,7 @@ export class Admin implements OnInit {
 
       this.prodottiService.caricaProdotti(200,0).subscribe((risposta) => {
             this.prodotti.set(risposta.products);
-          });;
+          });
   
 
     if (this.categorie().length === 0) {

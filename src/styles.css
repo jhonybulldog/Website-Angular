@@ -37,6 +37,8 @@
   --red-300: #fca5a5;
   --red-600: #dc2626;
   --red-700: #b91c1c;
+  --red-800: #991b1b;
+  --red-950: #2a1215;
   --amber-500: #f59e0b;
   --amber-600: #d97706;
   --rose-50: #fff1f2;
@@ -517,7 +519,8 @@ app-sort-select select {
 /* =========================================================
    PAGINE UTENTE: dashboard e statistiche
    ========================================================= */
-app-dashboard .container,
+/* ">" e non lo spazio: anche le card blog della dashboard hanno un .container */
+app-dashboard > .container,
 .stats-page {
   max-width: 1100px;
   margin: var(--page-top) auto 60px;
@@ -542,30 +545,6 @@ app-dashboard .container,
   }
 }
 
-/* bottoni "outline": il colore lo decide la classe del bottone (currentColor) */
-:is(app-dashboard, app-stats) button {
-  padding: 0.6rem 1.1rem;
-  border: 1px solid currentColor;
-  border-radius: var(--radius-md);
-  background: var(--white);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color var(--transition), transform var(--transition);
-
-  &:hover {
-    transform: translateY(-1px);
-  }
-}
-
-.btn-add,
-.btn-add-categoria {
-  color: var(--green-700);
-
-  &:hover {
-    background: var(--green-50);
-  }
-}
 .loading {
   display: flex;
   align-items: center;
@@ -586,23 +565,6 @@ app-dashboard .container,
   to {
     transform: rotate(360deg);
   }
-}
-.btn-remove,
-.btn-rimuovi-categoria,
-.tabella-preferiti button {
-  color: var(--red-600);
-
-  &:hover {
-    background: var(--red-50);
-  }
-}
-
-/* "✕" quadrato accanto al select */
-.btn-remove,
-.btn-rimuovi-categoria {
-  flex-shrink: 0;
-  width: 2.5rem;
-  padding: 0;
 }
 
 /* =========================================================

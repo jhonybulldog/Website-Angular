@@ -27,7 +27,8 @@
       <h3>Modifica prodotto</h3>
       <input #prezzo type="number" [value]="prodotto().price" />
       <textarea #descrizione [value]="prodotto().description"></textarea>
-      <button (click)="salva(prezzo.value, descrizione.value)">
+      <input #image type="text" [value]="prodotto().thumbnail">
+      <button (click)="salva(prezzo.value, descrizione.value, image.value)">
         Salva modifica
       </button>
     </div>}

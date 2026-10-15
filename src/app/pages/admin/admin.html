@@ -140,7 +140,7 @@
       >
         <option value="" disabled selected>Seleziona una categoria...</option>
         @for (categoria of categorie(); track categoria) {
-        <option [value]="categoria">{{ categoria }}</option>
+        <option [value]="categoria.slug">{{ categoria.name }}</option>
         }
       </select>
       @if(productform.get('category')?.invalid &&

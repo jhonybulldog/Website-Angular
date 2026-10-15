@@ -60,6 +60,10 @@ export class BlogService {
         },
       })
   }
+  loadUserPosts() {
+  const userId = localStorage.getItem("userId");
+  return this.http.get<PostsResponse>(`${this.url}/user/${userId}`);
+  }
   caricaPost(id: number) {
     return this.http.get<Post>(`${this.url}/${id}`);
   }

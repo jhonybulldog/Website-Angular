@@ -8,11 +8,15 @@ import { LoginService } from "../../admin/login/login.service";
 import { FavoriteProduct, ProductFavorite } from "../product-favorite";
 import { ProductDetails } from "../prodotti.service";
 import { RouterLink } from "@angular/router";
+import { BlogService } from "../../blog/blog.service";
+import { map } from "rxjs";
+import { Blogcard } from "../../blog/blogcard/blogcard";
 @Component({
-  imports: [DatePipe, ReactiveFormsModule, AsyncPipe, RouterLink],
+  imports: [DatePipe, ReactiveFormsModule, AsyncPipe, RouterLink, Blogcard],
   selector: "app-dashboard",
   styleUrl: "./dashboard.css",
   templateUrl: "./dashboard.html",
+  providers: [BlogService]
 })
 export class Dashboard implements OnInit {
   private ordiniService = inject(OrdiniService);
@@ -23,7 +27,8 @@ export class Dashboard implements OnInit {
   private fb = inject(FormBuilder);
   private favoritesService = inject(ProductFavorite);
   categorie = signal<Category[]>([]);;
-
+private blogService = inject(BlogService);
+userPosts$ = this.blogService.loadUserPosts().pipe(map((response) => response.posts));
 
   favorites$ = this.favoritesService.favorites2$;
 

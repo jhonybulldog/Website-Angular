@@ -50,6 +50,18 @@
   animation: toast-spunta var(--transition-slow) 0.15s both;
 }
 
+/* variante errore: stesso toast ma rosso, con la X al posto della spunta.
+   Classe dedicata e non .error, che è già globale per i messaggi dei form */
+.toast-errore {
+  border-color: var(--red-800);
+  background: var(--red-950);
+}
+
+.toast-errore::before {
+  content: "✕";
+  background: linear-gradient(135deg, var(--red-600), var(--red-700));
+}
+
 @keyframes toast-in {
   from {
     opacity: 0;
