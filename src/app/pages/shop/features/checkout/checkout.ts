@@ -2,7 +2,6 @@ import { Component, inject, signal } from "@angular/core";
 import {  CartService } from "../../service/cart.service";
 import { Cart } from "../../models/cart.model";
 import {
-  Form,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -12,6 +11,7 @@ import { OrdiniService } from "../../service/ordini.service";
 import { Router } from "@angular/router";
 import { AsyncPipe, DecimalPipe } from "@angular/common";
 import { map } from "rxjs";
+import { NotificationService } from "../../../../core/notification/notification-service";
 interface Indirizzo {
   id: number;
   nome: string;
@@ -31,6 +31,7 @@ interface Indirizzo {
 export class Checkout {
   private carrelloser = inject(CartService);
   private route = inject(Router);
+  private notificationser = inject(NotificationService)
   cart$ = this.carrelloser.cart$;
   metodoPagamento = signal("");
   prodotti = this.carrelloser.carrello;
@@ -260,7 +261,8 @@ export class Checkout {
     this.ordiniser.salvaOrdine(ordine);
     this.carrelloser.svuotacarrello();
     this.ordineConfermato.set(true);
+    this.notificationser.show("ORDINE COMPLETATO!!", false)
 
-    this.route.navigate(["/dashboard"]);
+    this.route.navigate(["/dashboard/lastp"]);
   }
 }
