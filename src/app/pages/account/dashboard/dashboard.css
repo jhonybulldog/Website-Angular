@@ -1,40 +1,39 @@
 /* Dashboard utente: contenitore e h1 (condivisi con le statistiche) in styles.css */
 
 /* block come le altre pagine: il tag del componente di default è inline.
-   --pad: stesso respiro per le sezioni e per la testata delle preferenze */
+   --pad: stesso respiro per tutte le sezioni; i componenti figli
+   (ultimi acquisti, preferenze, preferiti, blog) lo ereditano */
 :host {
   display: block;
   --pad: clamp(1.25rem, 4vw, 2rem);
 }
 
+/* titolo e profilo a tutta riga, sotto i collegamenti in due colonne
+   (una sul telefono): con meno di 380px liberi min(100%, …) stringe la colonna */
 .dashboard-container {
   display: grid;
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 1.25rem;
+}
+
+/* + il gap = 2rem tra titolo, profilo e collegamenti; 1.25rem tra i collegamenti */
+.dashboard-container > :is(h1, section) {
+  grid-column: 1 / -1;
+  margin-bottom: 0.75rem;
 }
 
 /* ===== Titoli ===== */
-h2,
-h3 {
+h2 {
+  margin-bottom: 1.5rem;
   color: var(--gray-900);
   font-size: var(--text-lg);
   font-weight: 700;
   letter-spacing: -0.02em;
 }
 
-h2 {
-  margin-bottom: 1.5rem;
-}
-
-p {
-  margin: 0.4rem 0;
-}
-
 /* ===== Card (sezioni + elementi interni) ===== */
 section,
-.ordine,
-.dato-utente,
-.prodotto-acquistato,
-.categoria-preferenza {
+.dato-utente {
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-lg);
   background: var(--white);
@@ -47,82 +46,19 @@ section {
   box-shadow: var(--shadow-sm);
 }
 
-.ordine:hover,
-.dato-utente:hover,
-.categoria-preferenza:hover {
+.dato-utente:hover {
   border-color: var(--green-500);
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
 
 /* etichette piccole maiuscole */
-.dato-utente strong,
-.tabella-preferiti th {
+.dato-utente strong {
   color: var(--gray-500);
   font-size: var(--text-xs);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-/* miniature prodotto: flex-shrink: 0 perché nella riga
-   dell'ordine un titolo lungo non schiacci l'immagine */
-.prodotto-acquistato img,
-.tabella-preferiti img {
-  display: block;
-  flex-shrink: 0;
-  width: 60px;
-  height: 60px;
-  padding: 4px;
-  object-fit: contain;
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius-md);
-  background: var(--white);
-}
-
-/* griglie di card (preferenze e blog): con meno di 300px liberi
-   min(100%, …) stringe la colonna invece di farla uscire dalla sezione */
-.lista-categorie,
-.posts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-  gap: 1.25rem;
-}
-
-/* ===== Bottoni ===== */
-/* "outline": bordo e testo prendono il colore della classe (currentColor) */
-button {
-  padding: 0.6rem 1.1rem;
-  border: 1px solid currentColor;
-  border-radius: var(--radius-md);
-  background: var(--white);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color var(--transition), transform var(--transition);
-}
-
-button:hover {
-  transform: translateY(-1px);
-}
-
-.btn-add-categoria {
-  color: var(--green-700);
-}
-
-.btn-add-categoria:hover {
-  background: var(--green-50);
-}
-
-/* "✕" delle preferenze e "Rimuovi" dei preferiti */
-.btn-rimuovi-categoria,
-.tabella-preferiti button {
-  color: var(--red-600);
-}
-
-.btn-rimuovi-categoria:hover,
-.tabella-preferiti button:hover {
-  background: var(--red-50);
 }
 
 /* ===== Profilo ===== */
@@ -168,190 +104,57 @@ button:hover {
   font-weight: 600;
 }
 
-/* ===== Ultimi acquisti ===== */
-.ordine {
-  padding: 1.5rem;
-}
-
-.ordine + .ordine {
-  margin-top: 1.25rem;
-}
-
-.ordine h3 {
-  padding-bottom: 0.6rem;
-  border-bottom: 1px dashed var(--gray-200);
-  color: var(--green-700);
-}
-
-.prodotti-ordine {
-  display: grid;
-  gap: 0.85rem;
-  margin-top: 1.25rem;
-  padding-top: 1.1rem;
-  border-top: 1px solid var(--gray-100);
-}
-
-.prodotto-acquistato {
+/* ===== Collegamenti alle sezioni ===== */
+/* card cliccabile: testo e freccia */
+a[routerlink] {
   display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  padding: 0.85rem 1.1rem;
-  background: var(--gray-50);
-}
-
-.prodotto-acquistato strong {
-  color: var(--gray-900);
-  font-weight: 600;
-}
-
-.prodotto-acquistato p {
-  margin: 0.2rem 0 0;
-  font-size: var(--text-sm);
-}
-
-/* ===== Preferenze categorie ===== */
-/* il padding lo ha la testata cliccabile, così il suo hover arriva ai bordi;
-   overflow: hidden lo taglia sugli angoli arrotondati */
-.preferenze-categorie {
-  padding: 0;
-  overflow: hidden;
-}
-
-.intestazione-toggle {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  padding: var(--pad);
-  cursor: pointer;
-  user-select: none;
-  transition: background-color var(--transition);
-}
-
-.intestazione-toggle:hover {
-  background: var(--gray-50);
-}
-
-.intestazione-toggle h2 {
-  margin: 0;
-}
-
-.freccia {
-  padding: 0.4rem 0.9rem;
-  border-radius: var(--radius-full);
-  background: var(--green-100);
-  color: var(--green-700);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  white-space: nowrap;
-  transition: background-color var(--transition), color var(--transition);
-}
-
-/* form aperto: pillola grigia */
-.freccia.chiuso {
-  background: var(--gray-100);
-  color: var(--gray-500);
-}
-
-.intestazione-toggle:hover .freccia {
-  background: var(--green-700);
-  color: var(--white);
-}
-
-.contenuto-form {
-  padding: 1.5rem var(--pad) var(--pad);
-  border-top: 1px solid var(--gray-100);
-  animation: comparsa var(--transition-slow);
-}
-
-@keyframes comparsa {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-}
-
-.categoria-preferenza {
-  display: grid;
-  gap: 0.75rem;
-  padding: 1.25rem;
-}
-
-.form-gruppo-controlli {
-  display: flex;
-  gap: 0.5rem;
-}
-
-/* bordo e focus in styles.css (CAMPI).
-   min-width: 0: nel flex il select si stringe invece di spingere fuori il ✕ */
-select {
-  flex: 1;
-  min-width: 0;
-  padding: 0.65rem 2.25rem 0.65rem 0.9rem;
-  background: var(--gray-50)
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2310b981' stroke-width='2.5'%3E%3Cpath d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")
-    no-repeat right 0.75rem center / 1rem;
-  color: var(--gray-900);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  appearance: none;
-  cursor: pointer;
-}
-
-/* "✕" quadrato accanto al select */
-.btn-rimuovi-categoria {
-  flex-shrink: 0;
-  width: 2.5rem;
-  padding: 0;
-}
-
-.azioni-preferenze {
-  margin-top: 1.5rem;
-}
-
-/* ===== Preferiti ===== */
-.tabella-preferiti {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.tabella-preferiti :is(th, td) {
-  padding: 0.75rem;
-  border-bottom: 1px solid var(--gray-200);
-  text-align: left;
-  vertical-align: middle;
-}
-
-.tabella-preferiti tr:last-child td {
-  border-bottom: 0;
-}
-
-/* colonna prezzo */
-.tabella-preferiti td:nth-child(3) {
-  color: var(--green-700);
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-/* "Rimuovi" allineato a destra */
-.tabella-preferiti td:last-child {
-  text-align: right;
-}
-
-.tabella-preferiti a {
+  padding: 1.15rem 1.35rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
   color: var(--gray-900);
   font-weight: 600;
+  line-height: 1.4;
   text-decoration: none;
-  transition: color var(--transition);
+  cursor: pointer;
+  transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
 }
 
-.tabella-preferiti a:hover {
+a[routerlink]:hover {
+  border-color: var(--green-500);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* freccia a destra, disegnata con due bordi: al passaggio scivola in avanti */
+a[routerlink]::after {
+  content: "";
+  flex-shrink: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-left: auto;
+  border-top: 2px solid var(--gray-400);
+  border-right: 2px solid var(--gray-400);
+  transform: rotate(45deg);
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+a[routerlink]:hover::after {
+  border-color: var(--green-700);
+  transform: translateX(4px) rotate(45deg);
+}
+
+/* pagina corrente (routerLinkActive): come nella navbar, verde fisso */
+a[routerlink].active {
+  border-color: var(--green-500);
+  background: var(--green-50);
+  box-shadow: var(--ring);
   color: var(--green-700);
 }
 
-/* su telefono via la colonna immagine: la tabella non ci starebbe */
-@media (max-width: 600px) {
-  .tabella-preferiti :is(th, td):first-child {
-    display: none;
-  }
+a[routerlink].active::after {
+  border-color: var(--green-700);
 }

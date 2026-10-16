@@ -1,0 +1,175 @@
+/* Preferenze categorie: titolo con interruttore apri/chiudi,
+   sotto una card con una riga per preferenza.
+   Contenitore della pagina e titolo in styles.css (PAGINE UTENTE) */
+
+/* ===== Testata apri/chiudi ===== */
+.intestazione-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* lo stacco sotto lo dà già la testata */
+h2 {
+  margin: 0;
+}
+
+.freccia {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-full);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  color: var(--gray-600);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: border-color var(--transition), background-color var(--transition), color var(--transition);
+}
+
+/* freccina disegnata con due bordi: in giù a form chiuso */
+.freccia::after {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform var(--transition);
+}
+
+.intestazione-toggle:hover .freccia {
+  border-color: var(--green-500);
+  color: var(--green-700);
+}
+
+/* .chiuso c'è quando formapertochiuso() è true, cioè a form APERTO:
+   pillola verde e freccina in su */
+.freccia.chiuso {
+  border-color: var(--green-200);
+  background: var(--green-50);
+  color: var(--green-700);
+}
+
+.freccia.chiuso::after {
+  transform: translateY(2px) rotate(-135deg);
+}
+
+/* ===== Card del form ===== */
+.contenuto-form {
+  padding: var(--pad);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  animation: comparsa var(--transition-slow);
+}
+
+@keyframes comparsa {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+/* righe e bottone "+ Add" con lo stesso stacco */
+form,
+.lista-categorie {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* nessuna preferenza: la lista vuota non lascia uno spazio sopra "+ Add" */
+.lista-categorie:not(:has(.categoria-preferenza)) {
+  display: none;
+}
+
+/* ===== Riga di una preferenza ===== */
+/* categoria e livello affiancati; sotto i 500px circa uno sopra l'altro */
+.categoria-preferenza {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 0.75rem;
+  padding: 0.85rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--gray-50);
+  transition: border-color var(--transition), background-color var(--transition);
+}
+
+.categoria-preferenza:hover,
+.categoria-preferenza:focus-within {
+  border-color: var(--green-200);
+  background: var(--white);
+}
+
+.form-gruppo-controlli {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* bordo, hover e focus in styles.css (CAMPI).
+   min-width: 0: nel flex il select si stringe invece di spingere fuori il ✕ */
+select {
+  flex: 1;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0.6rem 2.25rem 0.6rem 0.9rem;
+  background: var(--white)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2310b981' stroke-width='2.5'%3E%3Cpath d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")
+    no-repeat right 0.75rem center / 1rem;
+  color: var(--gray-900);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* ===== Bottoni ===== */
+/* "✕": quadrato grigio, rosso solo al passaggio. Nel flex prende l'altezza del select */
+.btn-rimuovi-categoria {
+  flex-shrink: 0;
+  width: 2.75rem;
+  padding: 0;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  color: var(--gray-500);
+  font-size: var(--text-base);
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color var(--transition), background-color var(--transition), color var(--transition);
+}
+
+.btn-rimuovi-categoria:hover {
+  border-color: var(--red-300);
+  background: var(--red-50);
+  color: var(--red-600);
+}
+
+/* "+ Add": riga tratteggiata, come uno spazio vuoto da riempire */
+.btn-add-categoria {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1.5px dashed var(--gray-300);
+  border-radius: var(--radius-lg);
+  background: transparent;
+  color: var(--green-700);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color var(--transition), background-color var(--transition);
+}
+
+.btn-add-categoria:hover {
+  border-color: var(--green-500);
+  background: var(--green-50);
+}

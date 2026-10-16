@@ -1,0 +1,145 @@
+/* Prodotti preferiti: tabella dentro una card.
+   Contenitore della pagina, titolo e messaggio "nessun preferito"
+   in styles.css (PAGINE UTENTE) */
+
+/* ===== Tabella ===== */
+/* separate + border-spacing 0: con collapse il bordo arrotondato non si vede */
+.tabella-preferiti {
+  --r: var(--radius-lg);
+  width: 100%;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--r);
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+
+.tabella-preferiti :is(th, td) {
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid var(--gray-100);
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* intestazione: etichette piccole maiuscole su fascia grigia */
+.tabella-preferiti th {
+  border-bottom-color: var(--gray-200);
+  background: var(--gray-50);
+  color: var(--gray-500);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tabella-preferiti tr:last-child td {
+  border-bottom: 0;
+}
+
+.tabella-preferiti td {
+  transition: background-color var(--transition);
+}
+
+.tabella-preferiti tbody tr:hover td {
+  background: var(--gray-50);
+}
+
+/* angoli: gli sfondi delle celle d'angolo seguono il bordo arrotondato */
+.tabella-preferiti th:first-child {
+  border-top-left-radius: var(--r);
+}
+
+.tabella-preferiti th:last-child {
+  border-top-right-radius: var(--r);
+}
+
+.tabella-preferiti tr:last-child td:first-child {
+  border-bottom-left-radius: var(--r);
+}
+
+.tabella-preferiti tr:last-child td:last-child {
+  border-bottom-right-radius: var(--r);
+}
+
+/* colonne immagine e "Rimuovi": width 1% le stringe al contenuto,
+   lo spazio libero va tutto al nome del prodotto */
+.tabella-preferiti :is(th, td):first-child,
+.tabella-preferiti :is(th, td):last-child {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.tabella-preferiti td:last-child {
+  text-align: right;
+}
+
+.tabella-preferiti img {
+  display: block;
+  width: 56px;
+  height: 56px;
+  padding: 4px;
+  object-fit: contain;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  background: var(--white);
+}
+
+.tabella-preferiti a {
+  color: var(--gray-900);
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.tabella-preferiti a:hover {
+  color: var(--green-700);
+}
+
+/* colonna prezzo: cifre della stessa larghezza, si allineano in colonna */
+.tabella-preferiti td:nth-child(3) {
+  color: var(--green-700);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ===== Bottone "Rimuovi" ===== */
+/* discreto finché non ci passi sopra: è un'azione distruttiva, non la principale */
+button {
+  padding: 0.5rem 0.95rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  color: var(--red-600);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--transition), background-color var(--transition);
+}
+
+button:hover {
+  border-color: var(--red-300);
+  background: var(--red-50);
+}
+
+/* su telefono via la colonna immagine e celle più strette: la tabella non ci starebbe */
+@media (max-width: 600px) {
+  .tabella-preferiti :is(th, td):first-child {
+    display: none;
+  }
+
+  .tabella-preferiti :is(th, td) {
+    padding: 0.75rem;
+  }
+
+  /* la prima colonna visibile ora è "Prodotto": prende lei gli angoli */
+  .tabella-preferiti th:nth-child(2) {
+    border-top-left-radius: var(--r);
+  }
+
+  .tabella-preferiti tr:last-child td:nth-child(2) {
+    border-bottom-left-radius: var(--r);
+  }
+}

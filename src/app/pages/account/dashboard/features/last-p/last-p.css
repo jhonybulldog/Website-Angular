@@ -1,0 +1,127 @@
+/* Ultimi acquisti: un ordine = una card con testata grigia (numero, data,
+   totale, indirizzo, pagamento) e sotto l'elenco dei prodotti.
+   Contenitore della pagina e titolo in styles.css (PAGINE UTENTE) */
+
+.ultimi-acquisti {
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* il gap della griglia c'è già: qui solo lo stacco in più sotto il titolo */
+h2 {
+  margin-bottom: 0.5rem;
+}
+
+/* ===== Card dell'ordine ===== */
+/* flex a capo: numero ordine e prodotti a tutta riga, i quattro <p> affiancati
+   finché c'è spazio (sul telefono uno sotto l'altro). Flex e non grid: con
+   auto-fit le colonne vuote resterebbero bianche in fondo alla fascia grigia */
+.ordine {
+  --x: clamp(1rem, 3vw, 1.5rem);
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.ordine:hover {
+  border-color: var(--green-200);
+  box-shadow: var(--shadow-md);
+}
+
+/* testata: stesso sfondo su titolo e dati, senza gap tra le celle,
+   così sembra un'unica fascia */
+.ordine > h3,
+.ordine > p {
+  background: var(--gray-50);
+}
+
+.ordine > h3 {
+  flex: 0 0 100%;
+  margin: 0;
+  padding: 1rem var(--x) 0.5rem;
+  color: var(--green-700);
+  font-size: var(--text-base);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* padding verticale corto: sul telefono le righe restano vicine.
+   Il respiro in fondo alla fascia lo dà l'ultimo <p>: le altre celle
+   della stessa riga si allungano alla sua altezza */
+.ordine > p {
+  flex: 1 1 200px;
+  margin: 0;
+  padding: 0.2rem var(--x);
+  color: var(--gray-600);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.ordine > p:last-of-type {
+  padding-bottom: 1rem;
+}
+
+/* "Totale" (secondo <p> del template) in evidenza */
+.ordine > p:nth-of-type(2) {
+  color: var(--gray-900);
+  font-weight: 700;
+}
+
+/* ===== Prodotti dell'ordine ===== */
+.prodotti-ordine {
+  flex: 0 0 100%;
+  display: grid;
+  padding: 0.35rem var(--x);
+  border-top: 1px solid var(--gray-200);
+}
+
+.prodotto-acquistato {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 0;
+}
+
+.prodotto-acquistato + .prodotto-acquistato {
+  border-top: 1px solid var(--gray-100);
+}
+
+/* flex-shrink: 0 perché un titolo lungo non schiacci l'immagine */
+.prodotto-acquistato img {
+  display: block;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  padding: 6px;
+  object-fit: contain;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  background: var(--white);
+}
+
+/* titolo sopra, prezzo e quantità sulla stessa riga sotto.
+   min-width: 0 lascia andare a capo i titoli lunghi */
+.prodotto-acquistato > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 1.25rem;
+  min-width: 0;
+}
+
+.prodotto-acquistato strong {
+  flex-basis: 100%;
+  color: var(--gray-900);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.prodotto-acquistato p {
+  margin: 0;
+  color: var(--gray-500);
+  font-size: var(--text-sm);
+}

@@ -1,0 +1,59 @@
+<app-dashboard></app-dashboard>
+ <section class="preferenze-categorie">
+      <div class="intestazione-toggle" (click)="preferenzeserv.alternaForm()">
+        <h2>Preferenze categorie</h2>
+        <span class="freccia" [class.chiuso]="preferenzeserv.formapertochiuso()"
+          >apri/chiudi</span
+        >
+      </div>
+
+      @if (preferenzeserv.formapertochiuso()) {
+      <div class="contenuto-form">
+        <form [formGroup]="form" (change)="salvaTutto()">
+          <div class="lista-categorie" formArrayName="preferenze">
+            @for (riga of preferenzeFormArray.controls; track $index; let i =
+            $index) {
+            <div [formGroupName]="i" class="categoria-preferenza">
+              <div class="form-gruppo-controlli">
+                <select formControlName="categoria">
+                  <option value="">Seleziona categoria</option>
+                  @for (categoria of categorieDisponibili(i); track
+                  categoria.slug) {
+                  <option [value]="categoria.slug">{{ categoria.name }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="form-gruppo-controlli">
+                <select formControlName="preferenza">
+                  <option value="">Seleziona preferenza</option>
+                  <option value="Bassa">Bassa</option>
+                  <option value="Media">Media</option>
+                  <option value="Alta">Alta</option>
+                </select>
+
+                <button
+                  type="button"
+                  class="btn-rimuovi-categoria"
+                  (click)="rimuoviRiga(i)"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+            }
+          </div>
+
+          <div class="azioni-preferenze">
+            <button
+              type="button"
+              class="btn-add-categoria"
+              (click)="aggiungiRiga()"
+            >
+              + Add
+            </button>
+          </div>
+        </form>
+      </div>
+      }
+      </section>

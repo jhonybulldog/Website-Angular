@@ -1,0 +1,11 @@
+/* I miei blog: griglia di card (stile delle card in styles.css e in blogcard).
+   Contenitore della pagina, titolo e messaggio "nessun blog"
+   in styles.css (PAGINE UTENTE) */
+
+/* con meno di 300px liberi min(100%, …) stringe la colonna
+   invece di farla uscire dalla pagina */
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 1.5rem;
+}

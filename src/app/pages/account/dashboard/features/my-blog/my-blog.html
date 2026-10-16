@@ -1,0 +1,14 @@
+<app-dashboard></app-dashboard>
+<section class="user-posts">
+  <h2>I miei blog</h2>
+
+  @if (userPosts$ | async; as posts) { @if (posts.length > 0) {
+  <div class="posts-grid">
+    @for (post of posts; track post.id) {
+    <app-blogcard [blog]="post"></app-blogcard>
+    }
+  </div>
+  } @else {
+  <p>Non hai ancora pubblicato blog.</p>
+  } }
+</section>

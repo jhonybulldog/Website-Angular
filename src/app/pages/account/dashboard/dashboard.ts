@@ -1,102 +1,19 @@
 import { Component, inject, OnInit, signal } from "@angular/core";
-import { OrdiniService } from "../../shop/service/ordini.service";
-import { ProdottiService } from "../../shop/service/prodotti.service";
-import { Category } from "../../shop/models/prodotti.model";
-import { DatePipe, AsyncPipe } from "@angular/common";
-import { PreferenzeService } from "../../shop/service/preferenze.service";
-import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { LoginService } from "../../../core/login/service/login.service";
-import { ProductFavorite } from "../../shop/service/product-favorite";
-import { FavoriteProduct } from "../../shop/models/product-favorite.model";
-import { RouterLink } from "@angular/router";
 import { BlogService } from "../../blog/service/blog.service";
-import { map } from "rxjs";
-import { Blogcard } from "../../blog/components/blogcard/blogcard";
+import { RouterLink, RouterLinkActive } from "@angular/router";
 @Component({
-  imports: [DatePipe, ReactiveFormsModule, AsyncPipe, RouterLink, Blogcard],
+  imports: [RouterLink, RouterLinkActive],
   selector: "app-dashboard",
   styleUrl: "./dashboard.css",
   templateUrl: "./dashboard.html",
-  providers: [BlogService]
+  providers: [BlogService],
 })
-export class Dashboard implements OnInit {
-  private ordiniService = inject(OrdiniService);
-  ordini = this.ordiniService.ordini;
-
+export class dashboard {
   private loginser = inject(LoginService);
-  private prodottiService = inject(ProdottiService);
-  private fb = inject(FormBuilder);
-  private favoritesService = inject(ProductFavorite);
-  categorie = signal<Category[]>([]);;
-private blogService = inject(BlogService);
-userPosts$ = this.blogService.loadUserPosts().pipe(map((response) => response.posts));
 
-  favorites$ = this.favoritesService.favorites2$;
 
   nomeUtente = this.loginser.usernameLoggato;
 
   immagineProfilo = "/profile.png";
-
-  readonly preferenzeserv = inject(PreferenzeService);
-
-form = this.fb.group({
-  preferenze: this.fb.array<ReturnType<typeof this.creaRiga>>([]),
-});
-
-  get preferenzeFormArray(): FormArray {
-    return this.form.controls.preferenze;
-  }
-
-  private creaRiga(categoria = "", preferenza = "") {
-    return this.fb.group({
-      categoria: [categoria, Validators.required],
-      preferenza: [preferenza, Validators.required],
-    });
-  }
-  removeFavorite(product: FavoriteProduct) {
-    this.favoritesService.toggle(product);
-  }
-  aggiungiRiga() {
-    this.preferenzeFormArray.push(this.creaRiga());
-  }
-
-  rimuoviRiga(index: number) {
-    this.preferenzeFormArray.removeAt(index);
-  }
-
-  categorieDisponibili(index?: number) {
-    const slugscelti = this.preferenzeFormArray.controls
-      .filter((_, i) => i !== index)
-      .map((ctrl) => ctrl.get("categoria")?.value);
-
-   return this.categorie().filter((c) => !slugscelti.includes(c.slug));
-  }
-
-  salvaTutto() {
-    const mappa: { [categoria: string]: string } = {};
-    for (const item of this.preferenzeFormArray.value) {
-      if (item.categoria && item.preferenza) {
-        mappa[item.categoria] = item.preferenza;
-      }
-    }
-    this.preferenzeserv.salvaTutteLePreferenze(mappa);
-    console.log("[DEBUG] Preferenze salvate manualmente:", mappa);
-  }
-
-  preferenzeSalvate() {
-    this.preferenzeFormArray.clear();
-    const salvate = this.preferenzeserv.tutteLePreferenze();
-    for (const categoria of Object.keys(salvate)) {
-      this.preferenzeFormArray.push(
-        this.creaRiga(categoria, salvate[categoria])
-      );
-    }
-  }
-
-  ngOnInit() {
-    this.prodottiService.caricaCategorie().subscribe((risposta) => {
-        this.categorie.set(risposta);
-      });;
-    this.preferenzeSalvate();
-  }
 }

@@ -1,0 +1,37 @@
+    <app-dashboard></app-dashboard>
+    <section class="preferiti">
+      <h2>Prodotti preferiti</h2>
+
+      @if (favorites$ | async; as favorites) { @if (favorites.length > 0) {
+      <table class="tabella-preferiti">
+        <thead>
+          <tr>
+            <th>Immagine</th>
+            <th>Prodotto</th>
+            <th>Prezzo</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (product of favorites; track product.id) {
+          <tr>
+            <td><img [src]="product.thumbnail" [alt]="product.title" /></td>
+            <td>
+              <a [routerLink]="['/shop', product.id]"
+                >{{ product.title }}</a
+              >
+            </td>
+            <td>{{ product.price.toFixed(2) }} €</td>
+            <td>
+              <button type="button" (click)="removeFavorite(product)">
+                Rimuovi
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      } @else {
+      <p>Non hai ancora prodotti preferiti.</p>
+      } }
+    </section>
