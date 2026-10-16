@@ -1,6 +1,6 @@
 import { Component, inject } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ContattiService } from "../../Service/contatti.service";
+import { ContattiService } from "../../service/contatti.service";
 @Component({
   imports: [ReactiveFormsModule],
   selector: "app-contatti",
