@@ -5,9 +5,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { LoginService, User } from "./login/login.service";
-import { delay } from "rxjs";
-import { Category, Prodotti, ProductDetails } from "../shop/prodotti.service";
+import { LoginService, User } from "../../core/login/service/login.service";
+import { delay, finalize } from "rxjs";
+import { ProdottiService } from "../shop/service/prodotti.service";
+import { Category, ProductDetails } from "../shop/models/prodotti.model";
 import { RouterLink } from "@angular/router";
 
 @Component({
@@ -18,10 +19,9 @@ import { RouterLink } from "@angular/router";
 })
 export class Admin implements OnInit {
   private loginService = inject(LoginService);
-  private prodottiService = inject(Prodotti);
+  private prodottiService = inject(ProdottiService);
 
   isLoading = signal(false);
-  errorMassage = signal("");
   utenti = signal<User[]>([]);
   crea = "";
   canc = "";
@@ -62,24 +62,17 @@ export class Admin implements OnInit {
     categoria: new FormControl("", [Validators.required]),
     nomeNuovo: new FormControl("", [Validators.required]),
   });
+
   onSubmit() {
     if (this.creaform.valid) {
-      console.log(this.creaform.value);
       const username = this.creaform.value.username;
       const password = this.creaform.value.password;
 
-      this.loginService.creaAccount(username!, password!).subscribe(
-        (risposta) => {
-          console.log("account creato con successo");
-          this.creaform.reset();
-          this.crea = "account creato con successo";
-          this.caricaUtenti();
-        },
-        (error) => {
-          console.log("account non creato errore");
-          this.crea = "account non riuscito a cancellare errore";
-        },
-      );
+      this.loginService.creaAccount(username!, password!).subscribe(() => {
+        this.creaform.reset();
+        this.crea = "account creato con successo";
+        this.caricaUtenti();
+      });
     }
   }
 
@@ -87,19 +80,11 @@ export class Admin implements OnInit {
     if (this.delform.valid) {
       const username = this.delform.value.username;
 
-      this.loginService.cancellaAccount(username!).subscribe(
-        (risposta) => {
-          console.log("account cancellato con successo");
-          this.canc = "account cancellato con successo";
-          this.delform.reset();
-          this.caricaUtenti();
-        },
-        (error) => {
-          this.canc = "account non riuscito a cancellare errore";
-
-          console.log("account non riuscito a cancellare errore");
-        },
-      );
+      this.loginService.cancellaAccount(username!).subscribe(() => {
+        this.canc = "account cancellato con successo";
+        this.delform.reset();
+        this.caricaUtenti();
+      });
     }
   }
 
@@ -111,40 +96,24 @@ export class Admin implements OnInit {
 
       this.loginService
         .cambiaPassword(username!, password!, passwordn!)
-        .subscribe({
-          next: (risposta) => {
-            this.change = "password cambiata";
-            console.log("password cambiata con successo");
-          },
-          error: (error) => {
-            this.change = "password non cambiata errore";
-            console.log("password non cambiata errore");
-          },
+        .subscribe(() => {
+          this.change = "password cambiata";
         });
     }
   }
 
   caricaUtenti() {
     this.isLoading.set(true);
-    this.errorMassage.set("");
     this.loginService
       .getutenti()
-      .pipe(delay(500))
-      .subscribe({
-        next: (dati) => {
-          console.log("Utenti ricevuti dal backend:", dati);
-          this.utenti.set(dati);
-          this.isLoading.set(false);
-        },
-        error: (err) => {
-          console.error("Errore durante il recupero degli utenti:", err);
-          this.errorMassage.set("errore di connessione al server backend");
-          this.isLoading.set(false);
-        },
-      });
+      .pipe(
+        delay(500),
+        finalize(() => this.isLoading.set(false)),
+      )
+      .subscribe((dati) => this.utenti.set(dati));
   }
-  categorie = signal<Category[]>([]);
 
+  categorie = signal<Category[]>([]);
 
   selezionacategoria(categoria: string) {
     this.categoriaSelezionata.set(categoria);
@@ -154,10 +123,9 @@ export class Admin implements OnInit {
   ngOnInit() {
     this.caricaUtenti();
 
-      this.prodottiService.caricaProdotti(200,0).subscribe((risposta) => {
-            this.prodotti.set(risposta.products);
-          });
-  
+    this.prodottiService.caricaProdotti(200, 0).subscribe((risposta) => {
+      this.prodotti.set(risposta.products);
+    });
 
     if (this.categorie().length === 0) {
       this.prodottiService.caricaCategorie().subscribe((risposta) => {
@@ -165,16 +133,9 @@ export class Admin implements OnInit {
       });
     }
   }
+
   elimina(username: string) {
-    this.loginService.cancellaAccount(username).subscribe({
-      next: () => {
-        console.log("utente eliminato :" + username);
-        this.caricaUtenti();
-      },
-      error: () => {
-        console.log("errore eliminazione server ");
-      },
-    });
+    this.loginService.cancellaAccount(username).subscribe(() => this.caricaUtenti());
   }
 
   aggiungiProdotto() {

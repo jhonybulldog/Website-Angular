@@ -1,8 +1,9 @@
 import { Component, inject, signal } from "@angular/core";
-import { BlogService, Post } from "./blog.service";
-import { PaginatedGrid } from "../shared/paginated-grid/paginated-grid";
-import { Blogcard } from "./blogcard/blogcard";
-import { SortSelect } from "../shared/sort-select/sort-select";
+import { Blogcard } from "./components/blogcard/blogcard";
+import { PaginatedGrid } from "../../shared/paginated-grid/paginated-grid";
+import { SortSelect } from "../../shared/sort-select/sort-select";
+import { BlogService } from "./service/blog.service";
+import { Post } from "./models/blog.model";
 @Component({
   imports: [PaginatedGrid, Blogcard, SortSelect],
   selector: "app-blog",

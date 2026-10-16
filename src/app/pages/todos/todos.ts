@@ -1,7 +1,7 @@
 import { Component, inject, signal } from "@angular/core";
-import { PaginatedGrid } from "../shared/paginated-grid/paginated-grid";
-import { Todo, TodosService } from "./todos.service";
-
+import { PaginatedGrid } from "../../shared/paginated-grid/paginated-grid";
+import { Todo } from "./models/todos.model";
+import { TodosService } from "./service/todos.service";
 @Component({
   imports: [PaginatedGrid],
   selector: "app-todos",

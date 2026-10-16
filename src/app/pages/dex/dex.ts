@@ -1,5 +1,5 @@
 import { Component, inject, signal, computed } from "@angular/core";
-import { DexService } from "./dex.service";
+import { DexService } from "./service/dex.service";
 @Component({
   imports: [],
   selector: "app-dex",

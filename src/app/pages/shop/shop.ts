@@ -1,12 +1,13 @@
-import { Component, inject, OnInit, signal, computed , effect} from "@angular/core";
-import { Category, Prodotti, ProductDetails } from "./prodotti.service";
-import { Minicart } from "./minicart/minicart";
-import { Categoryselect } from "./categoryselect/categoryselect";
-import { Productcard } from "./productcard/productcard";
-import { PaginatedGrid } from "../shared/paginated-grid/paginated-grid";
-import { SortSelect } from "../shared/sort-select/sort-select";
-import { CompareB } from "./compare-b/compare-b";
+import { Component, inject, OnInit, signal} from "@angular/core";
+import { ProdottiService } from "./service/prodotti.service";
+import { ProductDetails, Category } from "./models/prodotti.model";
+import { Minicart } from "./components/minicart/minicart";
+import { Categoryselect } from "./components/categoryselect/categoryselect";
+import { Productcard } from "./components/productcard/productcard";
+import { CompareB } from "./components/compare-b/compare-b";
 import { AsyncPipe } from "@angular/common";
+import { PaginatedGrid } from "../../shared/paginated-grid/paginated-grid";
+import { SortSelect } from "../../shared/sort-select/sort-select";
 @Component({
   imports: [
     Minicart,
@@ -22,7 +23,7 @@ import { AsyncPipe } from "@angular/common";
   templateUrl: "./shop.html",
 })
 export class Shop implements OnInit {
-  private prodottiser = inject(Prodotti);
+  private prodottiser = inject(ProdottiService);
   prod = signal<ProductDetails[]>([]);
   categoriaSelezionata = signal<string>("");
   categorie = signal<Category[]>([]);;
