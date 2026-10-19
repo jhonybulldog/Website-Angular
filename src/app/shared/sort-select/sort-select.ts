@@ -9,4 +9,5 @@ import { Component , output, input } from '@angular/core';
 export class SortSelect {
   changed = output<{ label: string; sortBy: string; order: string }>();  
   options = input.required<{ sortBy: string; order: string; label: string }[]>();
+  value= input({label: "", sortBy: "", order: ""})
 }

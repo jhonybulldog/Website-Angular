@@ -1,5 +1,5 @@
 <select #sel (change)="changed.emit(options()[sel.selectedIndex])">
   @for (opt of options(); track opt.label) {
-  <option>{{ opt.label }}</option>
-  }
+<option [selected]="opt.sortBy === value().sortBy && opt.order === value().order">{{ opt.label }}</option>  
+}
 </select>

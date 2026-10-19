@@ -12,7 +12,7 @@
         </div>
       }
       <app-compare-b></app-compare-b>
-      <app-sort-select (changed)="order.set($event)" [options]="optionorder"></app-sort-select>
+      <app-sort-select (changed)="order.set($event)" [options]="optionorder" [value]="order()"></app-sort-select>
       <app-categoryselect
         [categorie]="categorie()"
         [(value)]="categoriaSelezionata"

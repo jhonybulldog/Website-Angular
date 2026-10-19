@@ -6,6 +6,6 @@
 >
   <option value="">Tutte le categorie</option>
   @for (cat of categorie(); track cat.slug) {
-  <option [value]="cat.slug">{{ cat.name }}</option>
+  <option [value]="cat.slug" [selected]="cat.slug === value()">{{ cat.name }}</option>
   }
 </select>

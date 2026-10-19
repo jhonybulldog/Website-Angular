@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal} from "@angular/core";
+import { Component, inject, OnInit, signal } from "@angular/core";
 import { ProdottiService } from "./service/prodotti.service";
 import { ProductDetails, Category } from "./models/prodotti.model";
 import { Minicart } from "./components/minicart/minicart";
@@ -8,6 +8,7 @@ import { CompareB } from "./components/compare-b/compare-b";
 import { AsyncPipe } from "@angular/common";
 import { PaginatedGrid } from "../../shared/paginated-grid/paginated-grid";
 import { SortSelect } from "../../shared/sort-select/sort-select";
+import { ActivatedRoute, Router } from "@angular/router";
 @Component({
   imports: [
     Minicart,
@@ -16,34 +17,55 @@ import { SortSelect } from "../../shared/sort-select/sort-select";
     Productcard,
     SortSelect,
     CompareB,
-    AsyncPipe
-],
+    AsyncPipe,
+  ],
   selector: "app-shop",
   styleUrl: "./shop.css",
   templateUrl: "./shop.html",
 })
 export class Shop implements OnInit {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute)
   private prodottiser = inject(ProdottiService);
   prod = signal<ProductDetails[]>([]);
-  categoriaSelezionata = signal<string>("");
-  categorie = signal<Category[]>([]);;
-  order = signal({label: "", sortBy: "", order: ""});
+  categoriaSelezionata = signal<string>(this.route.snapshot.queryParamMap.get("category")?? "");
+  categorie = signal<Category[]>([]);
+  order = signal({label: "", sortBy: this.route.snapshot.queryParamMap.get("sortBy")?? "", order: this.route.snapshot.queryParamMap.get("order")?? ""});
   totale = signal(0);
   loading$ = this.prodottiser.loading$;
   optionorder = [
-    { label: "Ordina per..." , sortBy: "", order: ""},
-    {  label: "Prezzo più basso" , sortBy: "price", order: "asc" },
+    { label: "Ordina per...", sortBy: "", order: "" },
+    { label: "Prezzo più basso", sortBy: "price", order: "asc" },
     { label: "Prezzo più alto", sortBy: "price", order: "desc" },
-    { label: "Voto più alto", sortBy: "rating", order: "desc"  },
+    { label: "Voto più alto", sortBy: "rating", order: "desc" },
     { label: "Voto più basso", sortBy: "rating", order: "asc" },
   ];
 
   load(e: { limit: number; skip: number; search: string }) {
-    this.prodottiser.caricaProdotti(e.limit, e.skip, this.categoriaSelezionata(), e.search, this.order().order, this.order().sortBy)
-          .subscribe((risposta) => {
-            this.prod.set(risposta.products);
-            this.totale.set(risposta.total);
-          });;
+    this.router.navigate([], {
+      queryParams: {
+        limit: e.limit,
+        skip: e.skip,
+        category: this.categoriaSelezionata(),
+        search: e.search,
+        order: this.order().order,
+        sortBy: this.order().sortBy
+      },
+      replaceUrl: true,
+    });
+    this.prodottiser
+      .caricaProdotti(
+        e.limit,
+        e.skip,
+        this.categoriaSelezionata(),
+        e.search,
+        this.order().order,
+        this.order().sortBy,
+      )
+      .subscribe((risposta) => {
+        this.prod.set(risposta.products);
+        this.totale.set(risposta.total);
+      });
   }
 
   ngOnInit() {
