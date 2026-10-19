@@ -5,6 +5,7 @@ import {
   computed,
   contentChild,
   effect,
+  inject,
   input,
   linkedSignal,
   output,
@@ -13,6 +14,7 @@ import {
 import { LimitSelector } from "../limit-selector/limit-selector";
 import { Pagination } from "../pagination/pagination";
 import { Searchbox } from "../searchbox/searchbox";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   imports: [NgTemplateOutlet, LimitSelector, Pagination, Searchbox],
@@ -21,6 +23,7 @@ import { Searchbox } from "../searchbox/searchbox";
   templateUrl: "./paginated-grid.html",
 })
 export class PaginatedGrid<T extends { id: number }> {
+  private route = inject(ActivatedRoute);
   items = input.required<T[]>();
   total = input.required<number>();
   filters = input<{
@@ -29,13 +32,10 @@ export class PaginatedGrid<T extends { id: number }> {
   }>({});
   load = output<{ limit: number; skip: number; search: string }>();
   template = contentChild.required(TemplateRef);
-  ricerca = signal("");
-  limit = signal(21);
-  pagina = linkedSignal(() => {
-    this.filters();
-    this.ricerca();
-    return 1;
-  });
+  ricerca = signal(this.route.snapshot.queryParamMap.get("search") ?? "");
+  limit = signal(Number(this.route.snapshot.queryParamMap.get("limit")) || 21);
+  skip = Number(this.route.snapshot.queryParamMap.get("skip")) || 0;
+  pagina = signal(this.skip / this.limit() + 1);
   numeroPagine = computed(() => Math.ceil(this.total() / this.limit()));
 
   constructor() {

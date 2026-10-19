@@ -1,5 +1,5 @@
 <app-limit-selector [(limit)]="limit" (limitChange)="pagina.set(1)"></app-limit-selector>
-<app-searchbox [(value)]="ricerca"></app-searchbox>
+<app-searchbox [(value)]="ricerca" (valueChange)="pagina.set(1)"></app-searchbox>
 <div class="grid">
   @for (item of items(); track item.id) {
   <ng-container
