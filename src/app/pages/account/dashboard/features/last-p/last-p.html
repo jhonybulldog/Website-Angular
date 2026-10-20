@@ -2,6 +2,7 @@
     <section class="ultimi-acquisti">
       <h2>Ultimi acquisti</h2>
 
+      @if(ordini().length > 0){
       @for (ordine of ordini(); track ordine.id) {
       <div class="ordine">
         <h3>Ordine #{{ ordine.id }}</h3>
@@ -24,5 +25,7 @@
           }
         </div>
       </div>
+      }}@else {
+        <p>Nessun acquisto effettuato</p>
       }
     </section>

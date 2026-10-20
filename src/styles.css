@@ -576,7 +576,7 @@ main > :is(app-last-p, app-category-fav, app-product-fav, app-my-blog) {
 }
 
 /* messaggio "non hai ancora…": riquadro tratteggiato al posto della lista */
-:is(app-product-fav, app-my-blog) section > p {
+:is(app-last-p, app-product-fav, app-my-blog) section > p {
   margin: 0;
   padding: 2.5rem 1.5rem;
   border: 1px dashed var(--gray-300);

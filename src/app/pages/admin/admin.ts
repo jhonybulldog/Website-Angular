@@ -9,18 +9,20 @@ import { LoginService, User } from "../../core/login/service/login.service";
 import { delay, finalize } from "rxjs";
 import { ProdottiService } from "../shop/service/prodotti.service";
 import { Category, ProductDetails } from "../shop/models/prodotti.model";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
+import { PaginatedGrid } from "../../shared/paginated-grid/paginated-grid";
 
 @Component({
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, PaginatedGrid],
   selector: "app-admin",
   styleUrl: "./admin.css",
   templateUrl: "./admin.html",
 })
 export class Admin implements OnInit {
   private loginService = inject(LoginService);
-  private prodottiService = inject(ProdottiService);
-
+  private prodottiser = inject(ProdottiService);
+  private route = inject(Router)
+  totaleProdotti = signal(0)
   isLoading = signal(false);
   utenti = signal<User[]>([]);
   crea = "";
@@ -51,7 +53,7 @@ export class Admin implements OnInit {
     price: new FormControl(0, [Validators.required]),
     thumbnail: new FormControl("", [Validators.required]),
     category: new FormControl("", [Validators.required]),
-    rating: new FormControl(0, [Validators.required])
+    rating: new FormControl(0, [Validators.required]),
   });
 
   categoryform = new FormGroup({
@@ -123,19 +125,17 @@ export class Admin implements OnInit {
   ngOnInit() {
     this.caricaUtenti();
 
-    this.prodottiService.caricaProdotti(200, 0).subscribe((risposta) => {
-      this.prodotti.set(risposta.products);
-    });
-
     if (this.categorie().length === 0) {
-      this.prodottiService.caricaCategorie().subscribe((risposta) => {
+      this.prodottiser.caricaCategorie().subscribe((risposta) => {
         this.categorie.set(risposta);
       });
     }
   }
 
   elimina(username: string) {
-    this.loginService.cancellaAccount(username).subscribe(() => this.caricaUtenti());
+    this.loginService
+      .cancellaAccount(username)
+      .subscribe(() => this.caricaUtenti());
   }
 
   aggiungiProdotto() {
@@ -150,19 +150,21 @@ export class Admin implements OnInit {
         category: this.productform.value.category!,
         rating: this.productform.value.rating!,
       };
-      this.prodottiService.aggiungiProdotto(nuovoProdotto).subscribe((create)=> {
-        this.prodotti.update((list) => [...list, create])
+      this.prodottiser.aggiungiProdotto(nuovoProdotto).subscribe((create) => {
+        this.prodotti.update((list) => [...list, create]);
       });
       console.log(this.prodotti());
       this.productform.reset();
     }
   }
 
-eliminaprodott(id: number) {
-  this.prodottiService.eliminaProdotto(id).subscribe(() => {
-    this.prodotti.update((list) => list.filter((prodotto) => prodotto.id !== id))
-  });
-}
+  eliminaprodott(id: number) {
+    this.prodottiser.eliminaProdotto(id).subscribe(() => {
+      this.prodotti.update((list) =>
+        list.filter((prodotto) => prodotto.id !== id),
+      );
+    });
+  }
 
   modificaProdotti(prodotto: ProductDetails) {
     this.prodottoDaModificare = prodotto;
@@ -176,33 +178,35 @@ eliminaprodott(id: number) {
     });
   }
 
- salvaModifica() {
-  if (this.productform.valid && this.prodottoDaModificare !== null) {
-    const id = this.prodottoDaModificare.id;
-    const prodottoModificato = {
-      title: this.productform.value.title!,
-      description: this.productform.value.description!,
-      price: this.productform.value.price!,
-      thumbnail: this.productform.value.thumbnail!,
-      category: this.productform.value.category!,
-      rating: this.productform.value.rating!,
-    };
+  salvaModifica() {
+    if (this.productform.valid && this.prodottoDaModificare !== null) {
+      const id = this.prodottoDaModificare.id;
+      const prodottoModificato = {
+        title: this.productform.value.title!,
+        description: this.productform.value.description!,
+        price: this.productform.value.price!,
+        thumbnail: this.productform.value.thumbnail!,
+        category: this.productform.value.category!,
+        rating: this.productform.value.rating!,
+      };
 
-    this.prodottiService
-      .aggiornaProdotto(id, prodottoModificato)
-      .subscribe((aggiornato) => {
-        this.prodotti.update((list) =>
-          list.map((prodotto) => (prodotto.id === id ? aggiornato : prodotto)),
-        );
-        this.prodottoDaModificare = null;
-        this.productform.reset();
-      });
+      this.prodottiser
+        .aggiornaProdotto(id, prodottoModificato)
+        .subscribe((aggiornato) => {
+          this.prodotti.update((list) =>
+            list.map((prodotto) =>
+              prodotto.id === id ? aggiornato : prodotto,
+            ),
+          );
+          this.prodottoDaModificare = null;
+          this.productform.reset();
+        });
+    }
   }
-}
   aggiungicategory() {
     if (this.categoryform.valid) {
       const categorianuova = this.categoryform.value.name!;
-      this.prodottiService.aggiungicategoria(categorianuova);
+      this.prodottiser.aggiungicategoria(categorianuova);
       this.categoryform.reset();
     }
   }
@@ -211,7 +215,7 @@ eliminaprodott(id: number) {
       const categoria = this.categorymanageform.value.categoria!;
       const nomeNuovo = this.categorymanageform.value.nomeNuovo!;
 
-      this.prodottiService.modificacategoria(categoria, nomeNuovo);
+      this.prodottiser.modificacategoria(categoria, nomeNuovo);
 
       this.categorymanageform.reset();
     }
@@ -220,9 +224,17 @@ eliminaprodott(id: number) {
     if (this.categorymanageform.valid) {
       const categoria = this.categorymanageform.value.categoria!;
 
-      this.prodottiService.eliminacategoria(categoria);
+      this.prodottiser.eliminacategoria(categoria);
 
       this.categorymanageform.reset();
     }
   }
+load(e: { limit: number; skip: number; search: string }) {
+  this.prodottiser
+    .caricaProdotti(e.limit, e.skip, "", e.search)
+    .subscribe((risposta) => {
+      this.prodotti.set(risposta.products);
+      this.totaleProdotti.set(risposta.total);
+    });
+}
 }

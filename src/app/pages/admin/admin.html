@@ -225,29 +225,26 @@
   <h2>Gestione prodotti</h2>
 
   <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Descrizione</th>
-          <th>Prezzo</th>
-          <th>Immagine</th>
-          <th>Categoria</th>
-          <th>Azioni</th>
-        </tr>
-      </thead>
+    <app-paginated-grid [items]="prodotti()" [total]="totaleProdotti()" (load)="load($event)">
+      <div grid-header class="row head">
+        <div>ID</div>
+        <div>Nome</div>
+        <div>Descrizione</div>
+        <div>Prezzo</div>
+        <div>Immagine</div>
+        <div>Categoria</div>
+        <div>Azioni</div>
+      </div>
 
-      <tbody>
-        @for (prodotto of prodotti(); track prodotto.id) {
-        <tr>
-          <td>#{{ prodotto.id }}</td>
-          <td>{{ prodotto.title }}</td>
-          <td>{{ prodotto.description }}</td>
-          <td>{{ prodotto.price }} €</td>
-          <td>{{ prodotto.thumbnail }}</td>
-          <td><span class="category-badge">{{ prodotto.category }}</span></td>
-          <td>
+      <ng-template let-prodotto="items">
+        <div class="row">
+          <div>#{{ prodotto.id }}</div>
+          <div>{{ prodotto.title }}</div>
+          <div>{{ prodotto.description }}</div>
+          <div>{{ prodotto.price }} €</div>
+          <div>{{ prodotto.thumbnail }}</div>
+          <div><span class="category-badge">{{ prodotto.category }}</span></div>
+          <div>
             <a
               class="btn-edit"
               href="/admin#form-prod"
@@ -263,10 +260,9 @@
               Salva modifica
             </button>
             }
-          </td>
-        </tr>
-        }
-      </tbody>
-    </table>
+          </div>
+        </div>
+      </ng-template>
+    </app-paginated-grid>
   </div>
 </div>

@@ -79,67 +79,84 @@ tbody tr:hover {
   background: var(--gray-50);
 }
 
-/* ---------- Tabella prodotti ---------- */
-/* tabella e titolo più larghi dei form: prendono la larghezza dei contenuti del
+/* ---------- Griglia prodotti (app-paginated-grid) ---------- */
+/* griglia e titolo più larghi dei form: prendono la larghezza dei contenuti del
    sito (come la navbar), centrati. 50cqi = metà pagina senza scrollbar, 20px = padding
-   del .container. Sotto i 60rem la tabella scorre dentro la card invece di schiacciarsi */
+   del .container */
 h2:has(+ .table-container),
 .table-container {
   margin-inline: calc(50% - min(50cqi - 20px, (var(--container) - 4rem) / 2));
 }
 
+/* l'host di app-paginated-grid è display: contents, quindi ricerca, numero
+   elementi, griglia e paginazione sono figli diretti di questa card: il flex li
+   mette in fila con gli order/flex di paginated-grid.css (come nello shop).
+   --min-col: 100% = una sola colonna, --grid-gap: 0 = righe attaccate come in
+   una tabella. Sotto i 60rem le righe scorrono dentro la card invece di schiacciarsi */
 .table-container {
+  --min-col: 100%;
+  --grid-gap: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
   overflow-x: auto;
 }
 
-/* colonne fisse: righe basse e allineate. Descrizione e immagine stanno su
-   una riga, il testo completo compare nel form quando si preme "Modifica" */
-.table-container table {
+/* ogni prodotto è una riga a colonne fisse (la Descrizione prende lo spazio
+   che resta). Descrizione e immagine stanno su una riga, il testo completo
+   compare nel form quando si preme "Modifica" */
+.row {
+  display: grid;
+  grid-template-columns: 4rem 18% minmax(0, 1fr) 7rem 7rem 11.5rem 13rem;
+  align-items: center;
   min-width: 60rem;
-  table-layout: fixed;
+  border-bottom: 1px solid var(--gray-100);
+  font-size: var(--text-base);
+  transition: background-color var(--transition);
 }
 
-.table-container :is(th, td) {
+.row > div {
   padding: 14px 12px;
 }
 
-/* larghezze (la Descrizione prende lo spazio che resta) */
-.table-container th:nth-child(1) {
-  width: 4rem; /* ID */
+.row:last-child {
+  border-bottom: none;
 }
 
-.table-container th:nth-child(2) {
-  width: 18%; /* Nome */
+.row:not(.head):hover {
+  background: var(--gray-50);
 }
 
-.table-container th:is(:nth-child(4), :nth-child(5)) {
-  width: 7rem; /* Prezzo, Immagine */
-}
-
-.table-container th:nth-child(6) {
-  width: 11.5rem; /* Categoria: entra anche "kitchen-accessories" */
-}
-
-.table-container th:nth-child(7) {
-  width: 13rem; /* Azioni */
+/* intestazione: stesse colonne delle righe */
+.head {
+  border-bottom-color: var(--gray-200);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  background: var(--gray-50);
+  color: var(--gray-500);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 /* ID: riferimento secondario */
-.table-container td:nth-child(1) {
+.row:not(.head) > :nth-child(1) {
   color: var(--gray-500);
   font-size: var(--text-sm);
   font-variant-numeric: tabular-nums;
 }
 
 /* Nome: l'informazione principale della riga */
-.table-container td:nth-child(2) {
+.row:not(.head) > :nth-child(2) {
   color: var(--gray-900);
   font-weight: 600;
   line-height: 1.4;
 }
 
 /* Descrizione e Immagine: testo secondario su una riga */
-.table-container td:is(:nth-child(3), :nth-child(5)) {
+.row:not(.head) > :is(:nth-child(3), :nth-child(5)) {
   overflow: hidden;
   color: var(--gray-500);
   font-size: var(--text-sm);
@@ -148,11 +165,11 @@ h2:has(+ .table-container),
 }
 
 /* Prezzo: allineato a destra come tutti i numeri */
-.table-container :is(th, td):nth-child(4) {
+.row > :nth-child(4) {
   text-align: right;
 }
 
-.table-container td:nth-child(4) {
+.row:not(.head) > :nth-child(4) {
   color: var(--green-700);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -160,18 +177,18 @@ h2:has(+ .table-container),
 }
 
 /* Azioni: Modifica ed Elimina affiancati; "Salva modifica" (se c'è) sotto */
-.table-container td:last-child {
+.row > :last-child {
   white-space: nowrap;
 }
 
-.table-container td:last-child button:not(.btn-delete) {
+.row > :last-child button:not(.btn-delete) {
   display: flex;
   width: 100%;
   margin-top: 8px;
 }
 
 /* riga in modifica (l'unica con "Salva modifica"): resta evidenziata anche al passaggio */
-.table-container tr:has(button:not(.btn-delete)) {
+.row:has(button:not(.btn-delete)) {
   background: var(--green-50);
 }
 

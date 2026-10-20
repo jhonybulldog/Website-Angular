@@ -1,6 +1,7 @@
 /* Ultimi acquisti: un ordine = una card con testata grigia (numero, data,
    totale, indirizzo, pagamento) e sotto l'elenco dei prodotti.
-   Contenitore della pagina e titolo in styles.css (PAGINE UTENTE) */
+   Contenitore della pagina, titolo e messaggio "nessun acquisto"
+   in styles.css (PAGINE UTENTE) */
 
 .ultimi-acquisti {
   display: grid;

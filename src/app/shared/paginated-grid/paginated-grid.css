@@ -14,8 +14,9 @@ app-searchbox {
   flex: 0 0 100%;
   margin-top: 14px;
   display: grid;
+  /* --min-col e --grid-gap si cambiano dalla pagina (es. l'admin le usa per fare righe da tabella) */
   grid-template-columns: repeat(auto-fill, minmax(var(--min-col, 300px), 1fr));
-  gap: 24px;
+  gap: var(--grid-gap, 24px);
   align-content: start;
   min-height: 60vh;
   overflow-anchor: none;
