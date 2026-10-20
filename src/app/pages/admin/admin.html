@@ -194,38 +194,31 @@
   </button>
 </form>
 
-  <h2>Account Registrati:</h2>
-  @if (isLoading()) {
-  <p class="loading">caricamento utenti in corso</p>
-  } 
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>creato il</th>
-        <th>azioni</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (u of utenti(); track u.id) {
-      <tr>
-        <td>{{u.id}}</td>
-        <td>{{u.username}}</td>
-        <td>{{u.created_at}}</td>
-        <td>
-          <button class="btn-delete" (click)="elimina(u.username)">
-            Elimina
-          </button>
-        </td>
-      </tr>
-      }
-    </tbody>
-  </table>
+<div class="table-container users">
+  <app-paginated-grid prefix="users-" [items]="utenti()" [total]="totaleUtenti()" (load)="caricaUtenti($event)">
+    <div grid-header class="row head">
+      <div>ID</div>
+      <div>Username</div>
+      <div>Creato il</div>
+      <div>Azioni</div>
+    </div>
+
+    <ng-template let-u="items">
+      <div class="row">
+        <div>{{ u.id }}</div>
+        <div>{{ u.username }}</div>
+        <div>{{ u.created_at }}</div>
+        <div>
+          <button class="btn-delete" (click)="elimina(u.username)">Elimina</button>
+        </div>
+      </div>
+    </ng-template>
+  </app-paginated-grid>
+</div>
   <h2>Gestione prodotti</h2>
 
   <div class="table-container">
-    <app-paginated-grid [items]="prodotti()" [total]="totaleProdotti()" (load)="load($event)">
+    <app-paginated-grid [items]="prodotti()" [total]="totaleProdotti()" (load)="load($event)" prefix="products-">
       <div grid-header class="row head">
         <div>ID</div>
         <div>Nome</div>
@@ -247,7 +240,6 @@
           <div>
             <a
               class="btn-edit"
-              href="/admin#form-prod"
               (click)="modificaProdotti(prodotto)"
             >
               Modifica

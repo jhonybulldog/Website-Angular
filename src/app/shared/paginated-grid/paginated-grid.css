@@ -4,21 +4,24 @@
   display: contents;
 }
 
+/* --search-flex: l'admin mette ricerca e numero elementi sulla stessa riga */
 app-searchbox {
   order: 0;
-  flex: 0 0 100%;
+  flex: var(--search-flex, 0 0 100%);
 }
 
+/* --min-col, --grid-gap, --grid-min-height e --grid-overflow si cambiano dalla
+   pagina (l'admin le usa per fare righe da tabella che scorrono di lato) */
 .grid {
   order: 3;
   flex: 0 0 100%;
   margin-top: 14px;
   display: grid;
-  /* --min-col e --grid-gap si cambiano dalla pagina (es. l'admin le usa per fare righe da tabella) */
   grid-template-columns: repeat(auto-fill, minmax(var(--min-col, 300px), 1fr));
   gap: var(--grid-gap, 24px);
   align-content: start;
-  min-height: 60vh;
+  min-height: var(--grid-min-height, 60vh);
+  overflow-x: var(--grid-overflow, visible);
   overflow-anchor: none;
 }
 

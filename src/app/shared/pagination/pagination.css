@@ -1,15 +1,17 @@
+/* --pagination-margin, --pagination-border e --pagination-shadow: la pagina
+   può togliere bordo e ombra quando la barra sta già dentro una card (tabelle admin) */
 .pagination {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin: 42px auto 8px;
+  margin: var(--pagination-margin, 42px auto 8px);
   padding: 10px;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--pagination-border, var(--gray-200));
   border-radius: var(--radius-xl);
   background: var(--glass);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--pagination-shadow, var(--shadow-md));
   backdrop-filter: blur(8px);
 }
 

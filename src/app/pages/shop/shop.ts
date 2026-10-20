@@ -8,7 +8,7 @@ import { CompareB } from "./components/compare-b/compare-b";
 import { AsyncPipe } from "@angular/common";
 import { PaginatedGrid } from "../../shared/paginated-grid/paginated-grid";
 import { SortSelect } from "../../shared/sort-select/sort-select";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 @Component({
   imports: [
     Minicart,
@@ -24,7 +24,6 @@ import { ActivatedRoute, Router } from "@angular/router";
   templateUrl: "./shop.html",
 })
 export class Shop implements OnInit {
-  private router = inject(Router);
   private route = inject(ActivatedRoute)
   private prodottiser = inject(ProdottiService);
   prod = signal<ProductDetails[]>([]);
@@ -42,17 +41,6 @@ export class Shop implements OnInit {
   ];
 
   load(e: { limit: number; skip: number; search: string }) {
-    this.router.navigate([], {
-      queryParams: {
-        limit: e.limit,
-        skip: e.skip,
-        category: this.categoriaSelezionata(),
-        search: e.search,
-        order: this.order().order,
-        sortBy: this.order().sortBy
-      },
-      replaceUrl: true,
-    });
     this.prodottiser
       .caricaProdotti(
         e.limit,

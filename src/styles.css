@@ -362,7 +362,7 @@ app-compare .container > a {
 .portfolio-cta,
 .login-container,
 app-dex .table-container,
-app-admin :is(form, .container > table, .table-container) {
+app-admin :is(form, .table-container) {
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-lg);
   background: var(--white);

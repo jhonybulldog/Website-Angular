@@ -21,8 +21,9 @@ import { PaginatedGrid } from "../../shared/paginated-grid/paginated-grid";
 export class Admin implements OnInit {
   private loginService = inject(LoginService);
   private prodottiser = inject(ProdottiService);
-  private route = inject(Router)
-  totaleProdotti = signal(0)
+  totaleUtenti = signal(0);
+  paginaUtenti = { limit: 21, skip: 0, search: "" };
+  totaleProdotti = signal(0);
   isLoading = signal(false);
   utenti = signal<User[]>([]);
   crea = "";
@@ -104,7 +105,8 @@ export class Admin implements OnInit {
     }
   }
 
-  caricaUtenti() {
+  caricaUtenti(e = this.paginaUtenti) {
+    this.paginaUtenti = e;
     this.isLoading.set(true);
     this.loginService
       .getutenti()
@@ -112,7 +114,11 @@ export class Admin implements OnInit {
         delay(500),
         finalize(() => this.isLoading.set(false)),
       )
-      .subscribe((dati) => this.utenti.set(dati));
+      .subscribe((dati) => {
+        const filtrati = dati.filter((u) => u.username.includes(e.search));
+        this.totaleUtenti.set(filtrati.length);
+        this.utenti.set(filtrati.slice(e.skip, e.skip + e.limit));
+      });
   }
 
   categorie = signal<Category[]>([]);
@@ -123,8 +129,6 @@ export class Admin implements OnInit {
   }
 
   ngOnInit() {
-    this.caricaUtenti();
-
     if (this.categorie().length === 0) {
       this.prodottiser.caricaCategorie().subscribe((risposta) => {
         this.categorie.set(risposta);
@@ -229,12 +233,12 @@ export class Admin implements OnInit {
       this.categorymanageform.reset();
     }
   }
-load(e: { limit: number; skip: number; search: string }) {
-  this.prodottiser
-    .caricaProdotti(e.limit, e.skip, "", e.search)
-    .subscribe((risposta) => {
-      this.prodotti.set(risposta.products);
-      this.totaleProdotti.set(risposta.total);
-    });
-}
+  load(e: { limit: number; skip: number; search: string }) {
+    this.prodottiser
+      .caricaProdotti(e.limit, e.skip, "", e.search)
+      .subscribe((risposta) => {
+        this.prodotti.set(risposta.products);
+        this.totaleProdotti.set(risposta.total);
+      });
+  }
 }

@@ -13,11 +13,12 @@
       }
       <app-compare-b></app-compare-b>
       <app-sort-select (changed)="order.set($event)" [options]="optionorder" [value]="order()"></app-sort-select>
-      <app-categoryselect
+      <app-categoryselect 
         [categorie]="categorie()"
         [(value)]="categoriaSelezionata"
+        (valueChange)="grid.pagina.set(1)"
       ></app-categoryselect>
-      <app-paginated-grid [items]="prod()" [total]="totale()" [filters]="{categoria: categoriaSelezionata(),ordine: order()}" (load)="load($event)"
+      <app-paginated-grid #grid [items]="prod()" [total]="totale()" [filters]="{categoria: categoriaSelezionata(),ordine: order()}" (load)="load($event)"
       >
         <ng-template let-product="items">
           <app-productcard [proddi]="product"></app-productcard>

@@ -50,6 +50,9 @@ ngOnInit() {
       let skip = (this.pagina() - 1) * this.limit();
       this.router.navigate([], {
         queryParams: {
+          [this.prefix() + "category"]: this.filters().categoria,
+          [this.prefix() + "sortBy"]: this.filters().ordine?.sortBy,
+          [this.prefix()+ "order"]: this.filters().ordine?.order,
           [this.prefix() + "limit"]: this.limit(),
           [this.prefix() + "skip"]: skip,
           [this.prefix() + "search"]: this.ricerca(),
