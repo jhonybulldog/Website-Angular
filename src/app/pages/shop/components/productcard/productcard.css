@@ -1,25 +1,43 @@
-/* card, bottoni e cuore condivisi in styles.css */
+/* card, bottoni (grigi e verdi) e cuore condivisi in styles.css */
 :host {
   display: block;
   height: 100%;
 }
 
+/* il .container globale qui non serve: la card riempie la cella della griglia */
 .container {
   height: 100%;
   max-width: none;
   padding: 0;
 }
 
+/* griglia al posto del flex globale: immagine, info che si allunga
+   (così i bottoni restano in fondo in tutte le card), poi i bottoni */
 .prodotti-card {
   position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 8px;
   overflow: hidden;
   padding: 16px;
+}
+
+/* modalità confronto: c'è un bottone subito dopo le info ("compara")
+   e un altro più avanti ("visualizza") → li affianco su due colonne */
+.prodotti-card:has(.prodotti-info + button ~ button:not(.add-to-cart)) {
+  grid-template-columns: 1fr 1fr;
+}
+
+.prodotti-image,
+.prodotti-info,
+.prodotti-card .add-to-cart {
+  grid-column: 1 / -1;
 }
 
 /* ---------- Immagine ---------- */
 .prodotti-image {
   height: 220px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   padding: 12px;
   border-radius: var(--radius-lg);
   background: var(--gray-50);
@@ -30,6 +48,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+  cursor: pointer; /* ha il routerLink verso il dettaglio */
   transition: transform var(--transition-slow);
 }
 
@@ -38,6 +57,7 @@
 }
 
 /* ---------- Cuore (in alto a destra) e badge "Nel carrello" (in alto a sinistra) ---------- */
+/* fuori dalla griglia: stanno sopra l'immagine */
 .prodotti-card .favorite-btn,
 .nel-carrello {
   position: absolute;
@@ -49,7 +69,6 @@
   right: 24px;
   width: 38px;
   height: 38px;
-  margin: 0;
   font-size: var(--text-md);
 }
 
@@ -63,15 +82,20 @@
   font-weight: 600;
 }
 
-/* ---------- Info ---------- */
+/* ---------- Info: titolo e prezzo sono due link al dettaglio ---------- */
 .prodotti-info {
-  flex: 1;
+  margin-bottom: 8px;
 }
 
-.prodotti-info h3 {
+.prodotti-info a {
+  text-decoration: none;
+}
+
+/* massimo due righe; la min-height è uguale per tutte le card,
+   così i prezzi restano allineati sulla stessa riga della griglia */
+.prodotti-info a:first-child {
   display: -webkit-box;
   min-height: 2.7em;
-  margin: 0 0 8px;
   overflow: hidden;
   color: var(--gray-900);
   font-size: var(--text-md);
@@ -79,18 +103,20 @@
   line-height: 1.35;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  transition: color var(--transition);
 }
 
-.prodotti-info p {
-  margin: 0 0 16px;
+.prodotti-info a:first-child:hover {
+  color: var(--green-700);
+}
+
+/* inline-block: il link è largo quanto il prezzo, non tutta la card */
+.prodotti-info a:last-child {
+  display: inline-block;
+  margin-top: 6px;
   color: var(--green-700);
   font-size: var(--text-lg);
   font-weight: 800;
-}
-
-/* ---------- Bottoni ---------- */
-.prodotti-card button {
-  margin-top: 8px;
 }
 
 @media (max-width: 600px) {

@@ -23,6 +23,7 @@ export class Productdetail implements OnInit {
   private logginser = inject(LoginService);
   private favoritesService = inject(ProductFavorite);
   private notificationser = inject(NotificationService);
+  loading$ = this.prodottiser.loading$;
   private productId$ = this.route.paramMap.pipe(
     map((params) => Number(params.get("id"))),
   );

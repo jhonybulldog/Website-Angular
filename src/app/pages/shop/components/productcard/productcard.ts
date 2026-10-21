@@ -7,8 +7,10 @@ import { ProductFavorite } from "../../service/product-favorite";
 import { AsyncPipe } from "@angular/common";
 import { Observable } from "rxjs";
 import { CompareService } from "../../service/compare-service";
+import { Dialog, DialogModule } from "@angular/cdk/dialog";
+import { ProductModal } from "../product-modal/product-modal";
 @Component({
-  imports: [RouterLink, AsyncPipe],
+  imports: [RouterLink, AsyncPipe, DialogModule],
   selector: "app-productcard",
   styleUrl: "./productcard.css",
   templateUrl: "./productcard.html",
@@ -19,6 +21,7 @@ export class Productcard implements OnInit {
   private logginser = inject(LoginService);
   private compareSer = inject(CompareService);
   private favoritesService = inject(ProductFavorite);
+  dialog = inject(Dialog)
   loggedIn = this.logginser.loggedIn;
   compareActive$ = this.compareSer.active$;
   isfavorite$!: Observable<boolean>;
@@ -36,7 +39,10 @@ this.carrello.addToCart(prodotto.id);
   );
 
   toggleCompare() {
-    this.compareSer.toggle(this.proddi());
+    this.compareSer.toggle(this.proddi().id);
+  }
+  openModal(){
+    this.dialog.open(ProductModal, {data: this.proddi()})
   }
   ngOnInit() {
     this.isfavorite$ = this.favoritesService.isfavorite$(this.proddi().id);

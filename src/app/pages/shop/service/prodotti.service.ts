@@ -46,7 +46,8 @@ export class ProdottiService {
   }
 
   productdetail(id: number) {
-    return this.http.get<ProductDetails>(`${this.url}${id}`);
+    this.loading.next(true)
+    return this.http.get<ProductDetails>(`${this.url}${id}`).pipe(delay(1000), finalize(()=> this.loading.next(false)));
   }
 aggiornaProdotto(id: number, modifiche: Partial<ProductDetails>) {
   return this.http.put<ProductDetails>(`${this.url}${id}/awdcrvgybunjmk`, modifiche);

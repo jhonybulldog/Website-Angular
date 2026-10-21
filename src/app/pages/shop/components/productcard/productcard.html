@@ -6,17 +6,17 @@
     </button>
     }
     <div class="prodotti-image">
-      <img [src]="proddi().thumbnail" alt="{{proddi().title}}" />
+      <img [routerLink]="['/shop', proddi().id]" [src]="proddi().thumbnail" alt="{{proddi().title}}" />
     </div>
     <div class="prodotti-info">
-      <h3>{{proddi().title}}</h3>
-      <p>{{proddi().price}} €</p>
+      <a [routerLink]="['/shop', proddi().id]">{{proddi().title}}</a>
+      <a [routerLink]="['/shop', proddi().id]">{{proddi().price}} €</a>
     </div>
     @if(compareActive$ | async){
       <button (click)="toggleCompare()">{{(isCompare$ | async ) ?  "rimuovi": "compara"}}</button>
     }
     @if (nelCarrello()) { <span class="nel-carrello">Nel carrello</span> }
-    <button [routerLink]="['/shop', proddi().id]">visualizza</button>
+    <button (click)="openModal()">visualizza</button>
     @if(loggedIn()){
     <button
       class="add-to-cart btn btn-primary"

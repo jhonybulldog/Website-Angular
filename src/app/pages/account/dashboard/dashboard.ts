@@ -1,15 +1,15 @@
 import { Component, inject, OnInit, signal } from "@angular/core";
 import { LoginService } from "../../../core/login/service/login.service";
 import { BlogService } from "../../blog/service/blog.service";
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
 @Component({
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet],
   selector: "app-dashboard",
   styleUrl: "./dashboard.css",
   templateUrl: "./dashboard.html",
   providers: [BlogService],
 })
-export class dashboard {
+export class Dashboard {
   private loginser = inject(LoginService);
 
 

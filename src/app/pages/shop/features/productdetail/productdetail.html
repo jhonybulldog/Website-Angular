@@ -1,5 +1,11 @@
 <div class="container">
-  @if (prodotto()) {
+  @if(loading$ | async){
+      <div class="loading">
+          <span class="spinner"></span>
+          caricamento prodotti...
+        </div>
+} @else{
+  @if (prodotto().id) {
   <div class="product-overlay">
     <div class="product-nav-links">
       <a routerLink="/shop" class="nav-back-link">← Torna allo Shop</a>
@@ -43,15 +49,12 @@
     </div>
     }
   </div>
-  } @else {
+  } @else{
   <div class="product-actions">
     <a class="add-to-cart" routerLink="/login">Accedi per acquistare</a>
   </div>
-  } } @else {
-  <div class="product-not-found">
-    <h2>Prodotto non trovato</h2>
-    <p>Il prodotto che stai cercando non esiste.</p>
-    <a routerLink="/shop"> ← Torna allo shop </a>
-  </div>
   }
+  }@else {
+    <p>prodotto non trovato</p>
+  }}
 </div>

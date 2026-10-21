@@ -3,10 +3,10 @@ import { BlogService } from '../../../../blog/service/blog.service';
 import { map } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { Blogcard } from '../../../../blog/components/blogcard/blogcard';
-import { dashboard } from '../../dashboard';
+import { Dashboard } from '../../dashboard';
 
 @Component({
-  imports: [AsyncPipe, Blogcard,dashboard],
+  imports: [AsyncPipe, Blogcard,Dashboard],
   selector: 'app-my-blog',
   styleUrl: './my-blog.css',
   templateUrl: './my-blog.html',

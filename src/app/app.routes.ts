@@ -33,10 +33,11 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     canActivate: [authGuard],
+     loadComponent: () => import('./pages/account/dashboard/dashboard').then(m => m.Dashboard),
     children: [
-      { path: '', redirectTo: 'last-purchases', pathMatch: 'full' },
+      {path: '', redirectTo: 'last-purchases', pathMatch: 'full'},
       { path: 'last-purchases', loadComponent: () => import('./pages/account/dashboard/features/last-p/last-p').then(m => m.LastP) },
-      { path: 'category-fav', loadComponent: () => import('./pages/account/dashboard/features/category-fav/category-fav').then(m => m.CategoryFav) },
+      { path: 'category-fav',  loadComponent: () => import('./pages/account/dashboard/features/category-fav/category-fav').then(m => m.CategoryFav) },
       { path: 'product-fav', loadComponent: () => import('./pages/account/dashboard/features/product-fav/product-fav').then(m => m.ProductFav) },
       { path: 'my-blog', loadComponent: () => import('./pages/account/dashboard/features/my-blog/my-blog').then(m => m.MyBlog) },
     ]
