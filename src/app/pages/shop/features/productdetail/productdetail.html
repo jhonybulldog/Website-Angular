@@ -1,60 +1,94 @@
 <div class="container">
-  @if(loading$ | async){
-      <div class="loading">
-          <span class="spinner"></span>
-          caricamento prodotti...
-        </div>
-} @else{
-  @if (prodotto().id) {
+  @if (prodotto$ | async; as prodotto) {
   <div class="product-overlay">
     <div class="product-nav-links">
       <a routerLink="/shop" class="nav-back-link">← Torna allo Shop</a>
     </div>
-    <h2 class="product-title">{{ prodotto().title }}</h2>
-    <p class="product-subtitles">{{ prodotto().description }}</p>
-    <p class="product-proce">{{ prodotto().price }} €</p>
+    <p class="product-category">{{ prodotto.category }} · {{ prodotto.brand }}</p>
+    <h2 class="product-title">{{ prodotto.title }}</h2>
+    <p class="product-rating">★ {{ prodotto.rating }} / 5</p>
+    <p class="product-subtitles">{{ prodotto.description }}</p>
+    <p class="product-proce">{{ prodotto.price }} €</p>
+    <p class="product-discount">-{{ prodotto.discountPercentage }}%</p>
+    <p class="product-availability">{{ prodotto.availabilityStatus }} · {{ prodotto.stock }} disponibili</p>
   </div>
-  <img class="product-image" [src]="prodotto().thumbnail" />
+  <img class="product-image" [src]="prodotto.thumbnail" />
+
   @if (loggedIn()) {
   <div class="product-actions">
-    <button class="add-to-cart" (click)="aggiungicarrello(prodotto())">
+    <button class="add-to-cart" (click)="aggiungicarrello(prodotto)">
       Aggiungi al carrello
     </button>
-    <button class="favorite-btn" (click)="toggleFavorite()">
+    <button class="favorite-btn" (click)="toggleFavorite(prodotto)">
       {{ (isFavorite$ | async) ? "♥" : "♡" }}
     </button>
   </div>
   <a class="cart-fab" routerLink="/shop/cart">Carrello</a>
   <div class="product-sidebar">
     <app-minicart />
-    <button class="freccia" [class.chiuso]="this.ac()" (click)="aprichiudi()">
+    <button class="freccia" [class.chiuso]="ac()" (click)="aprichiudi()">
       clicca qui per aprire il menu di modifica del prodotto
     </button>
-    @if(this.ac()){
+    @if (ac()) {
     <div class="edit-duct">
       <h3>Modifica prodotto</h3>
-      <input #prezzo type="number" [value]="prodotto().price" />
-      <textarea #descrizione [value]="prodotto().description"></textarea>
-      <div
-        class="drop-zone"
-        (dragover)="$event.preventDefault()"
-        (drop)="onDrop($event)"
-      >
-        <img #image [src]="newImage || prodotto().thumbnail" />
+      <input #prezzo type="number" [value]="prodotto.price" />
+      <textarea #descrizione [value]="prodotto.description"></textarea>
+      <div class="drop-zone" (dragover)="$event.preventDefault()" (drop)="onDrop($event)">
+        <img [src]="newImage || prodotto.thumbnail" />
         <p>Trascina qui la nuova immagine</p>
       </div>
-      <button (click)="salva(prezzo.value, descrizione.value)">
+      <button (click)="salva(prodotto, prezzo.value, descrizione.value)">
         Salva modifica
       </button>
     </div>
     }
   </div>
-  } @else{
+  } @else {
   <div class="product-actions">
     <a class="add-to-cart" routerLink="/login">Accedi per acquistare</a>
   </div>
   }
-  }@else {
-    <p>prodotto non trovato</p>
-  }}
+
+  <div class="product-details">
+    <div class="product-gallery">
+      @for (image of prodotto.images; track image) {
+      <img [src]="image" />
+      }
+    </div>
+    <h3>Specifiche</h3>
+    <div class="product-specs">
+      <p>SKU: {{ prodotto.sku }}</p>
+      <p>Peso: {{ prodotto.weight }}</p>
+      <p>Dimensioni: {{ prodotto.dimensions.width }} × {{ prodotto.dimensions.height }} × {{ prodotto.dimensions.depth }}</p>
+      <p>Garanzia: {{ prodotto.warrantyInformation }}</p>
+      <p>Spedizione: {{ prodotto.shippingInformation }}</p>
+      <p>Reso: {{ prodotto.returnPolicy }}</p>
+      <p>Ordine minimo: {{ prodotto.minimumOrderQuantity }}</p>
+      <p>Codice a barre: {{ prodotto.meta.barcode }}</p>
+    </div>
+    <ul class="product-tags">
+      @for (tag of prodotto.tags; track tag) {
+      <li>#{{ tag }}</li>
+      }
+    </ul>
+    <img class="product-qr" [src]="prodotto.meta.qrCode" />
+  </div>
+
+  <div class="product-reviews">
+    <h3>Recensioni</h3>
+    @for (review of prodotto.reviews; track $index) {
+    <div class="review">
+      <p><strong>{{ review.reviewerName }}</strong> ★ {{ review.rating }} / 5</p>
+      <p>{{ review.comment }}</p>
+      <p>{{ review.date | date: "dd/MM/yyyy" }}</p>
+    </div>
+    }
+  </div>
+  } @else {
+  <div class="loading">
+    <span class="spinner"></span>
+    caricamento prodotto...
+  </div>
+  } 
 </div>

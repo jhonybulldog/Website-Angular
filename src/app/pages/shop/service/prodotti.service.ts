@@ -1,7 +1,7 @@
 import { Injectable, signal, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, delay, finalize } from "rxjs";
-import { ProductDetails, Category } from "../models/prodotti.model";
+import { ProductDetails, Category, ProductFullDetail } from "../models/prodotti.model";
 
 @Injectable({
   providedIn: "root",
@@ -46,8 +46,7 @@ export class ProdottiService {
   }
 
   productdetail(id: number) {
-    this.loading.next(true)
-    return this.http.get<ProductDetails>(`${this.url}${id}`).pipe(delay(1000), finalize(()=> this.loading.next(false)));
+    return this.http.get<ProductFullDetail>(`${this.url}${id}`).pipe(delay(1000));
   }
 aggiornaProdotto(id: number, modifiche: Partial<ProductDetails>) {
   return this.http.put<ProductDetails>(`${this.url}${id}/awdcrvgybunjmk`, modifiche);

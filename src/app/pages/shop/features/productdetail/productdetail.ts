@@ -1,22 +1,22 @@
 import { Component, inject, OnInit, signal } from "@angular/core";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { ProdottiService } from "../../service/prodotti.service";
-import { ProductDetails } from "../../models/prodotti.model";
+import { ProductDetails, ProductFullDetail } from "../../models/prodotti.model";
 import { CartService } from "../../service/cart.service";
 import { Minicart } from "../../components/minicart/minicart";
 import { LoginService } from "../../../../core/login/service/login.service";
 import { ProductFavorite } from "../../service/product-favorite";
-import { AsyncPipe } from "@angular/common";
+import { AsyncPipe, DatePipe, DecimalPipe } from "@angular/common";
 import { NotificationService } from "../../../../core/notification/notification-service";
-import { map, switchMap } from "rxjs";
+import { map, Observable, switchMap } from "rxjs";
 @Component({
-  imports: [RouterLink, Minicart, AsyncPipe],
+  imports: [RouterLink, Minicart, AsyncPipe,DecimalPipe, DatePipe],
   standalone: true,
   selector: "app-productdetail",
   styleUrl: "./productdetail.css",
   templateUrl: "./productdetail.html",
 })
-export class Productdetail implements OnInit {
+export class Productdetail {
   private route = inject(ActivatedRoute);
   private prodottiser = inject(ProdottiService);
   private carrello = inject(CartService);
@@ -24,7 +24,7 @@ export class Productdetail implements OnInit {
   private favoritesService = inject(ProductFavorite);
   private notificationser = inject(NotificationService);
   loading$ = this.prodottiser.loading$;
-  private productId$ = this.route.paramMap.pipe(
+  private productId$: Observable<number> = this.route.paramMap.pipe(
     map((params) => Number(params.get("id"))),
   );
   isFavorite$ = this.productId$.pipe(
@@ -32,18 +32,12 @@ export class Productdetail implements OnInit {
   );
   cartprodotti = this.carrello.carrello;
   ac = signal(false);
-  prodotto = signal<ProductDetails>({
-    id: 0,
-    title: "",
-    description: "",
-    price: 0,
-    thumbnail: "",
-    category: "",
-    rating: 0,
-  });
+
   loggedIn = this.logginser.loggedIn;
   newImage = "";
-
+  prodotto$: Observable<ProductFullDetail> = this.productId$.pipe(
+  switchMap((id) => this.prodottiser.productdetail(id)),
+);
   aggiungicarrello(prodotto: ProductDetails) {
     this.carrello.addToCart(prodotto.id);
   }
@@ -51,22 +45,18 @@ export class Productdetail implements OnInit {
     this.ac.update((aperto) => !aperto);
   }
 
-  salva(prezzo: string, descrizione: string) {
-    const id = this.prodotto().id;
-    this.prodottiser
-      .aggiornaProdotto(id, {
-        price: Number(prezzo),
-        description: descrizione,
-        thumbnail: this.newImage || this.prodotto().thumbnail,
-      })
-      .subscribe((prodotto) => {
-        this.prodotto.set(prodotto);
-        this.notificationser.show("prodotto modificato", false);
-      });
-  }
+salva(prodotto: ProductDetails, prezzo: string, descrizione: string) {
+  this.prodottiser
+    .aggiornaProdotto(prodotto.id, {
+      price: Number(prezzo),
+      description: descrizione,
+      thumbnail: this.newImage || prodotto.thumbnail,
+    })
+    .subscribe(() => this.notificationser.show("prodotto modificato", false));
+}
 
-  toggleFavorite() {
-    this.favoritesService.toggle(this.prodotto());
+  toggleFavorite(prodotto: ProductDetails) {
+    this.favoritesService.toggle(prodotto);
   }
 
   onDrop(event: DragEvent) {
@@ -83,9 +73,5 @@ export class Productdetail implements OnInit {
     const not = inject(NotificationService)
     not.show("ciao", true);
   }
-  ngOnInit(): void {
-    this.productId$
-      .pipe(switchMap((id) => this.prodottiser.productdetail(id)))
-      .subscribe((prodotto) => this.prodotto.set(prodotto));
-  }
+
 }

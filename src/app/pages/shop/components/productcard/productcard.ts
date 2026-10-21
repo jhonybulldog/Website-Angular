@@ -42,7 +42,7 @@ this.carrello.addToCart(prodotto.id);
     this.compareSer.toggle(this.proddi().id);
   }
   openModal(){
-    this.dialog.open(ProductModal, {data: this.proddi()})
+    this.dialog.open(ProductModal, {data: this.proddi().id})
   }
   ngOnInit() {
     this.isfavorite$ = this.favoritesService.isfavorite$(this.proddi().id);
