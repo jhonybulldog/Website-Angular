@@ -3,10 +3,9 @@ import { RouterLink } from "@angular/router";
 import { ProductFavorite } from "../../../../shop/service/product-favorite";
 import { FavoriteProduct } from "../../../../shop/models/product-favorite.model";
 import { AsyncPipe } from "@angular/common";
-import { Dashboard } from "../../dashboard";
 
 @Component({
-  imports: [RouterLink, AsyncPipe, Dashboard],
+  imports: [RouterLink, AsyncPipe],
   selector: "app-product-fav",
   styleUrl: "./product-fav.css",
   templateUrl: "./product-fav.html",

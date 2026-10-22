@@ -1,10 +1,9 @@
 import { Component, inject } from "@angular/core";
 import { OrdiniService } from "../../../../shop/service/ordini.service";
 import { DatePipe } from "@angular/common";
-import { Dashboard } from "../../dashboard";
 
 @Component({
-  imports: [DatePipe, Dashboard],
+  imports: [DatePipe],
   selector: "app-last-p",
   styleUrl: "./last-p.css",
   templateUrl: "./last-p.html",

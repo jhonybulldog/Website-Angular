@@ -6,11 +6,11 @@ import { CartService } from "../../service/cart.service";
 import { Minicart } from "../../components/minicart/minicart";
 import { LoginService } from "../../../../core/login/service/login.service";
 import { ProductFavorite } from "../../service/product-favorite";
-import { AsyncPipe, DatePipe, DecimalPipe } from "@angular/common";
+import { AsyncPipe, DatePipe } from "@angular/common";
 import { NotificationService } from "../../../../core/notification/notification-service";
 import { map, Observable, switchMap } from "rxjs";
 @Component({
-  imports: [RouterLink, Minicart, AsyncPipe,DecimalPipe, DatePipe],
+  imports: [RouterLink, Minicart, AsyncPipe, DatePipe],
   standalone: true,
   selector: "app-productdetail",
   styleUrl: "./productdetail.css",

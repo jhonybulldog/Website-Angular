@@ -3,10 +3,9 @@ import { PreferenzeService } from "../../../../shop/service/preferenze.service";
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Category } from "../../../../shop/models/prodotti.model";
 import { ProdottiService } from "../../../../shop/service/prodotti.service";
-import { Dashboard } from "../../dashboard";
 
 @Component({
-  imports: [ReactiveFormsModule, Dashboard],
+  imports: [ReactiveFormsModule],
   selector: "app-category-fav",
   styleUrl: "./category-fav.css",
   templateUrl: "./category-fav.html",
