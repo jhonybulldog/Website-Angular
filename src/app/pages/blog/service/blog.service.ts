@@ -1,11 +1,15 @@
 import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { PostsResponse, Post, Author, CommentsResponse } from "../models/blog.model";
+import { BehaviorSubject, delay, finalize } from "rxjs";
 @Injectable()
 export class BlogService {
   private http = inject(HttpClient);
   private url = "https://dummyjson.com/posts";
+    private loading = new BehaviorSubject<boolean>(false);
+    loading$ = this.loading.asObservable();
   caricablog(limit: number, skip: number, order: string = "", sortBy: string ="", research: string = "") {
+    this.loading.next(true)
    return  this.http
       .get<PostsResponse>(this.url, {
         params: {
@@ -15,7 +19,7 @@ export class BlogService {
           order: order,
           q: research,
         },
-      })
+      }).pipe(delay(1000), finalize(()=> this.loading.next(false)))
   }
   loadUserPosts() {
   const userId = localStorage.getItem("userId");

@@ -9,8 +9,9 @@ import { ProductFavorite } from "../../service/product-favorite";
 import { AsyncPipe, DatePipe } from "@angular/common";
 import { NotificationService } from "../../../../core/notification/notification-service";
 import { map, Observable, switchMap } from "rxjs";
+import { Loader } from "../../../../shared/loader/loader";
 @Component({
-  imports: [RouterLink, Minicart, AsyncPipe, DatePipe],
+  imports: [RouterLink, Minicart, AsyncPipe, DatePipe, Loader],
   standalone: true,
   selector: "app-productdetail",
   styleUrl: "./productdetail.css",

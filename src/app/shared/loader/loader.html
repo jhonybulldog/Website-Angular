@@ -1,0 +1,13 @@
+@if (dati$() | async; as dati) {
+<ng-container
+  [ngTemplateOutlet]="template()"
+  [ngTemplateOutletContext]="{ data: dati }"
+></ng-container>
+} @else if (errore()) {
+<p class="loader-error">{{ errorText() }}</p>
+} @else {
+<div class="loading">
+  <span class="spinner"></span>
+  {{ text() }}
+</div>
+}

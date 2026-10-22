@@ -4,8 +4,15 @@
       <h2>Blog</h2>
       <p>Scopri gli ultimi articoli</p>
     </div>
+
     <app-sort-select (changed)="order.set($event)" [options]="orderoption"></app-sort-select>
   </div>
+  @if (loading$ | async) {
+    <div class="loading">
+      <span class="spinner"></span>
+      caricamento articoli...
+    </div>
+  }
 <app-paginated-grid
   [items]="posts()"
   [total]="totale()"

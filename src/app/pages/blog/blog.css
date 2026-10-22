@@ -3,3 +3,9 @@
 .blog-header {
   display: contents;
 }
+
+/* riga intera tra i filtri (order 1) e la griglia (order 3) */
+.loading {
+  order: 2;
+  flex: 0 0 100%;
+}

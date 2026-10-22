@@ -1,13 +1,12 @@
 import { Component , inject} from '@angular/core';
-import { ProductDetails } from '../../models/prodotti.model';
 import {DIALOG_DATA, DialogRef} from '@angular/cdk/dialog'
 import { CartService } from '../../service/cart.service';
 import { LoginService } from '../../../../core/login/service/login.service';
 import { RouterLink } from '@angular/router';
 import { ProdottiService } from '../../service/prodotti.service';
-import { AsyncPipe } from '@angular/common';
+import { Loader } from '../../../../shared/loader/loader';
 @Component({
-  imports: [RouterLink, AsyncPipe],
+  imports: [RouterLink, Loader],
   selector: 'app-product-modal',
   styleUrl: './product-modal.css',
   templateUrl: './product-modal.html',

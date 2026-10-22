@@ -4,8 +4,9 @@ import { PaginatedGrid } from "../../shared/paginated-grid/paginated-grid";
 import { SortSelect } from "../../shared/sort-select/sort-select";
 import { BlogService } from "./service/blog.service";
 import { Post } from "./models/blog.model";
+import { AsyncPipe } from "@angular/common";
 @Component({
-  imports: [PaginatedGrid, Blogcard, SortSelect],
+  imports: [PaginatedGrid, Blogcard, SortSelect, AsyncPipe],
   selector: "app-blog",
   styleUrl: "./blog.css",
   templateUrl: "./blog.html",
@@ -16,6 +17,7 @@ export class Blog {
   posts = signal<Post[]>([]);
   totale = signal(0);
   order = signal({ label: "", sortBy: "", order: "" });
+  loading$ = this.bservice.loading$;
   orderoption = [
     { label: "Ordina per views", sortBy: "", order: "" },
     { label: "Views più basse", sortBy: "views", order: "asc" },
