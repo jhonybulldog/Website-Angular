@@ -1,64 +1,47 @@
-import { Component, inject, OnInit, signal } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { ActivatedRoute, RouterLink } from "@angular/router";
+import { map, shareReplay, switchMap } from "rxjs";
 import { BlogService } from "../../service/blog.service";
-import { Post, Author, Comment } from "../../models/blog.model";
+import { Post } from "../../models/blog.model";
+import { Loader } from "../../../../shared/loader/loader";
+
 @Component({
-  imports: [RouterLink],
+  imports: [RouterLink, Loader],
   selector: "app-blogdetail",
   styleUrl: "./blogdetail.css",
   templateUrl: "./blogdetail.html",
   providers: [BlogService],
 })
-export class Blogdetail implements OnInit {
+export class Blogdetail {
   private route = inject(ActivatedRoute);
   private bService = inject(BlogService);
-  blog = signal<Post | undefined>(undefined);
-  idblog: string | null = null;
+  private id = Number(this.route.snapshot.paramMap.get("id"));
   Like = false;
   Dislike = false;
-  autore = signal<Author | undefined>(undefined);
-  comments = signal<Comment[]>([]);
-  putLike() {
-    const attuale = this.blog();
-    if (!attuale) return;
 
+  blog$ = this.bService.caricaPost(this.id);
+  autore$ = this.blog$.pipe(switchMap((post) => this.bService.caricaAutore(post.userId)));
+  comments$ = this.bService.loadComments(this.id).pipe(map((response) => response.comments));
+
+  putLike(post: Post) {
     if (this.Dislike) {
-      attuale.reactions.dislikes--;
+      post.reactions.dislikes--;
       this.Dislike = false;
     }
     if (!this.Like) {
-      attuale.reactions.likes++;
+      post.reactions.likes++;
       this.Like = true;
     }
-    this.blog.set({ ...attuale });
   }
 
-  putDislike() {
-    const attuale = this.blog();
-    if (!attuale) return;
-
+  putDislike(post: Post) {
     if (this.Like) {
-      attuale.reactions.likes--;
+      post.reactions.likes--;
       this.Like = false;
     }
     if (!this.Dislike) {
-      attuale.reactions.dislikes++;
+      post.reactions.dislikes++;
       this.Dislike = true;
     }
-    this.blog.set({ ...attuale });
-  }
-  ngOnInit(): void {
-    this.idblog = this.route.snapshot.paramMap.get("id");
-    const id = Number(this.idblog);
-
-    this.bService.caricaPost(id).subscribe((post) => {
-      this.blog.set(post);
-      this.bService.caricaAutore(post.userId).subscribe((autore) => {
-        this.autore.set(autore);
-      });
-    });
-    this.bService.loadComments(id).subscribe((response) => {
-      this.comments.set(response.comments);
-    });
   }
 }

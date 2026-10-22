@@ -26,14 +26,14 @@ export class BlogService {
   return this.http.get<PostsResponse>(`${this.url}/user/${userId}`);
   }
   caricaPost(id: number) {
-    return this.http.get<Post>(`${this.url}/${id}`);
+    return this.http.get<Post>(`${this.url}/${id}`).pipe(delay(1000));
   }
   caricaAutore(id: number) {
-    return this.http.get<Author>(`https://dummyjson.com/users/${id}`);
+    return this.http.get<Author>(`https://dummyjson.com/users/${id}`).pipe(delay(1000));
   }
   loadComments(postId: number) {
   return this.http.get<CommentsResponse>(
     `https://dummyjson.com/comments/post/${postId}`,
-  );
+  ).pipe(delay(1000));
 }
 }

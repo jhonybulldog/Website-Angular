@@ -1,60 +1,64 @@
 <div class="blog-detail-page">
-  @if (blog()) {
-  <article class="blog-detail">
-    <div class="blog-detail-header">
-      <span class="blog-detail-id"> Articolo #{{ blog()!.id }} </span>
+  <app-loader [source]="blog$" text="caricamento articolo..." errorText="Articolo non trovato">
+    <ng-template let-blog="data">
+      <article class="blog-detail">
+        <div class="blog-detail-header">
+          <span class="blog-detail-id"> Articolo #{{ blog.id }} </span>
 
-      <h1>{{ blog()!.title }}</h1>
+          <h1>{{ blog.title }}</h1>
 
-      <div class="blog-detail-meta">
-        <span>Autore {{ autore()!.username }}</span>
-        <span>{{ blog()!.views }} visualizzazioni</span>
-      </div>
-    </div>
+          <div class="blog-detail-meta">
+            <app-loader [source]="autore$" text="caricamento autore...">
+              <ng-template let-autore="data">
+                <span>Autore {{ autore.username }}</span>
+              </ng-template>
+            </app-loader>
+            <span>{{ blog.views }} visualizzazioni</span>
+          </div>
+        </div>
 
-    <div class="blog-detail-content">
-      <p>{{ blog()!.body }}</p>
-    </div>
+        <div class="blog-detail-content">
+          <p>{{ blog.body }}</p>
+        </div>
 
-    <div class="blog-detail-tags">
-      @for (tag of blog()!.tags; track tag) {
-      <span>{{ tag }}</span>
-      }
-    </div>
-    <section class="blog-detail-comments">
-      <h2>Comments ({{ comments().length }})</h2>
+        <div class="blog-detail-tags">
+          @for (tag of blog.tags; track tag) {
+          <span>{{ tag }}</span>
+          }
+        </div>
 
-      @for (comment of comments(); track comment.id) {
-      <div class="comment">
-        <strong>{{ comment.user.fullName }}</strong>
-        <p>{{ comment.body }}</p>
-        <span>{{ comment.likes }} like</span>
-      </div>
-      } @empty {
-      <p>Nessun commento per questo articolo.</p>
-      }
-    </section>
-    <div class="blog-detail-reactions">
-      <button (click)="putLike()" [disabled]="Like">
-        Like {{ blog()!.reactions.likes }}
-      </button>
+        <app-loader [source]="comments$" text="caricamento commenti...">
+          <ng-template let-comments="data">
+            <section class="blog-detail-comments">
+              <h2>Comments ({{ comments.length }})</h2>
 
-      <button (click)="putDislike()" [disabled]="Dislike">
-        Dislike {{ blog()!.reactions.dislikes }}
-      </button>
-    </div>
+              @for (comment of comments; track comment.id) {
+              <div class="comment">
+                <strong>{{ comment.user.fullName }}</strong>
+                <p>{{ comment.body }}</p>
+                <span>{{ comment.likes }} like</span>
+              </div>
+              } @empty {
+              <p>Nessun commento per questo articolo.</p>
+              }
+            </section>
+          </ng-template>
+        </app-loader>
 
-    <div class="blog-detail-actions">
-      <a routerLink="/blog" class="back-button"> ← Torna al blog </a>
-    </div>
-  </article>
-  } @else {
-  <div class="blog-not-found">
-    <h2>Articolo non trovato</h2>
+        <div class="blog-detail-reactions">
+          <button (click)="putLike(blog)" [disabled]="Like">
+            Like {{ blog.reactions.likes }}
+          </button>
 
-    <p>L'articolo che stai cercando non esiste.</p>
+          <button (click)="putDislike(blog)" [disabled]="Dislike">
+            Dislike {{ blog.reactions.dislikes }}
+          </button>
+        </div>
+      </article>
+    </ng-template>
+  </app-loader>
 
+  <div class="blog-detail-actions">
     <a routerLink="/blog" class="back-button"> ← Torna al blog </a>
   </div>
-  }
 </div>
