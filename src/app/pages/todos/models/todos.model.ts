@@ -11,3 +11,7 @@ export interface TodosResponse {
   skip: number;
   limit: number;
 }
+
+export interface CalendarTodo extends Todo{ 
+  date: string;
+}

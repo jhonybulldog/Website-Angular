@@ -1,4 +1,4 @@
-@if (dati$() | async; as dati) {
+@if (dati$ | async; as dati) {
 <ng-container
   [ngTemplateOutlet]="template()"
   [ngTemplateOutletContext]="{ data: dati }"

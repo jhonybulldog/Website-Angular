@@ -1,4 +1,5 @@
-/* .btn / .btn-secondary, verde del link e posto nella riga dei filtri condivisi in styles.css */
+/* .btn / .btn-secondary, padding del bottone, verde del link e posto
+   nella riga dei filtri condivisi in styles.css */
 
 /* bottone e link "confronta" affiancati: il link si allunga all'altezza del bottone */
 :host {
@@ -9,9 +10,6 @@
 
 .btn {
   flex: 1;
-  /* bordo da 2px contro 1px dei select: tolgo 1px sopra e sotto per avere la stessa altezza */
-  padding: calc(0.75rem - 1px) 1rem;
-  white-space: nowrap;
 }
 
 /* link "confronta" (solo con 2 prodotti scelti): il verde arriva da PULSANTI, qui la forma del .btn */

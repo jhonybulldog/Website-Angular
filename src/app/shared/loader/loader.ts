@@ -1,6 +1,7 @@
 import { AsyncPipe, NgTemplateOutlet } from "@angular/common";
-import { Component, TemplateRef, computed, contentChild, input, signal } from "@angular/core";
-import { catchError, EMPTY, Observable } from "rxjs";
+import { Component, TemplateRef, contentChild, input, signal } from "@angular/core";
+import { toObservable } from "@angular/core/rxjs-interop";
+import { catchError, EMPTY, Observable, switchMap } from "rxjs";
 
 @Component({
   imports: [AsyncPipe, NgTemplateOutlet],
@@ -14,13 +15,16 @@ export class Loader<T> {
   errorText = input("Si è verificato un errore");
   template = contentChild.required(TemplateRef);
   errore = signal(false);
+private source$ = toObservable(this.source);
 
-  dati$ = computed(() =>
-    this.source().pipe(
+dati$ = this.source$.pipe(
+  switchMap((source) =>
+    source.pipe(
       catchError(() => {
         this.errore.set(true);
         return EMPTY;
       }),
     ),
-  );
+  ),
+);
 }

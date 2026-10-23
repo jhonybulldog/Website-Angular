@@ -1,5 +1,6 @@
 import { inject, Injectable, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { BehaviorSubject } from "rxjs";
 import { ProdottiCarrello, Cart } from "../models/cart.model";
 
@@ -12,6 +13,9 @@ export class CartService {
   private url = "https://dummyjson.com/carts/";
   private cart = new BehaviorSubject<Cart>({ id: 0, total: 0, products: [] });
   cart$ = this.cart.asObservable();
+  // stesso carrello di cart$ ma come signal, per i computed (es. badge "Nel carrello").
+  // requireSync: il BehaviorSubject ha sempre un valore, quindi mai undefined
+  cartSignal = toSignal(this.cart$, { requireSync: true });
 
   constructor() {
     this.loadCart();

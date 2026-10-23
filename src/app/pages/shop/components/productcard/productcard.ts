@@ -34,8 +34,8 @@ this.carrello.addToCart(prodotto.id);
   }
   nelCarrello = computed(() =>
     this.carrello
-      .carrello()
-      .some((prodotto) => prodotto.prodotto.id === this.proddi().id),
+      .cartSignal()
+      .products.some((prodotto) => prodotto.id === this.proddi().id),
   );
 
   toggleCompare() {

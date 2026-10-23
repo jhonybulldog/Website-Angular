@@ -8,7 +8,14 @@ export const routes: Routes = [
   { path: 'admin', canActivate: [authGuard], loadComponent: () => import('./pages/admin/admin').then(m => m.Admin) },
   { path: 'dex', loadComponent: () => import('./pages/dex/dex').then(m => m.Dex) },
   { path: 'subnet-calc', loadComponent: () => import('./pages/subnetcalc/subnetcalc').then(m => m.Subnetcalc) },
-  { path: 'todos', loadComponent: () => import('./pages/todos/todos').then(m => m.Todos) },
+
+  
+  { path: 'todos', 
+    children: [
+      {path: '', loadComponent: () => import('./pages/todos/todos').then(m => m.Todos)},
+      {path: 'calendar', loadComponent: () => import('./pages/todos/features/todo-calendar/todo-calendar').then(m => m.TodoCalendar)},
+    ]
+  },
 
   {
     path: 'shop',

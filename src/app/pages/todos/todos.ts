@@ -2,8 +2,9 @@ import { Component, inject, signal } from "@angular/core";
 import { PaginatedGrid } from "../../shared/paginated-grid/paginated-grid";
 import { Todo } from "./models/todos.model";
 import { TodosService } from "./service/todos.service";
+import { RouterLink } from "@angular/router";
 @Component({
-  imports: [PaginatedGrid],
+  imports: [PaginatedGrid, RouterLink],
   selector: "app-todos",
   styleUrl: "./todos.css",
   templateUrl: "./todos.html",

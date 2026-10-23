@@ -1,0 +1,66 @@
+<div class="calendar-page">
+  <div class="calendar-header">
+    <div>
+      <h2>Calendario</h2>
+      <p class="calendar-subtitle">Pianifica i tuoi task giorno per giorno</p>
+    </div>
+    <a routerLink="/todos" class="list-link">← Vista lista</a>
+  </div>
+
+  <div class="date-bar">
+    <label for="selected-day">Giorno</label>
+    <input
+      id="selected-day"
+      type="date"
+      required
+      #dateInput
+      [value]="selectedDate$ | async"
+      (change)="selectDate(dateInput.value)"
+    />
+  </div>
+
+  <div class="calendar-layout">
+    <section class="panel">
+      <h3>Task del giorno</h3>
+      <ul class="task-list">
+        @for (todo of dayTodos$ | async; track todo.id) {
+        <li class="task" [class.completed]="todo.completed">
+          <span>{{ todo.todo }}</span>
+          <label class="task-check">
+            <input
+              type="checkbox"
+              [checked]="todo.completed"
+              (change)="toggleCompleted(todo)"
+            />
+            <span>{{ todo.todo }}</span>
+          </label>
+          <button class="btn-remove" (click)="setDate(todo.id, '')">
+            Togli
+          </button>
+        </li>
+        } @empty {
+        <li class="empty">Nessun task per questo giorno.</li>
+        }
+      </ul>
+    </section>
+
+    <aside class="panel">
+      <h3>
+        Da pianificare
+        <span class="count">{{ (unscheduled$ | async)?.length }}</span>
+      </h3>
+      <ul class="task-list scrollable">
+        @for (todo of unscheduled$ | async; track todo.id) {
+        <li class="task" [class.completed]="todo.completed">
+          <span>{{ todo.todo }}</span>
+          <button class="btn-add" (click)="setDate(todo.id, dateInput.value)">
+            Aggiungi
+          </button>
+        </li>
+        } @empty {
+        <li class="empty">Tutti i task sono pianificati.</li>
+        }
+      </ul>
+    </aside>
+  </div>
+</div>

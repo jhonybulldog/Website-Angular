@@ -253,12 +253,15 @@ app-compare .container > a {
 
 /* =========================================================
    PULSANTI
-   .back-button: "← Torna allo shop / al blog" in fondo al
-   dettaglio prodotto e al dettaglio articolo, ha la forma di
-   .btn e i colori di .btn-secondary
+   Hanno la forma di .btn e i colori di .btn-secondary senza classi
+   nell'HTML:
+   - .back-button: "← Torna allo shop / al blog" in fondo al
+     dettaglio prodotto e al dettaglio articolo
+   - .todos-page > a: "Visualizza calendario" nella riga dei filtri
    ========================================================= */
 .btn,
-.back-button {
+.back-button,
+.todos-page > a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -273,7 +276,8 @@ app-compare .container > a {
 }
 
 .btn-secondary,
-.back-button {
+.back-button,
+.todos-page > a {
   border: 2px solid var(--green-600);
   background: transparent;
   color: var(--gray-800);
@@ -506,13 +510,17 @@ app-compare h2 {
   }
 }
 
-/* filtri sulla stessa riga del titolo */
+/* filtri sulla stessa riga del titolo.
+   stretch: tutti alti come il più alto della riga (i bottoni, col bordo da 2px);
+   i select dentro si allungano con height: 100% (qui sotto) */
 app-sort-select,
 app-categoryselect,
 app-limit-selector,
-app-compare-b {
+app-compare-b,
+.todos-page > a {
   order: 1;
   flex: 1 1 200px;
+  align-self: stretch;
   min-width: 0;
   max-width: 280px;
 
@@ -522,8 +530,15 @@ app-compare-b {
   }
 }
 
-/* select dei filtri (anche nelle statistiche) e casella di ricerca:
-   bordo e focus arrivano da CAMPI */
+/* bottoni nella riga dei filtri ("confronta i prodotti", "Visualizza calendario"):
+   meno largo del .btn normale, il testo su una riga */
+app-compare-b .btn,
+.todos-page > a {
+  padding-inline: 1rem;
+  white-space: nowrap;
+}
+
+/* select dei filtri e casella di ricerca: bordo e focus arrivano da CAMPI */
 .category-select,
 app-sort-select select,
 app-searchbox .search-box {
@@ -534,6 +549,7 @@ app-searchbox .search-box {
 .category-select,
 app-sort-select select {
   display: block;
+  height: 100%;
   font-weight: 600;
   cursor: pointer;
 
