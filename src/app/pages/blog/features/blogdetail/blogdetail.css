@@ -77,7 +77,9 @@
   font-weight: 600;
 }
 
-.blog-detail-meta span + span::before {
+/* "* + *" e non "span + span": l'autore sta dentro app-loader,
+   quindi il fratello prima delle visualizzazioni è app-loader */
+.blog-detail-meta > * + *::before {
   content: "•";
   margin-right: 24px;
   color: rgba(255, 255, 255, 0.45);
@@ -115,7 +117,7 @@
   font-weight: 700;
 }
 
-/* ---------- Reazioni e pulsanti ---------- */
+/* ---------- Reazioni ---------- */
 .blog-detail-reactions {
   display: flex;
   flex-wrap: wrap;
@@ -125,35 +127,27 @@
   background: var(--gray-50);
 }
 
-.blog-detail-reactions button,
-.back-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.blog-detail-reactions button {
   min-height: 44px;
   padding: 0 18px;
+  border: 1px solid var(--gray-300);
   border-radius: var(--radius-md);
+  background: var(--white);
+  color: var(--gray-700);
   font-size: var(--text-sm);
   font-weight: 700;
-  text-decoration: none;
+  cursor: pointer;
   transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
 }
 
-.blog-detail-reactions button {
-  border: 1px solid var(--gray-300);
-  background: var(--white);
-  color: var(--gray-700);
-  cursor: pointer;
-}
-
+/* Like verde, Dislike resta grigio */
 .blog-detail-reactions button:first-child {
   border-color: var(--green-200);
   background: var(--green-50);
   color: var(--green-700);
 }
 
-.blog-detail-reactions button:hover:not(:disabled),
-.back-button:hover {
+.blog-detail-reactions button:hover:not(:disabled) {
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
@@ -227,37 +221,12 @@
   text-align: center;
 }
 
-/* ---------- Azioni ---------- */
+/* ---------- Torna al blog (aspetto di .back-button in styles.css) ---------- */
+/* fuori dall'articolo, così c'è anche mentre carica o se non esiste:
+   stessa larghezza dell'articolo, allineato al suo bordo sinistro */
 .blog-detail-actions {
-  padding: 28px var(--pad-x) 36px;
-}
-
-.back-button {
-  width: fit-content;
-  background: var(--gray-800);
-  color: var(--white);
-}
-
-/* ---------- Articolo non trovato ---------- */
-.blog-not-found {
-  width: min(100%, 620px);
-  margin: 10vh auto 0;
-  padding: clamp(32px, 7vw, 64px) 28px;
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius-2xl);
-  background: var(--white);
-  box-shadow: var(--shadow-xl);
-  text-align: center;
-}
-
-.blog-not-found h2 {
-  margin: 0 0 10px;
-  color: var(--gray-800);
-  font-size: clamp(1.7rem, 4vw, 2.4rem);
-}
-
-.blog-not-found p {
-  margin: 0 0 28px;
+  width: min(100%, 860px);
+  margin: 28px auto 0;
 }
 
 /* ---------- Smartphone ---------- */
@@ -276,12 +245,11 @@
     gap: 8px;
   }
 
-  .blog-detail-meta span + span::before {
+  .blog-detail-meta > * + *::before {
     display: none;
   }
 
-  .blog-detail-reactions button,
-  .back-button {
+  .blog-detail-reactions button {
     width: 100%;
   }
 

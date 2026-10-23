@@ -16,17 +16,10 @@
   text-align: center;
 }
 
-.skill-list,
+/* le competenze una sotto l'altra (.skill-list ha un solo figlio: niente flex) */
 .skill-item {
   display: flex;
   flex-direction: column;
-}
-
-.skill-list {
-  gap: 1.5rem;
-}
-
-.skill-item {
   gap: 0.5rem;
 }
 

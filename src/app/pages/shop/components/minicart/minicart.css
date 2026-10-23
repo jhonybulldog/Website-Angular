@@ -207,9 +207,8 @@
 }
 
 /* ---------- Vai al carrello (colori in styles.css) ---------- */
+/* largo quanto il minicart: è un figlio del suo flex in colonna */
 .btn-go-to-cart {
-  display: block;
-  width: 100%;
   padding: 0.85rem 1rem;
   border-radius: var(--radius-md);
   font-size: var(--text-base);

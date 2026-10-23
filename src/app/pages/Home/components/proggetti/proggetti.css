@@ -13,7 +13,6 @@
 .project-card {
   display: flex;
   flex-direction: column;
-  height: 100%;
   overflow: hidden;
   transition: transform var(--transition-slow), box-shadow var(--transition-slow);
 }
@@ -28,7 +27,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   min-height: 200px;
   max-height: 250px;
   overflow: hidden;
@@ -37,7 +35,6 @@
 
 .project-image img {
   width: 100%;
-  height: auto;
   max-height: 250px;
   padding: 10px;
   object-fit: contain;
@@ -135,6 +132,7 @@
 }
 
 /* ---------- Call to action ---------- */
+/* text-align centra anche il bottone (.btn è inline-flex) */
 .portfolio-cta {
   margin-top: 30px;
   padding: 40px;
@@ -147,13 +145,6 @@
   font-size: var(--text-lg);
 }
 
-.cta-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
-
 @media (min-width: 1025px) {
   .portfolio-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -163,11 +154,5 @@
 @media (max-width: 768px) {
   .portfolio-cta {
     padding: 30px 20px;
-  }
-
-  .cta-buttons {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
   }
 }

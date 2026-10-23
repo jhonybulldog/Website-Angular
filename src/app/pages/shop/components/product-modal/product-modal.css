@@ -33,7 +33,6 @@
   grid-column: 1;
   grid-row: 1;
   align-self: start;
-  display: block;
   width: 100%;
   aspect-ratio: 1;
   padding: 24px;

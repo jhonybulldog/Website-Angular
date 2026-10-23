@@ -387,12 +387,8 @@
 /* =========================================================
    COMPLETA ORDINE (colori in styles.css)
    ========================================================= */
+/* largo quanto la pagina: è un figlio del flex in colonna di .checkout-container */
 .btn-completa-ordine {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  width: 100%;
   margin-top: 1.5rem;
   padding: 1.1rem 2rem;
   border-radius: var(--radius-lg);

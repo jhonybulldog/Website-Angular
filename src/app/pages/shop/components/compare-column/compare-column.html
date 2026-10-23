@@ -1,0 +1,12 @@
+<app-loader [source]="product$" text="caricamento...">
+  <ng-template let-product="data">
+    <div class="compare-column">
+      <img [src]="product.thumbnail" [alt]="product.title" />
+      <h3>{{ product.title }}</h3>
+      <p>Prezzo: {{ product.price }} €</p>
+      <p>Voto: {{ product.rating }}</p>
+      <p>Categoria: {{ product.category }}</p>
+      <button class="btn-delete" (click)="rimuovi()">rimuovi</button>
+    </div>
+  </ng-template>
+</app-loader>

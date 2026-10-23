@@ -239,10 +239,6 @@ app-root > main {
   }
 }
 
-.highlight {
-  color: var(--green-600);
-}
-
 /* link "← Torna allo shop": dettaglio prodotto e confronto */
 .nav-back-link,
 app-compare .container > a {
@@ -257,8 +253,12 @@ app-compare .container > a {
 
 /* =========================================================
    PULSANTI
+   .back-button: "← Torna allo shop / al blog" in fondo al
+   dettaglio prodotto e al dettaglio articolo, ha la forma di
+   .btn e i colori di .btn-secondary
    ========================================================= */
-.btn {
+.btn,
+.back-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -272,7 +272,8 @@ app-compare .container > a {
     transform var(--transition), box-shadow var(--transition), filter var(--transition);
 }
 
-.btn-secondary {
+.btn-secondary,
+.back-button {
   border: 2px solid var(--green-600);
   background: transparent;
   color: var(--gray-800);
@@ -281,6 +282,13 @@ app-compare .container > a {
     border-color: var(--green-700);
     background: var(--green-700);
     color: var(--white);
+  }
+}
+
+/* sul telefono il "torna indietro" in fondo alla pagina va a tutta larghezza */
+.back-button {
+  @media (max-width: 600px) {
+    width: 100%;
   }
 }
 
@@ -322,6 +330,26 @@ app-compare .container > a {
     opacity: 0.5;
     cursor: not-allowed;
     box-shadow: none;
+  }
+}
+
+/* "Rimuovi" dei prodotti preferiti e delle colonne del confronto: discreto
+   finché non ci passi sopra, è un'azione distruttiva ma non la principale */
+app-product-fav button,
+app-compare-column .btn-delete {
+  padding: 0.5rem 0.95rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  color: var(--red-600);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--transition), background-color var(--transition);
+
+  &:hover {
+    border-color: var(--red-300);
+    background: var(--red-50);
   }
 }
 
@@ -527,7 +555,10 @@ app-dashboard > .container,
   padding: 0 clamp(1rem, 4vw, 2rem);
 }
 
-:is(app-dashboard, app-stats) h1 {
+/* titoli con la lineetta verde sotto: h1 di dashboard e statistiche,
+   h2 delle sezioni della dashboard (route figlie, stanno nel suo router-outlet) */
+:is(app-dashboard, app-stats) h1,
+:is(app-last-p, app-category-fav, app-product-fav, app-my-blog) h2 {
   margin: 0;
   color: var(--gray-900);
   font-size: var(--text-3xl);
@@ -545,34 +576,10 @@ app-dashboard > .container,
   }
 }
 
-/* sezioni della dashboard aperte come pagina (route /dashboard/...).
-   "main >" perché il router le mette direttamente nel main: se un giorno
-   finiscono dentro la dashboard, usano il suo contenitore e non questo */
-main > :is(app-last-p, app-category-fav, app-product-fav, app-my-blog) {
-  --pad: clamp(1.25rem, 4vw, 2rem);
-  display: block;
-  max-width: 1100px;
-  margin: var(--page-top) auto 60px;
-  padding: 0 clamp(1rem, 4vw, 2rem);
-}
-
-/* titolo di queste pagine: come l'h1 della dashboard, un gradino più piccolo */
+/* le sezioni un gradino più piccole dell'h1 */
 :is(app-last-p, app-category-fav, app-product-fav, app-my-blog) h2 {
-  margin: 0 0 1.75rem;
-  color: var(--gray-900);
+  margin-bottom: 1.75rem;
   font-size: var(--text-2xl);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-
-  &::after {
-    content: "";
-    display: block;
-    width: 45px;
-    height: 4px;
-    margin-top: 0.5rem;
-    border-radius: var(--radius-full);
-    background: linear-gradient(90deg, var(--green-500), var(--green-700));
-  }
 }
 
 /* messaggio "non hai ancora…": riquadro tratteggiato al posto della lista */
@@ -592,6 +599,9 @@ app-my-blog app-blogcard .container {
   padding-inline: 0;
 }
 
+/* =========================================================
+   CARICAMENTO: app-loader e i loading$ di shop e blog
+   ========================================================= */
 .loading {
   display: flex;
   align-items: center;
@@ -599,12 +609,13 @@ app-my-blog app-blogcard .container {
   padding: 1rem 0;
 }
 
+/* cerchio col bordo superiore trasparente che gira */
 .spinner {
   width: 18px;
   height: 18px;
   border: 3px solid currentColor;
   border-top-color: transparent;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   animation: spin 0.8s linear infinite;
 }
 

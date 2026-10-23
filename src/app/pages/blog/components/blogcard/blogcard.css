@@ -70,12 +70,6 @@
   font-weight: 500;
 }
 
-.blog-stats span {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
 @media (max-width: 600px) {
   .blog-info h3 {
     font-size: var(--text-md);

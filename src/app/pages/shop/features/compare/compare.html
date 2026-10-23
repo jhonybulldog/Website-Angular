@@ -1,30 +1,13 @@
 <div class="container">
   <h2>Confronto prodotti</h2>
 
-
-
   <div class="compare-grid">
-@for (product$ of products$ | async; track $index) {
-  @if (product$ | async; as product) {
-    <div class="compare-column">
-      <img [src]="product.thumbnail" [alt]="product.title" />
-      <h3>{{ product.title }}</h3>
-      <p>Prezzo: {{ product.price }} €</p>
-      <p>Voto: {{ product.rating }}</p>
-      <p>Categoria: {{ product.category }}</p>
-      <button class="btn-delete" (click)="rimuovi(product.id)">rimuovi</button>
-    </div>
-  }
-} @empty {
-  <p>Nessun prodotto da confrontare.</p>
-}
+    @for (id of ids$ | async; track id) {
+    <app-compare-column [id]="id" />
+    } @empty {
+    <p>Nessun prodotto da confrontare.</p>
+    }
   </div>
-@if(loading$ | async){
-      <div class="loading">
-          <span class="spinner"></span>
-          caricamento prodotti...
-        </div>
-}
+
   <a routerLink="/shop"> torna allo shop</a>
 </div>
-

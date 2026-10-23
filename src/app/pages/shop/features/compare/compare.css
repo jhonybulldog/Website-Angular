@@ -15,62 +15,14 @@ h2 {
 }
 
 /* tutti i prodotti su una riga sola (max 4 nel servizio):
-   se non ci stanno la riga scorre in orizzontale invece di andare a capo */
+   se non ci stanno la riga scorre in orizzontale invece di andare a capo.
+   Le colonne sono app-compare-column (stile in compare-column.css) */
 .compare-grid {
   display: flex;
   gap: 2rem;
   padding-bottom: 0.5rem; /* spazio per la barra di scorrimento */
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-}
-
-/* ---------- Colonna prodotto: immagine e sotto il testo ---------- */
-/* max-width: con 1-2 prodotti le colonne non si allargano su tutta la riga */
-.compare-column {
-  flex: 1 1 0;
-  min-width: 180px;
-  max-width: 280px;
-  scroll-snap-align: start;
-}
-
-.compare-column img {
-  display: block;
-  width: 100%;
-  height: 200px;
-  margin-bottom: 12px;
-  padding: 12px;
-  border-radius: var(--radius-lg);
-  background: var(--gray-50);
-  object-fit: contain;
-}
-
-/* sempre alto 2 righe: prezzo, voto e categoria restano allineati tra le colonne */
-.compare-column h3 {
-  display: -webkit-box;
-  min-height: 2.7em;
-  margin: 0 0 8px;
-  overflow: hidden;
-  color: var(--gray-900);
-  font-size: var(--text-md);
-  font-weight: 700;
-  line-height: 1.35;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-/* prezzo, voto e categoria come righe di una tabella */
-.compare-column p {
-  margin: 0;
-  padding: 0.6rem 0;
-  border-top: 1px solid var(--gray-200);
-  color: var(--gray-600);
-}
-
-/* il primo dato dopo il titolo è il prezzo: stesso verde delle card */
-.compare-column h3 + p {
-  color: var(--green-700);
-  font-size: var(--text-lg);
-  font-weight: 800;
 }
 
 /* @empty: il messaggio sta nella riga, quindi prende tutta la larghezza */
@@ -88,30 +40,8 @@ h2 {
   margin-top: 2rem;
 }
 
-/* ---------- Mobile: colonne più strette, la riga scorre ---------- */
 @media (max-width: 600px) {
   .compare-grid {
     gap: 1rem;
-  }
-
-  .compare-column {
-    min-width: 150px;
-  }
-
-  .compare-column img {
-    height: 140px;
-    padding: 8px;
-  }
-
-  .compare-column h3 {
-    font-size: var(--text-base);
-  }
-
-  .compare-column p {
-    font-size: var(--text-sm);
-  }
-
-  .compare-column h3 + p {
-    font-size: var(--text-md);
   }
 }

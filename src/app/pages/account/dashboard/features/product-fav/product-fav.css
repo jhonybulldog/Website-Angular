@@ -105,24 +105,7 @@
   white-space: nowrap;
 }
 
-/* ===== Bottone "Rimuovi" ===== */
-/* discreto finché non ci passi sopra: è un'azione distruttiva, non la principale */
-button {
-  padding: 0.5rem 0.95rem;
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius-md);
-  background: var(--white);
-  color: var(--red-600);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  cursor: pointer;
-  transition: border-color var(--transition), background-color var(--transition);
-}
-
-button:hover {
-  border-color: var(--red-300);
-  background: var(--red-50);
-}
+/* bottone "Rimuovi" in styles.css (uguale a quello del confronto) */
 
 /* su telefono via la colonna immagine e celle più strette: la tabella non ci starebbe */
 @media (max-width: 600px) {
