@@ -263,6 +263,6 @@ export class Checkout {
     this.ordineConfermato.set(true);
     this.notificationser.show("ORDINE COMPLETATO!!", false)
 
-    this.route.navigate(["/dashboard/lastp"]);
+    this.route.navigate(["/dashboard/last-purchases"]);
   }
 }

@@ -35,7 +35,16 @@ dayTodos$: Observable<CalendarTodo[]> = combineLatest([this.todos$, this.selecte
 
 
 setDate(id: number, date: string) {
-  this.updateTodo(id, { date });
+  this.addCalendar({id, date})
+}
+
+
+addCalendar(todo: Partial<CalendarTodo>){
+      console.log(todo)
+
+  this.todoser.addCalendar(todo).subscribe((response) => {
+    this.updateTodo(todo.id as number, {date: todo.date as string})
+  })
 }
 
 toggleCompleted(todo: CalendarTodo) {

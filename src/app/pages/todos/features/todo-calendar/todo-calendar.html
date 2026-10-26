@@ -25,7 +25,6 @@
       <ul class="task-list">
         @for (todo of dayTodos$ | async; track todo.id) {
         <li class="task" [class.completed]="todo.completed">
-          <span>{{ todo.todo }}</span>
           <label class="task-check">
             <input
               type="checkbox"
@@ -35,7 +34,7 @@
             <span>{{ todo.todo }}</span>
           </label>
           <button class="btn-remove" (click)="setDate(todo.id, '')">
-            Togli
+            Rimuovi
           </button>
         </li>
         } @empty {
